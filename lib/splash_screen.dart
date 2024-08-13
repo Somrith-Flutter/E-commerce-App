@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:martket_nest_app/view/auth/login_page.dart';
+import 'package:martket_nest_app/app/ui/pages/login_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
