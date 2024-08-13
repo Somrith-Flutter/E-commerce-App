@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:martket_nest_app/modules/app/ui/pages/login_page.dart';
+import 'package:market_nest_app/config/themes/app_color.dart';
+import 'package:market_nest_app/modules/app/ui/pages/login_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -68,7 +69,7 @@ class SplashScreenState extends State<SplashScreen> with SingleTickerProviderSta
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: AppColors.cyan,
       body: SafeArea(
         child: Center(
           child: AnimatedBuilder(

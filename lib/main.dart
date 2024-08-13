@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:martket_nest_app/splash_screen.dart';
+import 'package:market_nest_app/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
