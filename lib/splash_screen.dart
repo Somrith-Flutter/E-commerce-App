@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:market_nest_app/config/themes/app_color.dart';
-import 'package:market_nest_app/modules/app/ui/pages/login_page.dart';
+import 'package:market_nest_app/dashboard.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -54,7 +54,7 @@ class SplashScreenState extends State<SplashScreen> with SingleTickerProviderSta
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
+        MaterialPageRoute(builder: (context) => const DashboardPage()),
       );
     });
   }
