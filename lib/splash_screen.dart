@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:market_nest_app/config/themes/app_color.dart';
+import 'package:market_nest_app/constants/asset_path.dart';
 import 'package:market_nest_app/dashboard.dart';
+import 'package:market_nest_app/modules/app/ui/pages/login_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -54,7 +56,7 @@ class SplashScreenState extends State<SplashScreen> with SingleTickerProviderSta
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const DashboardPage()),
+        MaterialPageRoute(builder: (context) => const LoginPage()),
       );
     });
   }
@@ -89,7 +91,7 @@ class SplashScreenState extends State<SplashScreen> with SingleTickerProviderSta
             child: SizedBox(
               width: 350,
               height: 350,
-              child: Image.asset('assets/images/logo_mn.png'),
+              child: Image.asset(AssetPath.logoApp),
             ),
           ),
         ),
