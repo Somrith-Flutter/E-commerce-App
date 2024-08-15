@@ -25,7 +25,7 @@ class _DashboardPageState extends State<DashboardPage> {
     ),
     const TabItem(
       icon: CupertinoIcons.square_grid_2x2,
-      title: 'Categoies',
+      title: 'Categories',
     ),
     const TabItem(
       icon: CupertinoIcons.cart,
