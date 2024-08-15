@@ -6,6 +6,5 @@ class AppBindings extends Bindings{
   void dependencies() {
     /// Get.lazyPut(() => WidgetClass())
     Get.lazyPut(() => AuthController());
-
   }
 }
