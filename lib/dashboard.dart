@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:market_nest_app/config/themes/app_color.dart';
-import 'package:market_nest_app/modules/app/ui/pages/categoies_screen.dart';
+import 'package:market_nest_app/modules/app/ui/pages/categories_screen.dart';
 import 'package:market_nest_app/modules/app/ui/pages/home_screen.dart';
 import 'package:market_nest_app/modules/app/ui/pages/mycard_screen.dart';
 import 'package:market_nest_app/modules/app/ui/pages/profile_screen.dart';
@@ -43,7 +43,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   List<Widget> widgetsPage = [
     const HomeScreen(),
-    const CategoiesScreen(),
+    const CategoriesScreen(),
     const MyCardScreen(),
     const WishListScreen(),
     const ProfileScreen(),
