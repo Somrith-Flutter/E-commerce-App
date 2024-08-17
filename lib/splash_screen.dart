@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:market_nest_app/config/themes/app_color.dart';
 import 'package:market_nest_app/constants/asset_path.dart';
 import 'package:market_nest_app/dashboard.dart';
+import 'package:market_nest_app/modules/app/data/globle_variable/public_variable.dart';
 import 'package:market_nest_app/modules/app/ui/pages/login_page.dart';
 import 'package:market_nest_app/modules/app/ui/pages/register_page.dart';
 
@@ -55,10 +58,8 @@ class SplashScreenState extends State<SplashScreen> with SingleTickerProviderSta
 
     // Delay for 3 seconds and then navigate to the login page
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
-      );
+      accessToken.toString().isNotEmpty ? Get.off(const DashboardPage()) : Get.off(const LoginPage());
+      // Get.off(const RegisterPage());
     });
   }
 
