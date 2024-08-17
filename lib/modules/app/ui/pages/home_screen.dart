@@ -9,6 +9,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text(AppConstant.appName, style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
         actions: [
