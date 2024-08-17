@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:market_nest_app/config/themes/app_color.dart';
+import 'package:market_nest_app/constants/app_constant.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -8,7 +9,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Market Nest', style: TextStyle(color: Colors.black)),
+        title: const Text(AppConstant.appName, style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
         actions: [
           IconButton(
@@ -16,7 +17,8 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {},
           ),
           IconButton(
-            icon: const CircleAvatar(backgroundImage: NetworkImage('https://scontent.fpnh19-1.fna.fbcdn.net/v/t39.30808-6/453846779_1641392353383865_3619548638661995903_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEUW9z93eWyYyoqV81v_XpTzXa7gB_2cizNdruAH_ZyLKx7W8bk_a8mA7XTXM4JGYkTDpUmr-yL7OF-xU54ZGEA&_nc_ohc=Lgp7FjZrDYgQ7kNvgF-Nsbh&_nc_ht=scontent.fpnh19-1.fna&oh=00_AYAtTIG1Apm-GuVyviV2VyADAupdqt6YLSz77lHkxyvTRg&oe=66C3ED27')),
+            icon: const CircleAvatar(
+                backgroundImage: NetworkImage('https://scontent.fpnh19-1.fna.fbcdn.net/v/t39.30808-6/453846779_1641392353383865_3619548638661995903_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEUW9z93eWyYyoqV81v_XpTzXa7gB_2cizNdruAH_ZyLKx7W8bk_a8mA7XTXM4JGYkTDpUmr-yL7OF-xU54ZGEA&_nc_ohc=Lgp7FjZrDYgQ7kNvgF-Nsbh&_nc_ht=scontent.fpnh19-1.fna&oh=00_AYAtTIG1Apm-GuVyviV2VyADAupdqt6YLSz77lHkxyvTRg&oe=66C3ED27')),
             onPressed: () {},
           ),
         ],
@@ -41,7 +43,7 @@ class HomeScreen extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           image: const DecorationImage(
-            image: NetworkImage('https://cdn.mos.cms.futurecdn.net/fsDKHB3ZyNJK6zMpDDBenB.jpg'), // Update with correct image path
+            image: NetworkImage('https://cdn.mos.cms.futurecdn.net/fsDKHB3ZyNJK6zMpDDBenB.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -72,22 +74,20 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-              'Exclusive Sales',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+                  'Exclusive Sales',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 Row(
-                  children: 
-                  List.generate(5, (index) {
+                  children: List.generate(5, (index) {
                     return Container(
                       margin: const EdgeInsets.symmetric(horizontal: 2),
                       width: 8,
@@ -145,7 +145,6 @@ class HomeScreen extends StatelessWidget {
             mainAxisSpacing: 8,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-            
               _buildProductCard('Nike Air Jordan Retro', '\$126.00', '\$186.00', 5, url),
               _buildProductCard('Classic Black Glasses', '\$8.50', '\$10.00', 7, url),
               _buildProductCard('P47 Wireless Headphones', '\$38.45', '\$42.75', 3, url),
@@ -189,15 +188,20 @@ class HomeScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Stack(
-            children: [
-              Image.network(imagePath, height: 60, fit: BoxFit.cover),
-              const Positioned(
-                right: 8,
-                top: 8,
-                child: Icon(Icons.favorite_border),
-              ),
-            ],
+          Flexible(
+            child: Stack(
+              children: [
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Image.network(imagePath, fit: BoxFit.cover),
+                ),
+                const Positioned(
+                  right: 8,
+                  top: 8,
+                  child: Icon(Icons.favorite_border),
+                ),
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -207,6 +211,8 @@ class HomeScreen extends StatelessWidget {
                 Text(
                   title,
                   style: const TextStyle(fontWeight: FontWeight.bold),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 8),
                 Text(
