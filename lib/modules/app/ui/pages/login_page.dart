@@ -7,6 +7,7 @@ import 'package:market_nest_app/constants/asset_path.dart';
 import 'package:market_nest_app/dashboard.dart';
 import 'package:market_nest_app/modules/app/controllers/auth_controller.dart';
 import 'package:market_nest_app/modules/app/data/globle_variable/public_variable.dart';
+import 'package:market_nest_app/modules/app/ui/pages/forgot_password.dart';
 import 'package:market_nest_app/modules/app/ui/pages/register_page.dart';
 import 'package:market_nest_app/modules/app/ui/widgets/form_input_widget.dart';
 import 'package:market_nest_app/modules/app/ui/widgets/form_password_widget.dart';
@@ -126,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () => Get.to( const ForgotPasswordScreen()),
                           child: const Text(
                             "Forgot Password?",
                             style: TextStyle(
