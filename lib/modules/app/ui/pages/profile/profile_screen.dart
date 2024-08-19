@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:market_nest_app/config/themes/app_color.dart';
+import 'package:market_nest_app/modules/app/ui/pages/profile/screens/change_password.dart';
+import 'package:market_nest_app/modules/app/ui/pages/profile/screens/faq.dart';
+import 'package:market_nest_app/modules/app/ui/pages/profile/screens/order_history.dart';
+import 'package:market_nest_app/modules/app/ui/pages/profile/screens/payment.dart';
+import 'package:market_nest_app/modules/app/ui/pages/profile/screens/shipping_screen.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -127,25 +132,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildSectionTitle('Personal Information'),
-              _buildProfileOption(Icons.location_on_outlined, 'Shipping Address'),
+              _buildProfileOption(Icons.location_on_outlined, 'Shipping Address', onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ShippingAddressScreen()));
+              }),
               const Divider(),
-              _buildProfileOption(Icons.payment_outlined, 'Payment Method'),
+              _buildProfileOption(Icons.payment_outlined, 'Payment Method', onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentMethodScreen()));
+              }),
               const Divider(),
-              _buildProfileOption(Icons.history_outlined, 'Order History'),
+              _buildProfileOption(Icons.history_outlined, 'Order History', onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => OrderHistoryScreen()));
+              }),
               const Divider(),
               _buildSectionTitle('Support & Information'),
-              _buildProfileOption(Icons.privacy_tip_outlined, 'Privacy Policy'),
+              _buildProfileOption(Icons.privacy_tip_outlined, 'Privacy Policy', onTap: () {
+               // Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()));
+              }),
               const Divider(),
-              _buildProfileOption(Icons.description_outlined, 'Terms & Conditions'),
+              _buildProfileOption(Icons.description_outlined, 'Terms & Conditions', onTap: () {
+               // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsConditionsScreen()));
+              }),
               const Divider(),
-              _buildProfileOption(Icons.help_outline, 'FAQs'),
+              _buildProfileOption(Icons.help_outline, 'FAQs', onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => FAQScreen()));
+              }),
               const Divider(),
               _buildSectionTitle('Account Management'),
               _buildDarkThemeToggle(),
               const Divider(),
-              _buildProfileOption(Icons.lock_outline, 'Change Password'),
+              _buildProfileOption(Icons.lock_outline, 'Change Password', onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePasswordScreen()));
+              }),
               const Divider(),
-              _buildProfileOption(Icons.language_outlined, 'Languages'),
+              _buildProfileOption(Icons.language_outlined, 'Languages', onTap: () {
+                //Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagesScreen()));
+              }),
               const Divider(),
               FutureBuilder<PackageInfo>(
                 future: _packageInfoFuture,
@@ -184,6 +205,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     IconData icon,
     String title, {
     String trailing = '',
+    VoidCallback? onTap,
   }) {
     return ListTile(
       leading: Icon(icon, color: Colors.grey),
@@ -191,7 +213,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       trailing: trailing.isEmpty
           ? const Icon(Icons.arrow_forward_ios, color: Colors.grey)
           : Text(trailing, style: const TextStyle(fontSize: 18)),
-      onTap: () {      },
+      onTap: onTap,
     );
   }
 
