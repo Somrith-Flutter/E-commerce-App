@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:market_nest_app/constants/app_constant.dart';
+import 'package:market_nest_app/app/config/constants/app_constant.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});

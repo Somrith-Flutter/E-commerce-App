@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:market_nest_app/config/themes/app_color.dart';
+import 'package:market_nest_app/app/ui/themes/app_color.dart';
 
 void showLoadingDialog(BuildContext context, {required String label}) {
   showDialog(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:market_nest_app/config/themes/app_color.dart';
-import 'package:market_nest_app/modules/app/ui/pages/profile/screens/change_password.dart';
-import 'package:market_nest_app/modules/app/ui/pages/profile/screens/faq.dart';
-import 'package:market_nest_app/modules/app/ui/pages/profile/screens/order_history.dart';
-import 'package:market_nest_app/modules/app/ui/pages/profile/screens/payment.dart';
-import 'package:market_nest_app/modules/app/ui/pages/profile/screens/shipping_screen.dart';
+import 'package:market_nest_app/app/ui/themes/app_color.dart';
+import 'package:market_nest_app/app/ui/pages/profile/screens/change_password.dart';
+import 'package:market_nest_app/app/ui/pages/profile/screens/faq.dart';
+import 'package:market_nest_app/app/ui/pages/profile/screens/order_history.dart';
+import 'package:market_nest_app/app/ui/pages/profile/screens/payment.dart';
+import 'package:market_nest_app/app/ui/pages/profile/screens/shipping_screen.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class ProfileScreen extends StatefulWidget {

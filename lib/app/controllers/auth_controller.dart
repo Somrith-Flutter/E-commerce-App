@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:market_nest_app/modules/app/data/globle_variable/public_variable.dart';
-import 'package:market_nest_app/modules/app/data/models/user_models.dart';
-import 'package:market_nest_app/modules/app/data/repositories/auth_repo.dart';
+import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
+import 'package:market_nest_app/app/data/models/user_models.dart';
+import 'package:market_nest_app/app/data/repositories/auth_repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController{

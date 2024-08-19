@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:market_nest_app/modules/app/controllers/auth_controller.dart';
-import 'package:market_nest_app/modules/app/data/globle_variable/public_variable.dart';
+import 'package:market_nest_app/app/controllers/auth_controller.dart';
+import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

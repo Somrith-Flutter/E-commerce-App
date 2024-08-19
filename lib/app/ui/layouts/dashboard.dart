@@ -2,15 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:get/get.dart';
-import 'package:market_nest_app/config/themes/app_color.dart';
-import 'package:market_nest_app/modules/app/controllers/auth_controller.dart';
-import 'package:market_nest_app/modules/app/ui/pages/categories_screen.dart';
-import 'package:market_nest_app/modules/app/ui/pages/home_screen.dart';
-import 'package:market_nest_app/modules/app/ui/pages/mycard_screen.dart';
-import 'package:market_nest_app/modules/app/ui/pages/profile/profile_screen.dart';
-import 'package:market_nest_app/modules/app/ui/pages/wishlist_screen.dart';
+import 'package:market_nest_app/app/ui/themes/app_color.dart';
+import 'package:market_nest_app/app/controllers/auth_controller.dart';
+import 'package:market_nest_app/app/ui/pages/categories_screen.dart';
+import 'package:market_nest_app/app/ui/pages/home_screen.dart';
+import 'package:market_nest_app/app/ui/pages/mycard_screen.dart';
+import 'package:market_nest_app/app/ui/pages/profile/profile_screen.dart';
+import 'package:market_nest_app/app/ui/pages/wishlist_screen.dart';
 
-import 'modules/app/data/globle_variable/public_variable.dart';
+import '../../data/globle_variable/public_variable.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});

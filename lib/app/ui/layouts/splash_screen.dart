@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:market_nest_app/config/themes/app_color.dart';
-import 'package:market_nest_app/constants/asset_path.dart';
-import 'package:market_nest_app/dashboard.dart';
-import 'package:market_nest_app/modules/app/controllers/auth_controller.dart';
-import 'package:market_nest_app/modules/app/data/globle_variable/public_variable.dart';
-import 'package:market_nest_app/modules/app/ui/pages/login_page.dart';
-import 'package:market_nest_app/modules/app/ui/pages/register_page.dart';
+import 'package:market_nest_app/app/ui/themes/app_color.dart';
+import 'package:market_nest_app/app/config/constants/asset_path.dart';
+import 'package:market_nest_app/app/ui/layouts/dashboard.dart';
+import 'package:market_nest_app/app/controllers/auth_controller.dart';
+import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
+import 'package:market_nest_app/app/ui/pages/login_page.dart';
+import 'package:market_nest_app/app/ui/pages/register_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

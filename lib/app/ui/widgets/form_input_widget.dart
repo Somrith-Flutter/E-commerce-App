@@ -1,25 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:market_nest_app/config/themes/app_color.dart';
+import 'package:market_nest_app/app/ui/themes/app_color.dart';
 
-class FormPasswordWidget extends StatefulWidget {
+class FormInputWidget extends StatefulWidget {
   final String label;
   final String hint;
   final TextEditingController controller;
-  const FormPasswordWidget({super.key, required this.label, required this.hint, required this.controller});
+  const FormInputWidget({super.key, required this.label, required this.hint, required this.controller});
   @override
-  State<FormPasswordWidget> createState() => _FormPasswordWidgetState();
+  State<FormInputWidget> createState() => _FormInputWidgetState();
 }
 
-class _FormPasswordWidgetState extends State<FormPasswordWidget> {
-  bool isShow = false;
-
-  void trigglePassword(){
-    isShow =! isShow;
-    setState(() {});
-  }
-
+class _FormInputWidgetState extends State<FormInputWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,7 +38,6 @@ class _FormPasswordWidgetState extends State<FormPasswordWidget> {
         const Gap(8),
         TextField(
           controller: widget.controller,
-          obscureText: isShow ? false : true,
           decoration: InputDecoration(
             hintText: widget.hint,
             contentPadding: const EdgeInsets.symmetric(
@@ -70,12 +61,6 @@ class _FormPasswordWidgetState extends State<FormPasswordWidget> {
               borderSide: const BorderSide(
                 color: AppColors.cyan,
                 width: 2.0,
-              ),
-            ),
-            suffix: GestureDetector(
-              onTap: () => trigglePassword(),
-              child: Icon(
-                  isShow ? CupertinoIcons.eye_fill : CupertinoIcons.eye_slash_fill
               ),
             ),
           ),

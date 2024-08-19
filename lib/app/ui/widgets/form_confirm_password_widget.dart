@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:market_nest_app/config/themes/app_color.dart';
+import 'package:market_nest_app/app/ui/themes/app_color.dart';
 
-class FormInputWidget extends StatefulWidget {
+class FormConfirmPasswordWidget extends StatefulWidget {
   final String label;
   final String hint;
   final TextEditingController controller;
-  const FormInputWidget({super.key, required this.label, required this.hint, required this.controller});
+  const FormConfirmPasswordWidget({super.key, required this.label, required this.hint, required this.controller});
+
   @override
-  State<FormInputWidget> createState() => _FormInputWidgetState();
+  State<FormConfirmPasswordWidget> createState() => _FormConfirmPasswordWidgetState();
 }
 
-class _FormInputWidgetState extends State<FormInputWidget> {
+class _FormConfirmPasswordWidgetState extends State<FormConfirmPasswordWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -38,6 +39,7 @@ class _FormInputWidgetState extends State<FormInputWidget> {
         const Gap(8),
         TextField(
           controller: widget.controller,
+          obscureText: true,
           decoration: InputDecoration(
             hintText: widget.hint,
             contentPadding: const EdgeInsets.symmetric(

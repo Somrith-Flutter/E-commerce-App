@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:market_nest_app/config/themes/app_color.dart';
-import 'package:market_nest_app/constants/asset_path.dart';
-import 'package:market_nest_app/dashboard.dart';
-import 'package:market_nest_app/modules/app/controllers/auth_controller.dart';
-import 'package:market_nest_app/modules/app/data/globle_variable/public_variable.dart';
-import 'package:market_nest_app/modules/app/ui/pages/forgot_password.dart';
-import 'package:market_nest_app/modules/app/ui/pages/register_page.dart';
-import 'package:market_nest_app/modules/app/ui/widgets/form_input_widget.dart';
-import 'package:market_nest_app/modules/app/ui/widgets/form_password_widget.dart';
-import 'package:market_nest_app/modules/app/ui/widgets/loading_widget.dart';
-import 'package:market_nest_app/utils/helpers.dart';
+import 'package:market_nest_app/app/ui/themes/app_color.dart';
+import 'package:market_nest_app/app/config/constants/asset_path.dart';
+import 'package:market_nest_app/app/ui/layouts/dashboard.dart';
+import 'package:market_nest_app/app/controllers/auth_controller.dart';
+import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
+import 'package:market_nest_app/app/ui/pages/forgot_password.dart';
+import 'package:market_nest_app/app/ui/pages/register_page.dart';
+import 'package:market_nest_app/app/ui/widgets/form_input_widget.dart';
+import 'package:market_nest_app/app/ui/widgets/form_password_widget.dart';
+import 'package:market_nest_app/app/ui/widgets/loading_widget.dart';
+import 'package:market_nest_app/app/ui/utils/helpers.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

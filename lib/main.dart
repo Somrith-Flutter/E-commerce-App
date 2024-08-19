@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:market_nest_app/modules/app/data/globle_variable/public_variable.dart';
-import 'package:market_nest_app/splash_screen.dart';
+import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
+import 'package:market_nest_app/app/ui/layouts/splash_screen.dart';
 import 'package:shared_value/shared_value.dart';
-import 'modules/app/bindings/init_bindings.dart';
+import 'app/bindings/init_bindings.dart';
 
 void main() async {
   runApp(SharedValue.wrapApp(const MyApp()));

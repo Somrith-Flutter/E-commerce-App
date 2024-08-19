@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:market_nest_app/config/themes/app_color.dart';
-import 'package:market_nest_app/constants/app_constant.dart';
-import 'package:market_nest_app/modules/app/controllers/auth_controller.dart';
+import 'package:market_nest_app/app/ui/themes/app_color.dart';
+import 'package:market_nest_app/app/config/constants/app_constant.dart';
+import 'package:market_nest_app/app/controllers/auth_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
