@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
 import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
-import 'package:market_nest_app/app/ui/widgets/form_input_widget.dart';
-import 'package:market_nest_app/app/ui/widgets/loading_widget.dart';
+import 'package:market_nest_app/app/ui/global_widgets/form_input_widget.dart';
+import 'package:market_nest_app/app/ui/global_widgets/loading_widget.dart';
 
 class ConfirmEmailWidget extends StatefulWidget {
   const ConfirmEmailWidget({super.key});

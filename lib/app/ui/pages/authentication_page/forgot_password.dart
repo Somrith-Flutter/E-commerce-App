@@ -5,9 +5,9 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
-import 'package:market_nest_app/app/ui/widgets/confirm_email_widget.dart';
-import 'package:market_nest_app/app/ui/widgets/pin_put_code_widget.dart';
-import 'package:market_nest_app/app/ui/widgets/set_new_pass_widget.dart';
+import 'package:market_nest_app/app/ui/global_widgets/confirm_email_widget.dart';
+import 'package:market_nest_app/app/ui/global_widgets/pin_put_code_widget.dart';
+import 'package:market_nest_app/app/ui/global_widgets/set_new_pass_widget.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});

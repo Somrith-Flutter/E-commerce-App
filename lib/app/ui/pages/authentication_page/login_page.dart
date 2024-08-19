@@ -7,12 +7,12 @@ import 'package:market_nest_app/app/config/constants/asset_path.dart';
 import 'package:market_nest_app/app/ui/layouts/dashboard.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
 import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
-import 'package:market_nest_app/app/ui/pages/forgot_password.dart';
-import 'package:market_nest_app/app/ui/pages/register_page.dart';
-import 'package:market_nest_app/app/ui/widgets/form_input_widget.dart';
-import 'package:market_nest_app/app/ui/widgets/form_password_widget.dart';
-import 'package:market_nest_app/app/ui/widgets/loading_widget.dart';
-import 'package:market_nest_app/app/ui/utils/helpers.dart';
+import 'package:market_nest_app/app/ui/pages/authentication_page/forgot_password.dart';
+import 'package:market_nest_app/app/ui/pages/authentication_page/register_page.dart';
+import 'package:market_nest_app/app/ui/global_widgets/form_input_widget.dart';
+import 'package:market_nest_app/app/ui/global_widgets/form_password_widget.dart';
+import 'package:market_nest_app/app/ui/global_widgets/loading_widget.dart';
+import 'package:market_nest_app/app/data/helpers.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

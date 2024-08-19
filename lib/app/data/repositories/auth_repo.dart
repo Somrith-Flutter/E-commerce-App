@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:market_nest_app/app/config/constants/api_path.dart';
-import 'package:market_nest_app/app/data/api/app_endpoint.dart';
-import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
+import 'package:market_nest_app/app/data/api/api_path.dart';
 import 'package:market_nest_app/app/data/models/user_models.dart';
 
 class AuthRepo{
@@ -13,7 +11,7 @@ class AuthRepo{
       var headers = {
         'Content-Type': 'application/json'
       };
-      var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${AppEndpoint.login}'));
+      var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${ApiPath.login}'));
       request.body = json.encode({
         "email": emailAddress,
         "password": password
@@ -48,7 +46,7 @@ class AuthRepo{
     var headers = {
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${AppEndpoint.register}'));
+    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${ApiPath.register}'));
     request.body = json.encode({
       "name": name,
       "email": email,
@@ -73,7 +71,7 @@ class AuthRepo{
     var headers = {
       'Content-Type': 'application/json',
     };
-    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${AppEndpoint.forgetPassword}'));
+    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${ApiPath.forgetPassword}'));
     request.body = json.encode({
       "email": email
     });
@@ -99,7 +97,7 @@ class AuthRepo{
     var headers = {
       'Content-Type': 'application/json',
     };
-    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${AppEndpoint.setNewPassword}'));
+    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${ApiPath.setNewPassword}'));
     request.body = json.encode({
       "uid": uid,
       "newPassword": newPassword,
@@ -125,7 +123,7 @@ class AuthRepo{
     var headers = {
       'Content-Type': 'application/json'
     };
-    var request = http.Request('GET', Uri.parse('${ApiPath.baseUrl}/${AppEndpoint.getMe}'));
+    var request = http.Request('GET', Uri.parse('${ApiPath.baseUrl}/${ApiPath.getMe}'));
     request.body = json.encode({
       "token": userToken
     });

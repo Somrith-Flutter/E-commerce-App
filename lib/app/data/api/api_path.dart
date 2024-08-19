@@ -1,4 +1,6 @@
-class AppEndpoint {
+class ApiPath {
+  static const String baseUrl = "https://marketnest-007-6005572ffa50.herokuapp.com";
+  
   static const login = "v1/login";
   static const register = "v1/create-me";
   static const forgetPassword = "v1/forget-password";

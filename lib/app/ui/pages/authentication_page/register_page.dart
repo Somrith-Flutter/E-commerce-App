@@ -7,11 +7,11 @@ import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/app/config/constants/asset_path.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
 import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
-import 'package:market_nest_app/app/ui/pages/login_page.dart';
-import 'package:market_nest_app/app/ui/widgets/form_confirm_password_widget.dart';
-import 'package:market_nest_app/app/ui/widgets/form_input_widget.dart';
-import 'package:market_nest_app/app/ui/widgets/form_password_widget.dart';
-import 'package:market_nest_app/app/ui/widgets/loading_widget.dart';
+import 'package:market_nest_app/app/ui/pages/authentication_page/login_page.dart';
+import 'package:market_nest_app/app/ui/global_widgets/form_confirm_password_widget.dart';
+import 'package:market_nest_app/app/ui/global_widgets/form_input_widget.dart';
+import 'package:market_nest_app/app/ui/global_widgets/form_password_widget.dart';
+import 'package:market_nest_app/app/ui/global_widgets/loading_widget.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
