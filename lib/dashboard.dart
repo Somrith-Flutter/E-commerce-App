@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
+import 'package:get/get.dart';
 import 'package:market_nest_app/config/themes/app_color.dart';
+import 'package:market_nest_app/modules/app/controllers/auth_controller.dart';
 import 'package:market_nest_app/modules/app/ui/pages/categories_screen.dart';
 import 'package:market_nest_app/modules/app/ui/pages/home_screen.dart';
 import 'package:market_nest_app/modules/app/ui/pages/mycard_screen.dart';
 import 'package:market_nest_app/modules/app/ui/pages/profile_screen.dart';
 import 'package:market_nest_app/modules/app/ui/pages/wishlist_screen.dart';
+
+import 'modules/app/data/globle_variable/public_variable.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -17,6 +21,7 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   int visit = 0;
+  final user = Get.find<AuthController>();
 
   List<TabItem> items = [
     const TabItem(
@@ -48,6 +53,12 @@ class _DashboardPageState extends State<DashboardPage> {
     const WishListScreen(),
     const ProfileScreen(),
   ];
+
+  @override
+  void initState() {
+    user.getMeController(getToken: accessToken.$);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

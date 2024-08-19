@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:market_nest_app/constants/api_path.dart';
 import 'package:market_nest_app/modules/app/data/api/app_endpoint.dart';
 import 'package:market_nest_app/modules/app/data/globle_variable/public_variable.dart';
+import 'package:market_nest_app/modules/app/data/models/user_models.dart';
 
 class AuthRepo{
 
@@ -68,10 +69,9 @@ class AuthRepo{
     return "";
   }
 
-  Future<String?> forgotPasswordRepo({required String email}) async {
+  Future<Map<String, dynamic>?> forgotPasswordRepo({required String email}) async {
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${accessToken.$}'
     };
     var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${AppEndpoint.forgetPassword}'));
     request.body = json.encode({
@@ -82,9 +82,8 @@ class AuthRepo{
     http.StreamedResponse response = await request.send();
     final responseBody = await response.stream.bytesToString();
     if (response.statusCode == 200) {
-      final json = jsonDecode(responseBody);
-      debugPrint("============&&& $responseBody");
-      return json['varify_via_code'];
+      Map<String, dynamic> json = jsonDecode(responseBody);
+      return json;
     }
     else {
       debugPrint(response.reasonPhrase);
@@ -99,7 +98,6 @@ class AuthRepo{
   }) async {
     var headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ${accessToken.$}'
     };
     var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${AppEndpoint.setNewPassword}'));
     request.body = json.encode({
@@ -120,5 +118,32 @@ class AuthRepo{
       debugPrint(response.reasonPhrase);
       return null;
     }
+  }
+
+  Future<List<UserModel>?> getMeRepo({required String userToken}) async {
+    print("token repo $userToken");
+    var headers = {
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('GET', Uri.parse('${ApiPath.baseUrl}/${AppEndpoint.getMe}'));
+    request.body = json.encode({
+      "token": userToken
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    final body = await response.stream.bytesToString();
+
+    if (response.statusCode == 200) {
+      List<UserModel> userModel = [];
+      Map<String, dynamic> json = jsonDecode(body);
+      userModel.add(UserModel.fromJson(json));
+      return userModel;
+    }
+    else {
+      debugPrint(body);
+      debugPrint(response.reasonPhrase);
+    }
+    return null;
   }
 }

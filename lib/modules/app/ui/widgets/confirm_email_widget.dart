@@ -64,7 +64,7 @@ class _ConfirmEmailWidgetState extends State<ConfirmEmailWidget> {
                   return;
                 }else{
                   Get.back();
-                  _auth.widgetTrigger(2);
+                  _auth.widgetTrigger(1);
                 }
               },
               style: ElevatedButton.styleFrom(

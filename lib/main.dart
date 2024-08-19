@@ -9,6 +9,8 @@ void main() async {
   runApp(SharedValue.wrapApp(const MyApp()));
 
   await accessToken.load();
+  await limitTime.load();
+  await ended.load();
 }
 
 class MyApp extends StatelessWidget {

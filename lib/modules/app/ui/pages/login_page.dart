@@ -12,6 +12,7 @@ import 'package:market_nest_app/modules/app/ui/pages/register_page.dart';
 import 'package:market_nest_app/modules/app/ui/widgets/form_input_widget.dart';
 import 'package:market_nest_app/modules/app/ui/widgets/form_password_widget.dart';
 import 'package:market_nest_app/modules/app/ui/widgets/loading_widget.dart';
+import 'package:market_nest_app/utils/helpers.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -68,10 +69,23 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void initState() {
+    print("ended ${ended.$}");
+    print("limitTime ${limitTime.$}");
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final CountdownTimer countdownTimer = CountdownTimer();
+
     return SafeArea(
       child: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        onTap: () async {
+          // limitTime.$ = 0;
+          // await limitTime.save();
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
         child: Scaffold(
           body: GetBuilder<AuthController>(builder: (auth) {
             return SingleChildScrollView(
@@ -87,8 +101,8 @@ class _LoginPageState extends State<LoginPage> {
                     const Gap(20),
                     const Text("Signin",
                       style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
                     const Gap(5),
@@ -96,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         const Text("Do not have an account?",
                           style: TextStyle(
-                              fontSize: 16
+                            fontSize: 16
                           ),
                         ),
                         const Gap(5),
@@ -113,9 +127,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const Gap(30),
                     FormInputWidget(
-                        label: "Email",
-                        controller: auth.emailController,
-                        hint: "Email address"
+                      label: "Email",
+                      controller: auth.emailController,
+                      hint: "Email address"
                     ),
                     const Gap(30),
                     FormPasswordWidget(
@@ -123,22 +137,66 @@ class _LoginPageState extends State<LoginPage> {
                       hint: "+6 charecter and number",
                       controller: auth.passwordController),
                     const Gap(20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () => Get.to( const ForgotPasswordScreen()),
-                          child: const Text(
-                            "Forgot Password?",
-                            style: TextStyle(
-                              color: AppColors.cyan,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600
+                    if(ended.$ == true)...[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          StreamBuilder<Duration>(
+                            stream: countdownTimer.remainingTimeStream,
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return const CircularProgressIndicator();
+                              }
+
+                              final remainingTime = snapshot.data!;
+                              if (limitTime.$ == 3 || limitTime.$ == 4) {
+                                return Text(
+                                  'Try again in ${remainingTime.inHours.toString().padLeft(2, '0')}:${remainingTime.inMinutes.remainder(60).toString().padLeft(2, '0')}:${remainingTime.inSeconds.remainder(60).toString().padLeft(2, '0')}',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                );
+                              }
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () => Get.to( const ForgotPasswordScreen()),
+                                    child: const Text(
+                                      "Forgot Password?",
+                                      style: TextStyle(
+                                          color: AppColors.cyan,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              );
+                            },
+                          )
+                        ],
+                      )
+                    ]else...[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () => Get.to( const ForgotPasswordScreen()),
+                            child: const Text(
+                              "Forgot Password?",
+                              style: TextStyle(
+                                  color: AppColors.cyan,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600
+                              ),
                             ),
-                          ),
-                        )
-                      ],
-                    ),
+                          )
+                        ],
+                      ),
+                    ],
                     const Gap(100),
                     SizedBox(
                       width: MediaQuery.of(context).size.width,

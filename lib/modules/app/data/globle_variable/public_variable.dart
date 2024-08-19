@@ -6,4 +6,16 @@ final SharedValue<String> accessToken = SharedValue(
   value: "",
 );
 
+final SharedValue<int> limitTime = SharedValue(
+  key: "timer",
+  autosave: true,
+  value: 1,
+);
+
+final SharedValue<bool> ended = SharedValue(
+  key: "ended",
+  autosave: true,
+  value: false,
+);
+
 enum Status { progress, success, fail, error }

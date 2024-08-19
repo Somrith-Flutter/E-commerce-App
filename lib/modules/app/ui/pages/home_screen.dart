@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:market_nest_app/config/themes/app_color.dart';
 import 'package:market_nest_app/constants/app_constant.dart';
+import 'package:market_nest_app/modules/app/controllers/auth_controller.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final _user = Get.find<AuthController>();
+  AuthController get user => _user;
+
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +34,11 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             icon: const CircleAvatar(
                 backgroundImage: NetworkImage('https://scontent.fpnh19-1.fna.fbcdn.net/v/t39.30808-6/453846779_1641392353383865_3619548638661995903_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEUW9z93eWyYyoqV81v_XpTzXa7gB_2cizNdruAH_ZyLKx7W8bk_a8mA7XTXM4JGYkTDpUmr-yL7OF-xU54ZGEA&_nc_ohc=Lgp7FjZrDYgQ7kNvgF-Nsbh&_nc_ht=scontent.fpnh19-1.fna&oh=00_AYAtTIG1Apm-GuVyviV2VyADAupdqt6YLSz77lHkxyvTRg&oe=66C3ED27')),
-            onPressed: () {},
+            onPressed: () {
+              if(user.newUserModel.isNotEmpty){
+                print("id : ${user.newUserModel[0]?.name.toString()}");
+              }
+            },
           ),
         ],
       ),

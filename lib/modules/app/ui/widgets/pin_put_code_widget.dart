@@ -4,8 +4,13 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/config/themes/app_color.dart';
 import 'package:market_nest_app/modules/app/controllers/auth_controller.dart';
+import 'package:market_nest_app/modules/app/data/globle_variable/public_variable.dart';
+import 'package:market_nest_app/modules/app/ui/pages/forgot_password.dart';
+import 'package:market_nest_app/modules/app/ui/widgets/loading_widget.dart';
+import 'package:market_nest_app/utils/helpers.dart';
 import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 class PinPutCode extends StatefulWidget {
   const PinPutCode({super.key});
@@ -32,10 +37,10 @@ class _PinPutCodeState extends State<PinPutCode> {
     super.dispose();
   }
 
-  void _blockAttempts() {
+  void _blockAttempts(int value) {
     setState(() {
       _isBlocked = true;
-      _unblockTime = DateTime.now().add(const Duration(minutes: 5));
+      _unblockTime = DateTime.now().add(Duration(minutes: value));
     });
 
     Future.delayed(const Duration(minutes: 5), () {
@@ -97,7 +102,7 @@ class _PinPutCodeState extends State<PinPutCode> {
       _saveBlockState();
 
       if (_incorrectAttempts >= 3) {
-        _blockAttempts();
+        _blockAttempts(5);
         _errorMessage = "Too many incorrect attempts. Try again in 5 minutes.";
       } else if (_incorrectAttempts == 2) {
         setState(() {
@@ -117,20 +122,17 @@ class _PinPutCodeState extends State<PinPutCode> {
   @override
   void initState() {
     super.initState();
-    _checkCodePermission();
     _loadBlockState();
   }
 
   void _checkCodePermission(){
-    if(picController.verifyCode != "0000"){
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        IconSnackBar.show(
-          context,
-          label: 'Verify code has been sent',
-          snackBarType: SnackBarType.alert,
-          duration: const Duration(seconds: 5),
-        );
-      });
+    if(picController.verifyCode != "00000"){
+      IconSnackBar.show(
+        context,
+        label: 'Verify code has been sent',
+        snackBarType: SnackBarType.alert,
+        duration: const Duration(seconds: 5),
+      );
     }
   }
 
@@ -150,6 +152,7 @@ class _PinPutCodeState extends State<PinPutCode> {
           color: Colors.black.withOpacity(0.1)
       ),
     );
+    final CountdownTimer countdownTimer = CountdownTimer();
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: Scaffold(
@@ -229,32 +232,68 @@ class _PinPutCodeState extends State<PinPutCode> {
                       ],
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () async {
-                      try{
-                        picController.forgotPasswordController();
-                        Future.delayed(const Duration(milliseconds: 200), (){
-                          _checkCodePermission();
-                        });
-                      }catch(_){}
-                    },
-                    child: Text("Resend Code".tr,
-                      style: const TextStyle(
-                        color: AppColors.cyan,
-                        fontSize: 16,
-                        decoration: TextDecoration.underline,
-                        decorationColor: AppColors.cyan,
-                        fontWeight: FontWeight.bold,
+
+                  if(ended.$ == true)...[
+                    StreamBuilder<Duration>(
+                      stream: countdownTimer.remainingTimeStream,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const CircularProgressIndicator();
+                        }
+
+                        final remainingTime = snapshot.data!;
+                        if (limitTime.$ == 3 || limitTime.$ == 4) {
+                          return Text(
+                            'Try again in ${remainingTime.inHours.toString().padLeft(2, '0')}:${remainingTime.inMinutes.remainder(60).toString().padLeft(2, '0')}:${remainingTime.inSeconds.remainder(60).toString().padLeft(2, '0')}',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        }
+                        return Text(
+                          'Code Expires In ${remainingTime.inSeconds.remainder(60).toString().padLeft(2, '0')}s',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      },
+                    )
+                  ]else...[
+                    GestureDetector(
+                      onTap: () async {
+                        try{
+                          picController.forgotPasswordController();
+                          showLoadingDialog(context, label: "Resending...");
+                          Future.delayed(const Duration(milliseconds: 200), (){
+                            _checkCodePermission();
+                            setState(() {});
+                          });
+                        }catch(_){}finally{
+                          Get.back();
+                        }
+                      },
+                      child: const Text("Resend Code",
+                        style: TextStyle(
+                          color: AppColors.cyan,
+                          fontSize: 16,
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppColors.cyan,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                   const Gap(50),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
                       onPressed: () {
                         if(pinCodeController.text  == picController.verifyCode){
-                          picController.widgetTrigger(3);
+                          picController.widgetTrigger(2);
                         }else{
                           IconSnackBar.show(
                             context,

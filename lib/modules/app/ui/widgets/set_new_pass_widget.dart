@@ -19,6 +19,7 @@ class SetNewPassWidget extends StatefulWidget {
 
 class _SetNewPassWidgetState extends State<SetNewPassWidget> {
   final auth = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +75,7 @@ class _SetNewPassWidgetState extends State<SetNewPassWidget> {
                   }
         
                   Future.delayed(const Duration(seconds: 1), (){
-                    auth.updatePassword();
+                    auth.updatePassword(userId: auth.tempUUId.toString());
                     if(auth.status == Status.success){
                       Get.back();
                       IconSnackBar.show(

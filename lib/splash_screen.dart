@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:market_nest_app/config/themes/app_color.dart';
 import 'package:market_nest_app/constants/asset_path.dart';
 import 'package:market_nest_app/dashboard.dart';
+import 'package:market_nest_app/modules/app/controllers/auth_controller.dart';
 import 'package:market_nest_app/modules/app/data/globle_variable/public_variable.dart';
 import 'package:market_nest_app/modules/app/ui/pages/login_page.dart';
 import 'package:market_nest_app/modules/app/ui/pages/register_page.dart';
@@ -19,6 +20,7 @@ class SplashScreenState extends State<SplashScreen> with SingleTickerProviderSta
   late Animation<double> _opacityAnimation;
   late Animation<double> _scaleAnimation;
   late Animation<double> _rotationAnimation;
+  final user = Get.find<AuthController>();
 
   @override
   void initState() {
@@ -48,9 +50,9 @@ class SplashScreenState extends State<SplashScreen> with SingleTickerProviderSta
     );
 
     _controller.forward();
+
     Future.delayed(const Duration(seconds: 3), () {
-      // accessToken.toString().isNotEmpty ? Get.off(const DashboardPage()) : Get.off(const LoginPage());
-      Get.off(const LoginPage());
+      accessToken.$.isNotEmpty ? Get.off(const LoginPage()) : Get.off(const LoginPage());
     });
   }
 
