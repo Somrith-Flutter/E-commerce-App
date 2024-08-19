@@ -59,7 +59,6 @@ class CountdownTimer {
     _remainingTimeSubject.add(Duration.zero);
     _auth.timerTrigger();
     await prefs.remove('targetTime');
-    print("Countdown has ended.");
   }
 
   void dispose() {

@@ -13,7 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 class PinPutCode extends StatefulWidget {
-  const PinPutCode({super.key});
+  final bool confirmMailBeforeFirst;
+  const PinPutCode({super.key, this.confirmMailBeforeFirst = false});
 
   @override
   State<PinPutCode> createState() => _PinPutCodeState();
@@ -29,6 +30,7 @@ class _PinPutCodeState extends State<PinPutCode> {
   final bool _isDisposed = false;
   DateTime? _unblockTime;
   String? _errorMessage;
+  String? _tempCode;
 
   @override
   void dispose() {
@@ -79,6 +81,10 @@ class _PinPutCodeState extends State<PinPutCode> {
     }
   }
 
+  String? getterVerifyCode({String? code}){
+    return _tempCode = code.toString();
+  }
+
   void _scheduleUnblock() {
     final duration = _unblockTime!.difference(DateTime.now());
     Future.delayed(duration, () {
@@ -93,6 +99,8 @@ class _PinPutCodeState extends State<PinPutCode> {
 
   String? _validatePin(String? value) {
     if (value == picController.verifyCode) {
+      getterVerifyCode(code: value);
+      setState(() {});
       if(!_isBlocked){
         _incorrectAttempts = 0;
         return null;
@@ -291,9 +299,31 @@ class _PinPutCodeState extends State<PinPutCode> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        if(widget.confirmMailBeforeFirst){
+                          if(picController.verifyCode == _tempCode){
+                            showLoadingDialog(context, label: "Verifying...");
+
+                            await Future.delayed(const Duration(milliseconds: 500), (){
+                              Get.back();
+                              Get.back();
+                              Get.back();
+                              IconSnackBar.show(
+                                context,
+                                label: 'Success',
+                                snackBarType: SnackBarType.success,
+                                duration: const Duration(seconds: 3),
+                              );
+                              picController.checkEmailConfirmation(c: true);
+                              picController.resetLimitTimer();
+                            });
+                          }
+                          return;
+                        }
                         if(pinCodeController.text  == picController.verifyCode){
+                          picController.resetLimitTimer();
                           picController.widgetTrigger(2);
+                          picController.checkEmailConfirmation(c: false);
                         }else{
                           IconSnackBar.show(
                             context,

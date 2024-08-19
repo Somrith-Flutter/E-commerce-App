@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:market_nest_app/app/ui/themes/app_color.dart';
-import 'package:market_nest_app/app/config/constants/asset_path.dart';
-import 'package:market_nest_app/app/controllers/auth_controller.dart';
-import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
-import 'package:market_nest_app/app/ui/pages/authentication_page/login_page.dart';
-import 'package:market_nest_app/app/ui/global_widgets/form_confirm_password_widget.dart';
-import 'package:market_nest_app/app/ui/global_widgets/form_input_widget.dart';
-import 'package:market_nest_app/app/ui/global_widgets/form_password_widget.dart';
-import 'package:market_nest_app/app/ui/global_widgets/loading_widget.dart';
+import 'package:market_nest_app/config/themes/app_color.dart';
+import 'package:market_nest_app/constants/asset_path.dart';
+import 'package:market_nest_app/modules/app/controllers/auth_controller.dart';
+import 'package:market_nest_app/modules/app/data/globle_variable/public_variable.dart';
+import 'package:market_nest_app/modules/app/ui/pages/forgot_password.dart';
+import 'package:market_nest_app/modules/app/ui/pages/login_page.dart';
+import 'package:market_nest_app/modules/app/ui/widgets/form_confirm_password_widget.dart';
+import 'package:market_nest_app/modules/app/ui/widgets/form_input_widget.dart';
+import 'package:market_nest_app/modules/app/ui/widgets/form_password_widget.dart';
+import 'package:market_nest_app/modules/app/ui/widgets/loading_widget.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -107,8 +108,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     const Gap(10),
                     const Text("SignUp",
                       style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
                     const Gap(5),
@@ -144,23 +145,57 @@ class _RegisterPageState extends State<RegisterPage> {
                         hint: "Email address"
                     ),
                     const Gap(30),
-                    FormPasswordWidget(
-                        label: "Password",
-                        controller: auth.passwordController,
-                        hint: "+8 character"
-                    ),
-                    const Gap(30),
-                    FormConfirmPasswordWidget(
-                        label: "Re-Write Password",
-                        controller: auth.confirmViaPasswordController,
-                        hint: "Re-Write Password"
-                    ),
+                    Visibility(
+                      visible: auth.isConfirm,
+                        child: Column(
+                          children: [
+                            FormPasswordWidget(
+                              label: "Password",
+                              controller: auth.passwordController,
+                              hint: "+8 character"
+                            ),
+                            const Gap(30),
+                            FormConfirmPasswordWidget(
+                              label: "Re-Write Password",
+                              controller: auth.confirmViaPasswordController,
+                              hint: "Re-Write Password"
+                            ),
+                          ],
+                    )),
 
                     const Gap(50),
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: ElevatedButton(
-                        onPressed: () => _register(),
+                        onPressed: () async {
+                          if(!auth.isConfirm) {
+                            if(authController.fullNameController.text == ""
+                                || authController.emailController.text == ""){
+                              Get.back();
+                              IconSnackBar.show(
+                                context,
+                                label: 'Please fill in all the blank!',
+                                snackBarType: SnackBarType.fail,
+                                duration: const Duration(seconds: 3),
+                              );
+                              return;
+                            }else{
+                              showLoadingDialog(context, label: "Checking...");
+                              await auth.forgotPasswordController();
+                              if(auth.status == Status.success){
+                                Get.to(const ForgotPasswordScreen(fixedWidget: 1,));
+                                IconSnackBar.show(
+                                  context,
+                                  label: 'Verification code have been sent!',
+                                  snackBarType: SnackBarType.alert,
+                                  duration: const Duration(seconds: 3),
+                                );
+                                return;
+                              }
+                            }
+                          }
+                          _register();
+                        },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 22),
                           backgroundColor: AppColors.black,
@@ -168,9 +203,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             borderRadius: BorderRadius.circular(20),
                           )
                         ),
-                        child: const Text(
-                          "Create Account",
-                          style: TextStyle(fontSize: 18, color: AppColors.cyan),
+                        child: Text(
+                          auth.isConfirm ? "Create Account" : "Confirm Account",
+                          style: const TextStyle(fontSize: 18, color: AppColors.cyan),
                         )
                       ),
                     )

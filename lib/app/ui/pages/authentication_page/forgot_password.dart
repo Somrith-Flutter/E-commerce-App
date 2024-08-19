@@ -10,7 +10,8 @@ import 'package:market_nest_app/app/ui/global_widgets/pin_put_code_widget.dart';
 import 'package:market_nest_app/app/ui/global_widgets/set_new_pass_widget.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({super.key});
+  final int? fixedWidget;
+  const ForgotPasswordScreen({super.key, this.fixedWidget = 0});
 
   @override
   State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
@@ -23,7 +24,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   List<Widget> _stepWidget() {
     return [
       const ConfirmEmailWidget(),
-      const PinPutCode(),
+      PinPutCode(confirmMailBeforeFirst: widget.fixedWidget != null ? true : false),
       const SetNewPassWidget(),
     ];
   }
@@ -31,7 +32,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(milliseconds: 100), () {
-      _auth.widgetTrigger(0);
+      widget.fixedWidget != null ?
+      _auth.widgetTrigger(widget.fixedWidget??0) : _auth.widgetTrigger(0);
     });
     super.initState();
   }
@@ -44,22 +46,25 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
-                onPressed: () {
-                  Get.back();
-                  _auth.clearSetter();
-                },
-                icon: Icon(Platform.isAndroid
-                    ? CupertinoIcons.arrow_left
-                    : CupertinoIcons.back)),
-            title: const Text(
-              "Forgot Password",
-              style: TextStyle(fontSize: 18),
+              onPressed: () {
+                Get.back();
+                _auth.clearSetter();
+              },
+              icon: Icon(Platform.isAndroid
+                ? CupertinoIcons.arrow_left
+                : CupertinoIcons.back)),
+            title: Text( widget.fixedWidget != null ? "Verify Account"
+              : "Forgot Password",
+              style: const TextStyle(fontSize: 18),
             ),
             actions: [
-              Row(
+              if(widget.fixedWidget != null)
+                const SizedBox()
+              else
+                Row(
                 children: [
                   Text(
-                    "0${_auth.setterIndex.toString()}",
+                    "0${_auth.setterIndex+1}",
                     style:
                         const TextStyle(color: AppColors.black, fontSize: 16),
                   ),

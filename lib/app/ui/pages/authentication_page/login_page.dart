@@ -70,8 +70,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    print("ended ${ended.$}");
-    print("limitTime ${limitTime.$}");
     super.initState();
   }
 

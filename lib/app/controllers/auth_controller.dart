@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
-import 'package:market_nest_app/app/data/models/user_models.dart';
-import 'package:market_nest_app/app/data/repositories/auth_repo.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:market_nest_app/modules/app/data/globle_variable/public_variable.dart';
+import 'package:market_nest_app/modules/app/data/models/user_models.dart';
+import 'package:market_nest_app/modules/app/data/repositories/auth_repo.dart';
 
 class AuthController extends GetxController{
   final fullNameController = TextEditingController();
@@ -21,10 +19,17 @@ class AuthController extends GetxController{
   Status status = Status.progress;
   int setterIndex = 0;
   UserModel? userModel;
+  bool isConfirm = false;
   List<UserModel?> newUserModel = [];
 
   void init(){
 
+  }
+
+  void resetLimitTimer() async {
+    limitTime.$ = 0;
+    await limitTime.save();
+    update();
   }
 
   void widgetTrigger(int index) async {
@@ -39,6 +44,11 @@ class AuthController extends GetxController{
     confirmViaPasswordController.clear();
     passwordController.clear();
     phoneController.clear();
+    update();
+  }
+
+  void checkEmailConfirmation({bool c = false}){
+    isConfirm = c;
     update();
   }
 
@@ -97,7 +107,7 @@ class AuthController extends GetxController{
     }
   }
 
-  void forgotPasswordController() async {
+  Future<void> forgotPasswordController() async {
     ended.$ = true;
     await ended.save();
 
