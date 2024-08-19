@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:market_nest_app/modules/app/data/globle_variable/public_variable.dart';
-import 'package:market_nest_app/modules/app/data/models/user_models.dart';
-import 'package:market_nest_app/modules/app/data/repositories/auth_repo.dart';
+import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
+import 'package:market_nest_app/app/data/models/user_models.dart';
+import 'package:market_nest_app/app/data/repositories/auth_repo.dart';
 
 class AuthController extends GetxController{
   final fullNameController = TextEditingController();
