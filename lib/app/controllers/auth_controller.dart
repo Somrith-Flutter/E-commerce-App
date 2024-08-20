@@ -4,6 +4,8 @@ import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
 import 'package:market_nest_app/app/data/models/user_models.dart';
 import 'package:market_nest_app/app/data/repositories/auth_repo.dart';
 
+import '../data/repositories/categories_repo.dart';
+
 class AuthController extends GetxController{
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
@@ -161,6 +163,7 @@ class AuthController extends GetxController{
           newUserModel = user;
           status = Status.success;
         }
+        status = Status.fail;
       });
     }catch(e){
       debugPrint("============= $e");
