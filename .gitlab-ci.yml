@@ -1,0 +1,29 @@
+image: cirrusci/flutter:stable
+
+stages:
+  - build
+  - deploy
+
+before_script:
+  - flutter config --enable-web
+  - flutter pub get
+
+build_web:
+  stage: build
+  script:
+    - flutter build web --release
+  artifacts:
+    paths:
+      - build/web
+  only:
+    - main
+
+pages:
+  stage: deploy
+  script:
+    - cp -r build/web/* public/
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
