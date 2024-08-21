@@ -90,11 +90,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: GestureDetector(
+    return Scaffold(
+      body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-        child: Scaffold(
-          body: GetBuilder<AuthController>(builder: (auth) {
+        child: SafeArea(
+          child: GetBuilder<AuthController>(builder: (auth) {
             return SingleChildScrollView(
               child: Container(
                 margin: const EdgeInsets.all(16),

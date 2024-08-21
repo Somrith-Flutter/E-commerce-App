@@ -1,4 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:market_nest_app/app/controllers/auth_controller.dart';
+import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
+import 'package:market_nest_app/app/ui/pages/authentication_page/forgot_password.dart';
+import 'package:market_nest_app/app/ui/pages/authentication_page/login_page.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/app/ui/pages/profile_page/widgets/change_password.dart';
 import 'package:market_nest_app/app/ui/pages/profile_page/widgets/faq.dart';
@@ -16,6 +22,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late Future<PackageInfo> _packageInfoFuture;
+  final _auth = Get.find<AuthController>();
+  AuthController get auth => _auth;
 
   @override
   void initState() {
@@ -40,8 +48,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildSliverAppBar() {
-    const profileUrl =
-        'https://scontent.fpnh19-1.fna.fbcdn.net/v/t39.30808-6/453846779_1641392353383865_3619548638661995903_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEUW9z93eWyYyoqV81v_XpTzXa7gB_2cizNdruAH_ZyLKx7W8bk_a8mA7XTXM4JGYkTDpUmr-yL7OF-xU54ZGEA&_nc_ohc=Lgp7FjZrDYgQ7kNvgF-Nsbh&_nc_ht=scontent.fpnh19-1.fna&oh=00_AYAtTIG1Apm-GuVyviV2VyADAupdqt6YLSz77lHkxyvTRg&oe=66C3ED27';
+    // const profileUrl =
+    //     'https://scontent.fpnh19-1.fna.fbcdn.net/v/t39.30808-6/453846779_1641392353383865_3619548638661995903_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEUW9z93eWyYyoqV81v_XpTzXa7gB_2cizNdruAH_ZyLKx7W8bk_a8mA7XTXM4JGYkTDpUmr-yL7OF-xU54ZGEA&_nc_ohc=Lgp7FjZrDYgQ7kNvgF-Nsbh&_nc_ht=scontent.fpnh19-1.fna&oh=00_AYAtTIG1Apm-GuVyviV2VyADAupdqt6YLSz77lHkxyvTRg&oe=66C3ED27';
 
     return SliverAppBar(
       automaticallyImplyLeading: false,
@@ -55,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           bool isExpanded = constraints.biggest.height > 175;
           return FlexibleSpaceBar(
             titlePadding: EdgeInsets.all(isExpanded ? 28 : 0),
-            title: _buildProfileHeader(profileUrl, isExpanded),
+            title: _buildProfileHeader("", isExpanded),
             background: _buildHeaderBackground(),
           );
         },
@@ -161,7 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _buildDarkThemeToggle(),
               const Divider(),
               _buildProfileOption(Icons.lock_outline, 'Change Password', onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePasswordScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgotPasswordScreen(fixedWidget: 0, isFromChangePassword: true,)));
               }),
               const Divider(),
               _buildProfileOption(Icons.language_outlined, 'Languages', onTap: () {
@@ -180,6 +188,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   }
                 },
               ),
+              const Divider(),
+              _buildProfileOption(Icons.logout, 'Logout', onTap: () {
+                logout(context);
+              }, color: Colors.redAccent),
+              const Divider(),
+              _buildProfileOption(CupertinoIcons.delete, 'Deactivate Account', onTap: () {
+                //Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagesScreen()));
+              }, color: Colors.redAccent, colorText: Colors.redAccent),
             ],
           ),
         ),
@@ -206,10 +222,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     String title, {
     String trailing = '',
     VoidCallback? onTap,
+    Color? color = Colors.grey,
+    Color? colorText = Colors.black,
   }) {
     return ListTile(
-      leading: Icon(icon, color: Colors.grey),
-      title: Text(title),
+      leading: Icon(icon, color: color),
+      title: Text(title, style: TextStyle(color: colorText),),
       trailing: trailing.isEmpty
           ? const Icon(Icons.arrow_forward_ios, color: Colors.grey)
           : Text(trailing, style: const TextStyle(fontSize: 18)),
@@ -223,6 +241,101 @@ class _ProfileScreenState extends State<ProfileScreen> {
       onChanged: (value) {      },
       title: const Text('Dark Theme'),
       secondary: const Icon(Icons.dark_mode_outlined, color: Colors.grey),
+    );
+  }
+
+  Future<void> logout(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          title: const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              'Confirm',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          titlePadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
+          backgroundColor: AppColors.cyan,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Are you sure you want to log out from the app?',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              const SizedBox(height: 30),
+              const Divider(
+                thickness: 1,
+                color: Colors.white,
+                height: 1,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () async{
+                        await auth.logout();
+
+                        if(accessToken.$.isEmpty){
+                          Get.off(const LoginPage());
+                        }
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(15),
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        'Accept',
+                        style: TextStyle(color: AppColors.cyan,),
+                      ),
+                    ),
+                  ),
+                  const VerticalDivider(
+                    width: 1,
+                    thickness: 1,
+                    color: Colors.white,
+                  ),
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(false);
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(15),
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

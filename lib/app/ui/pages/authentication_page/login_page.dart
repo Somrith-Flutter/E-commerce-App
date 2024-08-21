@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
       Get.back();
       IconSnackBar.show(
         context,
-        label: 'Something wrong with Server',
+        label: 'Login Fail',
         snackBarType: SnackBarType.fail,
         duration: const Duration(seconds: 3),
       );
@@ -77,15 +77,13 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final CountdownTimer countdownTimer = CountdownTimer();
 
-    return SafeArea(
-      child: GestureDetector(
+    return Scaffold(
+      body: GestureDetector(
         onTap: () async {
-          // limitTime.$ = 0;
-          // await limitTime.save();
           FocusScope.of(context).requestFocus(FocusNode());
         },
-        child: Scaffold(
-          body: GetBuilder<AuthController>(builder: (auth) {
+        child: SafeArea(
+          child: GetBuilder<AuthController>(builder: (auth) {
             return SingleChildScrollView(
               child: Container(
                 margin: const EdgeInsets.all(16),

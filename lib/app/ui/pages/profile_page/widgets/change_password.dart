@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
+  const ChangePasswordScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Change Password'),
+        title: const Text('Change Password'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -16,20 +18,20 @@ class ChangePasswordScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Old Password', style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text('Old Password', style: TextStyle(fontWeight: FontWeight.bold)),
             _buildTextField('Enter your password'),
-            SizedBox(height: 16),
-            Text('New Password', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 16),
+            const Text('New Password', style: TextStyle(fontWeight: FontWeight.bold)),
             _buildTextField('Enter your new password'),
             _buildTextField('Confirm your new password'),
-            Spacer(),
+            const Spacer(),
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 48),
+                minimumSize: const Size(double.infinity, 48),
                 //primary: Colors.black,
               ),
-              child: Text('Save'),
+              child: const Text('Save'),
             ),
           ],
         ),
@@ -42,8 +44,8 @@ class ChangePasswordScreen extends StatelessWidget {
       obscureText: true,
       decoration: InputDecoration(
         hintText: hint,
-        border: OutlineInputBorder(),
-        suffixIcon: Icon(Icons.visibility_off),
+        border: const OutlineInputBorder(),
+        suffixIcon: const Icon(Icons.visibility_off),
       ),
     );
   }

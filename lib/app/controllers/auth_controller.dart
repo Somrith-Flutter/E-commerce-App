@@ -44,11 +44,18 @@ class AuthController extends GetxController{
     confirmViaPasswordController.clear();
     passwordController.clear();
     phoneController.clear();
+    verifyCode = "00000";
     update();
   }
 
   void checkEmailConfirmation({bool c = false}){
     isConfirm = c;
+    update();
+  }
+
+  Future<void> logout() async {
+    accessToken.$ = "";
+    await accessToken.save();
     update();
   }
 

@@ -11,7 +11,8 @@ import 'package:market_nest_app/app/ui/global_widgets/set_new_pass_widget.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   final int? fixedWidget;
-  const ForgotPasswordScreen({super.key, this.fixedWidget = 0});
+  final bool ? isFromChangePassword;
+  const ForgotPasswordScreen({super.key, this.fixedWidget = 0, this.isFromChangePassword = false});
 
   @override
   State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
@@ -24,7 +25,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   List<Widget> _stepWidget() {
     return [
       const ConfirmEmailWidget(),
-      PinPutCode(confirmMailBeforeFirst: widget.fixedWidget != null ? true : false),
+      PinPutCode(confirmMailBeforeFirst: widget.fixedWidget != 0 ? true : false),
       const SetNewPassWidget(),
     ];
   }
@@ -32,10 +33,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(milliseconds: 100), () {
-      widget.fixedWidget != null ?
+      widget.fixedWidget != 0 ?
       _auth.widgetTrigger(widget.fixedWidget??0) : _auth.widgetTrigger(0);
     });
+    appBarTextTriggle();
     super.initState();
+  }
+
+  String appBarTextTriggle() {
+    if(widget.fixedWidget == 0 && widget.isFromChangePassword == false) return "Forget Password";
+    if(widget.fixedWidget == 0 && widget.isFromChangePassword == true) return "Change Password";
+    return "Verify Email";
   }
 
   @override
@@ -53,12 +61,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               icon: Icon(Platform.isAndroid
                 ? CupertinoIcons.arrow_left
                 : CupertinoIcons.back)),
-            title: Text( widget.fixedWidget != null ? "Verify Account"
-              : "Forgot Password",
+            title: Text( appBarTextTriggle(),
               style: const TextStyle(fontSize: 18),
             ),
             actions: [
-              if(widget.fixedWidget != null)
+              if(widget.fixedWidget != 0)
                 const SizedBox()
               else
                 Row(
