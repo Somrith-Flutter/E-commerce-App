@@ -45,6 +45,7 @@ class AuthController extends GetxController{
     passwordController.clear();
     phoneController.clear();
     verifyCode = "00000";
+    isConfirm = false;
     update();
   }
 
@@ -101,29 +102,21 @@ class AuthController extends GetxController{
         phone: phoneController.text,
         confirmPassword: confirmViaPasswordController.text
       ).then((data){
-        if(data.toString().isNotEmpty){
+        if(data != null && data['isError'] == false){
           status = Status.success;
+          update();
         }else{
           status = Status.fail;
         }
       });
     }catch(e){
+      print("========= &&$e");
       status = Status.fail;
-    }finally{
-      update();
     }
+    update();
   }
 
   Future<void> forgotPasswordController() async {
-    ended.$ = true;
-    await ended.save();
-
-    if(limitTime.$ < 4){
-      limitTime.$ += 1;
-      await limitTime.save();
-    }
-    print("=============== ${limitTime.$}");
-
     try{
       await authRepo.forgotPasswordRepo(email: emailController.text).then((code){
         if(code != null){
@@ -174,5 +167,16 @@ class AuthController extends GetxController{
     }finally{
       update();
     }
+  }
+
+  Future<void> confirmViaEmailController() async {
+    await authRepo.confirmViaEmailRepo(email: emailController.text).then((v){
+      if(v != null && v['isError'] != false){
+        verifyCode = v['code'];
+        status = Status.success;
+        return;
+      }
+      status = Status.fail;
+    });
   }
 }

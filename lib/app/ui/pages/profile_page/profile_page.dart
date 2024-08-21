@@ -289,6 +289,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         await auth.logout();
 
                         if(accessToken.$.isEmpty){
+                          auth.clearSetter();
                           Get.off(const LoginPage());
                         }
                       },

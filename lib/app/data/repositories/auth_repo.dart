@@ -36,7 +36,7 @@ class AuthRepo{
     return "";
   }
 
-  Future<String> registerRepo({
+  Future<Map<String, dynamic>?> registerRepo({
     required String name,
     required String email,
     required String password,
@@ -44,7 +44,7 @@ class AuthRepo{
     required String confirmPassword,
   }) async {
     var headers = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     };
     var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${ApiPath.register}'));
     request.body = json.encode({
@@ -52,19 +52,21 @@ class AuthRepo{
       "email": email,
       "password": password,
       "phone": phone,
-      "confirmPassword": password
+      "confirmPassword": password,
     });
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
-    final responseBody = await response.stream.bytesToString();
 
-    if (response.statusCode == 200) {
-      return jsonDecode(responseBody);
+
+    final responseBody = await response.stream.bytesToString();
+    if (response.statusCode == 201) {
+      var json = jsonDecode(responseBody);
+      return json;
     } else {
       debugPrint(response.reasonPhrase);
     }
-    return "";
+    return null;
   }
 
   Future<Map<String, dynamic>?> forgotPasswordRepo({required String email}) async {
@@ -143,5 +145,29 @@ class AuthRepo{
       debugPrint(response.reasonPhrase);
     }
     return null;
+  }
+
+  Future<Map<String, dynamic>?> confirmViaEmailRepo({ required String email }) async {
+    var headers = {
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${ApiPath.confirmViaEmail}'));
+    request.body = json.encode({
+      "email": email
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    final body = await response.stream.bytesToString();
+
+    if (response.statusCode == 200) {
+      debugPrint(body);
+      final json = jsonDecode(body);
+      return json;
+    }
+    else {
+      debugPrint("======= ${response.reasonPhrase}");
+      return null;
+    }
   }
 }

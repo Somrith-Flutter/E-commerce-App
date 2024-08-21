@@ -7,4 +7,5 @@ class ApiPath {
   static const setNewPassword = "v1/set-new-password";
   static const getMe = "v1/users-get-one";
   static const getCategories = "get-category";
+  static const confirmViaEmail = "v1/confirm-vai-email";
 }

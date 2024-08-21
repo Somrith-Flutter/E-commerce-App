@@ -76,6 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     await authController.registerController();
     if(authController.status == Status.success) {
+      authController.clearSetter();
       Get.off(const LoginPage());
     }else{
       Get.back();
@@ -169,8 +170,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if(!auth.isConfirm) {
-                            if(authController.fullNameController.text == ""
-                                || authController.emailController.text == ""){
+                            if(authController.fullNameController.text.isEmpty
+                                || authController.emailController.text.isEmpty){
                               Get.back();
                               IconSnackBar.show(
                                 context,
@@ -181,13 +182,22 @@ class _RegisterPageState extends State<RegisterPage> {
                               return;
                             }else{
                               showLoadingDialog(context, label: "Checking...");
-                              await auth.forgotPasswordController();
+                              await auth.confirmViaEmailController();
                               if(auth.status == Status.success){
                                 Get.to(const ForgotPasswordScreen(fixedWidget: 1,));
                                 IconSnackBar.show(
                                   context,
                                   label: 'Verification code have been sent!',
                                   snackBarType: SnackBarType.alert,
+                                  duration: const Duration(seconds: 3),
+                                );
+                                return;
+                              }else{
+                                Get.back();
+                                IconSnackBar.show(
+                                  context,
+                                  label: 'Email already exists!',
+                                  snackBarType: SnackBarType.fail,
                                   duration: const Duration(seconds: 3),
                                 );
                                 return;
