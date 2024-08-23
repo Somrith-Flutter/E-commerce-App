@@ -21,7 +21,6 @@ class AuthRepo{
 
       http.StreamedResponse response = await request.send();
       final res = await response.stream.bytesToString();
-
       if (response.statusCode == 200) {
         debugPrint(res);
         final json = jsonDecode(res);
@@ -173,6 +172,7 @@ class AuthRepo{
   }
 
   Future<Map<String, dynamic>?> refreshUserRepo() async {
+    print("============== old token ${accessToken.$}");
     var headers = {
       'Content-Type': 'application/json'
     };

@@ -56,15 +56,17 @@ class SplashScreenState extends State<SplashScreen> with SingleTickerProviderSta
     _controller.forward();
 
     Future.delayed(const Duration(seconds: 3), () {
-      if(user.status == Status.success && user.tmpNewToken != null && user.tmpNewToken!.isNotEmpty) {
-        Get.off(const DashboardPage());
-      }else{
-        if(user.status == Status.fail){
-          sessionExpired(context);
-          return;
+      if(accessToken.$.isNotEmpty){
+        if(user.status == Status.success && user.tmpNewToken != null && user.tmpNewToken!.isNotEmpty) {
+          Get.off(const DashboardPage());
+        }else{
+          if(user.status == Status.fail){
+            sessionExpired(context);
+            return;
+          }
         }
-        Get.off(const LoginPage());
       }
+      Get.off(const LoginPage());
     });
   }
 
