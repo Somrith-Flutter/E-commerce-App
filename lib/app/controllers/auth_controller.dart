@@ -15,6 +15,7 @@ class AuthController extends GetxController{
   String messages = "";
   List<String> checkServer = ['Service Unavailable', 'Bed Request', 'Not Found'];
   var verifyCode = "00000";
+  String? tmpNewToken;
   int tempUUId = 0;
   Status status = Status.progress;
   int setterIndex = 0;
@@ -111,7 +112,7 @@ class AuthController extends GetxController{
       });
     }catch(e){
       print("========= &&$e");
-      status = Status.fail;
+      status = Status.error;
     }
     update();
   }
@@ -142,7 +143,7 @@ class AuthController extends GetxController{
         uid: userId,
         confirm: confirmViaPasswordController.text).then((v){
           if(v != null){
-            print("============= $v");
+            debugPrint("============= $v");
             status = Status.success;
           }
           return status = Status.fail;
@@ -170,13 +171,35 @@ class AuthController extends GetxController{
   }
 
   Future<void> confirmViaEmailController() async {
-    await authRepo.confirmViaEmailRepo(email: emailController.text).then((v){
-      if(v != null && v['isError'] != false){
-        verifyCode = v['code'];
+    try{
+      await authRepo.confirmViaEmailRepo(email: emailController.text).then((v){
+        if(v != null && v['isError'] != false){
+          verifyCode = v['code'];
+          status = Status.success;
+          return;
+        }
+        status = Status.fail;
+      });
+    }catch(e){
+      status = Status.error;
+      print(e);
+    }
+  }
+
+  Future<void> refreshTokenController () async {
+    try{
+      final token = await authRepo.refreshUserRepo();
+      if(token != null && token['isError'] != true){
+        tmpNewToken = token['new_token'];
+        accessToken.$ = token['new_token'];
+        await accessToken.save();
         status = Status.success;
-        return;
+      }else{
+        status = Status.fail;
       }
-      status = Status.fail;
-    });
+    }catch(e){
+      status = Status.error;
+      debugPrint("======controller $e");
+    }finally{ update(); }
   }
 }

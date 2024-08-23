@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:market_nest_app/app/data/api/api_path.dart';
+import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
 import 'package:market_nest_app/app/data/models/user_models.dart';
 
 class AuthRepo{
@@ -167,6 +168,31 @@ class AuthRepo{
     }
     else {
       debugPrint("======= ${response.reasonPhrase}");
+      return null;
+    }
+  }
+
+  Future<Map<String, dynamic>?> refreshUserRepo() async {
+    var headers = {
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${ApiPath.refreshToken}'));
+    request.body = json.encode({
+      "currentlyToken": accessToken.$
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    final body = await response.stream.bytesToString();
+
+    if (response.statusCode == 200) {
+      debugPrint(await response.stream.bytesToString());
+      Map<String, dynamic> json = jsonDecode(body);
+
+      return json;
+    }
+    else {
+      debugPrint("=========== ${response.reasonPhrase}");
       return null;
     }
   }
