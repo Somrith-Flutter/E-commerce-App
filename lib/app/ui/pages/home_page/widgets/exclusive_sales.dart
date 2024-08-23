@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:market_nest_app/app/ui/pages/home_page/widgets/product_detail.dart';
 
 class ExclusiveSales extends StatefulWidget {
   const ExclusiveSales({super.key});
@@ -70,41 +71,6 @@ class _ExclusiveSalesState extends State<ExclusiveSales> {
         "old_price": "\$20.00",
         "colors": [Colors.blue, Colors.green, Colors.purple, Colors.greenAccent]
       },
-      {
-        "image": "assets/images/apple-watch-7-nike-black.jpg", // Replace with actual asset paths
-        "title": "Loop silicone strong",
-        "price": "\$15.25",
-        "old_price": "\$20.00",
-        "colors": [Colors.blue, Colors.green, Colors.purple, Colors.greenAccent]
-      },
-      {
-        "image": "assets/images/apple-watch-7-nike-black.jpg", // Replace with actual asset paths
-        "title": "Loop silicone strong",
-        "price": "\$15.25",
-        "old_price": "\$20.00",
-        "colors": [Colors.blue, Colors.green, Colors.purple, Colors.greenAccent]
-      },
-      {
-        "image": "assets/images/apple-watch-7-nike-black.jpg", // Replace with actual asset paths
-        "title": "Loop silicone strong",
-        "price": "\$15.25",
-        "old_price": "\$20.00",
-        "colors": [Colors.blue, Colors.green, Colors.purple, Colors.greenAccent]
-      },
-      {
-        "image": "assets/images/apple-watch-7-nike-black.jpg", // Replace with actual asset paths
-        "title": "Loop silicone strong",
-        "price": "\$15.25",
-        "old_price": "\$20.00",
-        "colors": [Colors.blue, Colors.green, Colors.purple, Colors.greenAccent]
-      },
-      {
-        "image": "assets/images/apple-watch-7-nike-black.jpg", // Replace with actual asset paths
-        "title": "Loop silicone strong",
-        "price": "\$15.25",
-        "old_price": "\$20.00",
-        "colors": [Colors.blue, Colors.green, Colors.purple, Colors.greenAccent]
-      },
     ];
 
     return Padding(
@@ -121,84 +87,90 @@ class _ExclusiveSalesState extends State<ExclusiveSales> {
         itemCount: products.length,
         itemBuilder: (context, index) {
           final product = products[index];
-          return Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            elevation: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 1.5,
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15),
-                        ),
-                        child: Image.asset(
-                          product['image'], // Ensure the image path is correct
-                          fit: BoxFit.contain,
+          return GestureDetector(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductDetail()),
+              );
+            },
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              elevation: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Stack(
+                    children: [
+                      AspectRatio(
+                        aspectRatio: 1.5,
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
+                          ),
+                          child: Image.asset(
+                            product['image'], // Ensure the image path is correct
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
-                    ),
-                    const Positioned(
-                      right: 8,
-                      top: 8,
-                      child: Icon(Icons.favorite_border),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    product['title'].toString().tr, // Convert to String and translate
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      const Positioned(
+                        right: 8,
+                        top: 8,
+                        child: Icon(Icons.favorite_border),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      product['title'].toString().tr, // Convert to String and translate
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    product['price'].toString(), // Convert to String
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.red,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      product['price'].toString(), // Convert to String
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.red,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Text(
-                    product['old_price'].toString(), // Convert to String
-                    style: const TextStyle(
-                      fontSize: 14,
-                      decoration: TextDecoration.lineThrough,
-                      color: Colors.grey,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      product['old_price'].toString(), // Convert to String
+                      style: const TextStyle(
+                        fontSize: 14,
+                        decoration: TextDecoration.lineThrough,
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                  child: Row(
-                    children: (product['colors'] as List<Color>).map<Widget>((color) {
-                      return Container(
-                        margin: const EdgeInsets.only(right: 4.0),
-                        width: 12,
-                        height: 12,
-                        decoration: BoxDecoration(
-                          color: color,
-                          shape: BoxShape.circle,
-                        ),
-                      );
-                    }).toList(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                    child: Row(
+                      children: (product['colors'] as List<Color>).map<Widget>((color) {
+                        return Container(
+                          margin: const EdgeInsets.only(right: 4.0),
+                          width: 12,
+                          height: 12,
+                          decoration: BoxDecoration(
+                            color: color,
+                            shape: BoxShape.circle,
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         },
