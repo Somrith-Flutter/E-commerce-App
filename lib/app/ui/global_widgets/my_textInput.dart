@@ -43,6 +43,7 @@ class MyTextInput extends StatefulWidget {
     this.debounce,
     this.enableInteractiveSelection,
     this.clearTextBtn,
+    this.xSize = 16,
   });
 
   final String? label;
@@ -79,6 +80,7 @@ class MyTextInput extends StatefulWidget {
   final String? Function(String text)? validator;
   final void Function()? onUpload;
   final void Function()? onDeleted;
+  final double xSize;
 
   final bool? clearTextBtn;
 
@@ -139,7 +141,7 @@ class _MyTextInputState extends State<MyTextInput> {
               TextSpan(
                 text: widget.xLabel,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: widget.xBold ? FontWeight.bold : null,
+                      fontWeight: widget.xBold ? FontWeight.bold : null,fontSize: widget.xSize,
                     ),
               ),
               if (widget.isRequired)
