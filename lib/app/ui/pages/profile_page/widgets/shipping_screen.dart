@@ -1,98 +1,127 @@
 import 'package:flutter/material.dart';
+import 'package:market_nest_app/app/ui/global_widgets/my_textInput.dart';
+import 'package:market_nest_app/app/ui/global_widgets/text_widget.dart';
+import 'package:market_nest_app/app/ui/themes/app_color.dart';
 
 class ShippingAddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Shipping Address'),
+        title: const Text('Shipping Address'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            _buildTextField('Full Name', 'Enter full name'),
-            SizedBox(height: 16),
-            _buildPhoneNumberField(),
-            SizedBox(height: 16),
-            _buildDropdown('Select Province'),
-            SizedBox(height: 16),
-            _buildDropdown('Select City'),
-            SizedBox(height: 16),
-            _buildTextField('Street Address', 'Enter street address'),
-            SizedBox(height: 16),
-            _buildTextField('Postal Code', 'Enter postal code'),
-            Spacer(),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 48),
-                //primary: Colors.black,
-              ),
-              child: Text('Save'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextField(String label, String hint) {
-    return TextField(
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        border: OutlineInputBorder(),
-      ),
-    );
-  }
-
-  Widget _buildPhoneNumberField() {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          decoration: BoxDecoration(
-            border: Border.all(),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Row(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset('assets/flag.png', width: 24), // Replace with your flag asset
-              Icon(Icons.arrow_drop_down),
+              buildNameField(),
+              const SizedBox(height: 12),
+              buildAddressAndPhoneFields(),
+              const SizedBox(height: 12),
+              buildCityAndProvince(),
+              const SizedBox(height: 12),
+              buildSubmitButton(context),
             ],
           ),
         ),
-        SizedBox(width: 8),
-        Expanded(
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: '+92',
-              border: OutlineInputBorder(),
-            ),
-          ),
+      ),
+    );
+  }
+
+  Widget buildNameField() {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 8),
+        MyTextInput(
+          xLabel: "Full Name",
+          isRequired: true,
+          hintText: "Please Input Full Name",
+          xSize: 18,
         ),
       ],
     );
   }
 
-  Widget _buildDropdown(String label) {
-    return DropdownButtonFormField<String>(
-      decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(),
+  Widget buildAddressAndPhoneFields() {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 8),
+        MyTextInput(
+          xLabel: "Phone Number",
+          isRequired: true,
+          hintText: "Enter Your Phone Number",
+          xSize: 18,
+          prefixIcon: Icon(Icons.arrow_drop_down),
+        ),
+        SizedBox(height: 20.0),
+        MyTextInput(
+          xLabel: "Province",
+          isRequired: true,
+          hintText: "Select Province",
+          xSize: 18,
+          prefixIcon: Icon(Icons.arrow_drop_down),
+        ),
+        SizedBox(height: 20.0),
+        MyTextInput(
+          xLabel: "City",
+          isRequired: true,
+          hintText: "Select City",
+          xSize: 18,
+          prefixIcon: Icon(Icons.arrow_drop_down),
+        ),
+      ],
+    );
+  }
+
+  Widget buildCityAndProvince() {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 8),
+        MyTextInput(
+          xLabel: "Street Address",
+          isRequired: true,
+          hintText: "Enter street address",
+          xSize: 18,
+        ),
+        SizedBox(height: 20),
+        MyTextInput(
+          xLabel: "Postal Code",
+          isRequired: true,
+          hintText: "Enter postal code",
+          xSize: 18,
+        ),
+
+      ],
+    );
+  }
+
+  Widget buildSubmitButton(BuildContext context) {
+    return Center(
+      child: ElevatedButton(
+        onPressed: () {
+
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.black,
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 160),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        child: const Text(
+          'Save',
+          style: TextStyle(fontSize: 16,color: Colors.white),
+        ),
       ),
-      items: <String>['Option 1', 'Option 2', 'Option 3'].map((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-      onChanged: (_) {},
     );
   }
 }
