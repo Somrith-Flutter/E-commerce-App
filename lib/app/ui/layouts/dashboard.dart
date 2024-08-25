@@ -56,8 +56,14 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   void initState() {
-    user.getMeController(getToken: accessToken.$);
+    initMe();
     super.initState();
+  }
+
+  void initMe() async {
+    await user.refreshTokenController().then((_){
+      user.getMeController(getToken: accessToken.$);
+    });
   }
 
   @override

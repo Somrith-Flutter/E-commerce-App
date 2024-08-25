@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
 import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
+import 'package:market_nest_app/app/data/helpers.dart';
 import 'package:market_nest_app/app/ui/pages/authentication_page/forgot_password.dart';
 import 'package:market_nest_app/app/ui/pages/authentication_page/login_page.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
@@ -24,6 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late Future<PackageInfo> _packageInfoFuture;
   final _auth = Get.find<AuthController>();
   AuthController get auth => _auth;
+  final _timer = CountdownTimer();
 
   @override
   void initState() {
@@ -48,8 +50,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildSliverAppBar() {
-    // const profileUrl =
-    //     'https://scontent.fpnh19-1.fna.fbcdn.net/v/t39.30808-6/453846779_1641392353383865_3619548638661995903_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEUW9z93eWyYyoqV81v_XpTzXa7gB_2cizNdruAH_ZyLKx7W8bk_a8mA7XTXM4JGYkTDpUmr-yL7OF-xU54ZGEA&_nc_ohc=Lgp7FjZrDYgQ7kNvgF-Nsbh&_nc_ht=scontent.fpnh19-1.fna&oh=00_AYAtTIG1Apm-GuVyviV2VyADAupdqt6YLSz77lHkxyvTRg&oe=66C3ED27';
+    const profileUrl =
+        'https://i.pinimg.com/564x/86/a8/ef/86a8ef5ff3a046bfd168695b6e9d6608.jpg';
 
     return SliverAppBar(
       automaticallyImplyLeading: false,
@@ -63,7 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           bool isExpanded = constraints.biggest.height > 175;
           return FlexibleSpaceBar(
             titlePadding: EdgeInsets.all(isExpanded ? 28 : 0),
-            title: _buildProfileHeader("", isExpanded),
+            title: _buildProfileHeader(profileUrl, isExpanded),
             background: _buildHeaderBackground(),
           );
         },
@@ -190,6 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               const Divider(),
               _buildProfileOption(Icons.logout, 'Logout', onTap: () {
+                _timer.clear();
                 logout(context);
               }, color: Colors.redAccent),
               const Divider(),

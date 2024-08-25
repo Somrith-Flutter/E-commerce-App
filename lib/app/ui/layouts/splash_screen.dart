@@ -28,7 +28,6 @@ class SplashScreenState extends State<SplashScreen> with SingleTickerProviderSta
   @override
   void initState() {
     super.initState();
-    user.refreshTokenController();
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -55,18 +54,8 @@ class SplashScreenState extends State<SplashScreen> with SingleTickerProviderSta
 
     _controller.forward();
 
-    Future.delayed(const Duration(seconds: 3), () {
-      if(accessToken.$.isNotEmpty){
-        if(user.status == Status.success && user.tmpNewToken != null && user.tmpNewToken!.isNotEmpty) {
-          Get.off(const DashboardPage());
-        }else{
-          if(user.status == Status.fail){
-            sessionExpired(context);
-            return;
-          }
-        }
-      }
-      Get.off(const LoginPage());
+    Future.delayed(const Duration(seconds: 3), () async {
+      accessToken.$.isNotEmpty ? Get.off(const DashboardPage()) : Get.off(const LoginPage());
     });
   }
 

@@ -252,7 +252,9 @@ class _PinPutCodeState extends State<PinPutCode> {
                         final remainingTime = snapshot.data!;
                         if (limitTime.$ == 3 || limitTime.$ == 4) {
                           return Text(
-                            'Try again in ${remainingTime.inHours.toString().padLeft(2, '0')}:${remainingTime.inMinutes.remainder(60).toString().padLeft(2, '0')}:${remainingTime.inSeconds.remainder(60).toString().padLeft(2, '0')}',
+                            'Try again in ${remainingTime.inHours.toString().padLeft(2, '0')}'
+                                ':${remainingTime.inMinutes.remainder(60).toString().padLeft(2, '0')}'
+                                ':${remainingTime.inSeconds.remainder(60).toString().padLeft(2, '0')}',
                             style: const TextStyle(
                               fontSize: 14,
                               color: Colors.black54,

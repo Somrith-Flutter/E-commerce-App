@@ -32,7 +32,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   void initState() {
-    Future.delayed(const Duration(milliseconds: 100), () {
+    Future.delayed(Duration.zero, () {
+      _auth.clearSetter();
       widget.fixedWidget != 0 ?
       _auth.widgetTrigger(widget.fixedWidget??0) : _auth.widgetTrigger(0);
     });
@@ -54,7 +55,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
-              onPressed: () {
+              onPressed: () async {
                 Get.back();
                 _auth.clearSetter();
               },
@@ -65,20 +66,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               style: const TextStyle(fontSize: 18),
             ),
             actions: [
-              if(widget.fixedWidget != 0)
-                const SizedBox()
-              else
-                Row(
+              Row(
                 children: [
                   Text(
                     "0${_auth.setterIndex+1}",
-                    style:
-                        const TextStyle(color: AppColors.black, fontSize: 16),
+                    style: const TextStyle(color: AppColors.black, fontSize: 16),
                   ),
                   Text(
-                    "/0${finalStep.toString()}",
+                    "/0${widget.fixedWidget == 0
+                        && widget.isFromChangePassword == false ? finalStep.toString() : 2}",
                     style:
-                        const TextStyle(color: AppColors.grey150, fontSize: 16),
+                    const TextStyle(color: AppColors.grey150, fontSize: 16),
                   ),
                 ],
               ),

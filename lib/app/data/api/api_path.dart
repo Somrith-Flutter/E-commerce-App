@@ -5,10 +5,10 @@ class ApiPath {
   static const register = "v1/create-me";
   static const forgetPassword = "v1/forget-password";
   static const setNewPassword = "v1/set-new-password";
-  static const getMe = "v1/users-get-one";
+  static const getMe = "v1/get-me";
   static const getCategories = "get-category";
   static const confirmViaEmail = "v1/confirm-vai-email";
-  static const removeUser = "v1/remove-user/"; ///v1/remove-user/:id
+  static const removeUser = "v1/remove-user/";
   static const updateUser = "v1/update";
   static const refreshToken = "v1/generate-new-token";
   static const addToFavorite = "add-to-favorit/products";

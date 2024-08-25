@@ -120,28 +120,27 @@ class AuthRepo{
     }
   }
 
-  Future<List<UserModel>?> getMeRepo({required String userToken}) async {
-    print("token repo $userToken");
+  Future<UserModel?> getMeRepo({required String userToken}) async {
+    debugPrint("token repo $userToken");
     var headers = {
       'Content-Type': 'application/json'
     };
     var request = http.Request('GET', Uri.parse('${ApiPath.baseUrl}/${ApiPath.getMe}'));
     request.body = json.encode({
-      "token": userToken
+      "token": userToken.toString()
     });
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
     final body = await response.stream.bytesToString();
+    print("=============^^^^^ $body");
 
     if (response.statusCode == 200) {
-      List<UserModel> userModel = [];
       Map<String, dynamic> json = jsonDecode(body);
-      userModel.add(UserModel.fromJson(json));
+      UserModel userModel = UserModel.fromJson(json);
       return userModel;
     }
     else {
-      debugPrint(body);
       debugPrint(response.reasonPhrase);
     }
     return null;
@@ -172,23 +171,18 @@ class AuthRepo{
   }
 
   Future<Map<String, dynamic>?> refreshUserRepo() async {
-    print("============== old token ${accessToken.$}");
     var headers = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${accessToken.$}'
     };
     var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${ApiPath.refreshToken}'));
-    request.body = json.encode({
-      "currentlyToken": accessToken.$
-    });
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
     final body = await response.stream.bytesToString();
 
     if (response.statusCode == 200) {
-      debugPrint(await response.stream.bytesToString());
       Map<String, dynamic> json = jsonDecode(body);
-
       return json;
     }
     else {

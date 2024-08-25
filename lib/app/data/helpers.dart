@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
 import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
@@ -12,17 +13,24 @@ class CountdownTimer {
   final BehaviorSubject<Duration> _remainingTimeSubject = BehaviorSubject<Duration>();
   Stream<Duration> get remainingTimeStream => _remainingTimeSubject.stream;
   StreamSubscription<Duration>? _subscription;
+  bool _isTimerRunning = false; // To track if the timer is already running
 
   CountdownTimer() {
     _startCountdown();
   }
 
   Future<void> _startCountdown() async {
+    if (_isTimerRunning) {
+      // Prevent the countdown from starting again if it's already running
+      return;
+    }
+
+    _isTimerRunning = true; // Mark the timer as running
+
     final prefs = await SharedPreferences.getInstance();
     DateTime? nextTarget;
-
-    // Retrieve the saved target time
     final savedTargetTime = prefs.getString('targetTime');
+
     if (savedTargetTime != null) {
       nextTarget = DateTime.parse(savedTargetTime);
     } else {
@@ -32,7 +40,7 @@ class CountdownTimer {
       } else if (limitTime.$ == 4) {
         nextTarget = DateTime(now.year, now.month, now.day).add(const Duration(days: 1));
       } else {
-        nextTarget = now.add(const Duration(seconds: 10));
+        nextTarget = now.add(const Duration(seconds: 30));
       }
       await prefs.setString('targetTime', nextTarget.toIso8601String());
     }
@@ -42,22 +50,37 @@ class CountdownTimer {
       await _handleTimeEnd(prefs);
       return;
     }
+
     _remainingTimeSubject.add(remainingTime);
+
     _subscription = Stream.periodic(const Duration(seconds: 1), (_) {
       remainingTime = nextTarget!.difference(DateTime.now());
       return remainingTime;
     }).listen((remainingTime) async {
-      _remainingTimeSubject.add(remainingTime);
-      if (remainingTime <= Duration.zero || remainingTime.inMilliseconds <= 500) {
+      if (remainingTime <= Duration.zero) {
         await _handleTimeEnd(prefs);
-        _subscription?.cancel();
+      } else {
+        _remainingTimeSubject.add(remainingTime);
       }
     });
   }
 
   Future<void> _handleTimeEnd(SharedPreferences prefs) async {
+    if (!_isTimerRunning) return;
+
+    _subscription?.cancel();
     _remainingTimeSubject.add(Duration.zero);
     _auth.timerTrigger();
+    await prefs.remove('targetTime');
+
+    _isTimerRunning = false;
+  }
+
+  Future<void> clear() async {
+    _subscription?.cancel();
+    _remainingTimeSubject.add(Duration.zero);
+    _isTimerRunning = false;
+    final prefs = await SharedPreferences.getInstance();
     await prefs.remove('targetTime');
   }
 

@@ -4,7 +4,7 @@ import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
 import 'package:market_nest_app/app/data/models/user_models.dart';
 import 'package:market_nest_app/app/data/repositories/auth_repo.dart';
 
-class AuthController extends GetxController{
+class AuthController extends GetxController {
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -13,19 +13,21 @@ class AuthController extends GetxController{
   final authRepo = AuthRepo();
   int remainingTime = 0;
   String messages = "";
-  List<String> checkServer = ['Service Unavailable', 'Bed Request', 'Not Found'];
+  List<String> checkServer = [
+    'Service Unavailable',
+    'Bed Request',
+    'Not Found'
+  ];
   var verifyCode = "00000";
-  String? tmpNewToken;
+  String tmpNewToken = "";
   int tempUUId = 0;
   Status status = Status.progress;
   int setterIndex = 0;
   UserModel? userModel;
   bool isConfirm = false;
-  List<UserModel?> newUserModel = [];
+  UserModel? newUserModel;
 
-  void init(){
-
-  }
+  void init() {}
 
   void resetLimitTimer() async {
     limitTime.$ = 0;
@@ -38,7 +40,7 @@ class AuthController extends GetxController{
     update();
   }
 
-  void clearSetter(){
+  void clearSetter() {
     setterIndex = 1;
     emailController.clear();
     fullNameController.clear();
@@ -50,7 +52,7 @@ class AuthController extends GetxController{
     update();
   }
 
-  void checkEmailConfirmation({bool c = false}){
+  void checkEmailConfirmation({bool c = false}) {
     isConfirm = c;
     update();
   }
@@ -58,26 +60,27 @@ class AuthController extends GetxController{
   Future<void> logout() async {
     accessToken.$ = "";
     await accessToken.save();
+    timerTrigger();
     update();
   }
 
   Future<void> loginController() async {
-    try{
+    try {
       final authentication = await authRepo.loginRepo(
           emailAddress: emailController.text,
           password: passwordController.text);
 
-      if(authentication != ""){
+      if (authentication != "") {
         accessToken.$ = authentication;
         await accessToken.save();
         status = Status.success;
-      }else{
+      } else {
         status = Status.fail;
       }
-    }catch(e){
+    } catch (e) {
       debugPrint("================&&&& $e");
       status = Status.fail;
-    }finally{
+    } finally {
       update();
     }
   }
@@ -89,117 +92,129 @@ class AuthController extends GetxController{
       limitTime.$ = 0;
       await limitTime.save();
     }
-
-    print("========== controller ${ended.$}");
     update();
   }
 
   Future<void> registerController() async {
-    try{
-      await authRepo.registerRepo(
-        name: fullNameController.text,
-        email: emailController.text,
-        password: passwordController.text,
-        phone: phoneController.text,
-        confirmPassword: confirmViaPasswordController.text
-      ).then((data){
-        if(data != null && data['isError'] == false){
+    try {
+      await authRepo
+          .registerRepo(
+              name: fullNameController.text,
+              email: emailController.text,
+              password: passwordController.text,
+              phone: phoneController.text,
+              confirmPassword: confirmViaPasswordController.text)
+          .then((data) {
+        if (data != null && data['isError'] == false) {
           status = Status.success;
           update();
-        }else{
+        } else {
           status = Status.fail;
         }
       });
-    }catch(e){
-      print("========= &&$e");
+    } catch (e) {
+      debugPrint("========= &&$e");
       status = Status.error;
     }
     update();
   }
 
   Future<void> forgotPasswordController() async {
-    try{
-      await authRepo.forgotPasswordRepo(email: emailController.text).then((code){
-        if(code != null){
+    ended.$ = true;
+    await ended.save();
+    if (limitTime.$ < 4) {
+      limitTime.$ += 1;
+      await limitTime.save();
+    }
+
+    try {
+      await authRepo
+          .forgotPasswordRepo(email: emailController.text)
+          .then((code) {
+        if (code != null) {
           verifyCode = code['verify_via_code'];
           tempUUId = code['user_id'];
           status = Status.success;
-        }else{
+        } else {
           status = Status.fail;
         }
       });
-    }catch(e){
+    } catch (e) {
       debugPrint("error ${e.toString()}");
-      status = Status.fail;
-    }finally{
+      status = Status.error;
+    } finally {
       update();
     }
   }
 
   void updatePassword({required String userId}) async {
-    try{
-      await authRepo.resetPassword(
-        newPassword: passwordController.text,
-        uid: userId,
-        confirm: confirmViaPasswordController.text).then((v){
-          if(v != null){
-            debugPrint("============= $v");
-            status = Status.success;
-          }
-          return status = Status.fail;
+    try {
+      await authRepo
+          .resetPassword(
+              newPassword: passwordController.text,
+              uid: userId,
+              confirm: confirmViaPasswordController.text)
+          .then((v) {
+        if (v != null) {
+          debugPrint("============= $v");
+          status = Status.success;
+        }
+        return status = Status.fail;
       });
-    }catch(e){
+    } catch (e) {
       status = Status.fail;
-    }finally{
+    } finally {
       update();
     }
   }
 
   void getMeController({required String getToken}) async {
-    try{
-      await authRepo.getMeRepo(userToken: getToken).then((user){
-        if(user != null){
+    try {
+      await authRepo.getMeRepo(userToken: getToken).then((user) {
+        if (user != null) {
           newUserModel = user;
           status = Status.success;
         }
       });
-    }catch(e){
-      debugPrint("============= $e");
-    }finally{
+    } catch (e) {
+      debugPrint("get me catch$e");
+    } finally {
       update();
     }
   }
 
   Future<void> confirmViaEmailController() async {
-    try{
-      await authRepo.confirmViaEmailRepo(email: emailController.text).then((v){
-        if(v != null && v['isError'] != false){
+    try {
+      await authRepo.confirmViaEmailRepo(email: emailController.text).then((v) {
+        if (v != null && v['isError'] != false) {
           verifyCode = v['code'];
           status = Status.success;
           return;
         }
         status = Status.fail;
       });
-    }catch(e){
+    } catch (e) {
       status = Status.error;
-      print(e);
+      debugPrint(e.toString());
     }
   }
 
-  Future<void> refreshTokenController () async {
-    try{
+  Future<void> refreshTokenController() async {
+    try {
       final token = await authRepo.refreshUserRepo();
-      if(token != null && token['isError'] != true){
-        tmpNewToken = token['new_token'];
+
+      if (token != null && token['isError'] != true) {
         accessToken.$ = token['new_token'];
         await accessToken.save();
         status = Status.success;
-      }else{
+      } else {
         status = Status.fail;
       }
-    }catch(e){
+    } catch (e) {
       status = Status.error;
       debugPrint("======controller $e");
-    }finally{ update(); }
+    } finally {
+      update();
+    }
   }
 }

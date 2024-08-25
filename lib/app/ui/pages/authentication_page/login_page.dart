@@ -63,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     if(accessToken.toString().isNotEmpty && user.status == Status.success){
+      user.clearSetter();
       Get.off(const DashboardPage());
     }
     return false;
@@ -70,6 +71,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
+    Future.delayed(Duration.zero, (){ user.clearSetter(); });
     super.initState();
   }
 

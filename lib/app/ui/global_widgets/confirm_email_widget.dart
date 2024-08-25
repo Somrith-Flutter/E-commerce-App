@@ -41,6 +41,7 @@ class _ConfirmEmailWidgetState extends State<ConfirmEmailWidget> {
             child: ElevatedButton(
               onPressed: () async {
                 showLoadingDialog(context, label: "Checking...");
+                Future.delayed(const Duration(milliseconds: 200), (){});
 
                 if(_auth.emailController.text.isEmpty || !_auth.emailController.text.contains("@gmail.com")){
                   Get.back();
@@ -64,7 +65,9 @@ class _ConfirmEmailWidgetState extends State<ConfirmEmailWidget> {
                   return;
                 }else{
                   Get.back();
-                  _auth.widgetTrigger(1);
+                  setState(() {
+                    _auth.widgetTrigger(1);
+                  });
                 }
               },
               style: ElevatedButton.styleFrom(
