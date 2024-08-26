@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:market_nest_app/app/ui/global_widgets/my_textInput.dart';
-import 'package:market_nest_app/app/ui/global_widgets/text_widget.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 
 class ShippingAddressScreen extends StatelessWidget {

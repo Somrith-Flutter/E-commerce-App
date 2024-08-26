@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -23,7 +22,6 @@ class _ProductDetailState extends State<ProductDetail> {
       'assets/images/apple03.jpg'
 
     ];
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Product Details".tr),
