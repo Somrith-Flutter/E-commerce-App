@@ -7,7 +7,6 @@ import 'package:market_nest_app/app/data/helpers.dart';
 import 'package:market_nest_app/app/ui/pages/authentication_page/forgot_password.dart';
 import 'package:market_nest_app/app/ui/pages/authentication_page/login_page.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
-import 'package:market_nest_app/app/ui/pages/profile_page/widgets/change_password.dart';
 import 'package:market_nest_app/app/ui/pages/profile_page/widgets/faq.dart';
 import 'package:market_nest_app/app/ui/pages/profile_page/widgets/order_history.dart';
 import 'package:market_nest_app/app/ui/pages/profile_page/widgets/payment.dart';

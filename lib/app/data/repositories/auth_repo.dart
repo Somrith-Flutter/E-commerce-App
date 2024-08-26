@@ -72,6 +72,7 @@ class AuthRepo{
   Future<Map<String, dynamic>?> forgotPasswordRepo({required String email}) async {
     var headers = {
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${accessToken.$}'
     };
     var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${ApiPath.forgetPassword}'));
     request.body = json.encode({
