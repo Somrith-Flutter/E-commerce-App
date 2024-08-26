@@ -6,6 +6,7 @@ import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
 import 'package:market_nest_app/app/data/helpers.dart';
 import 'package:market_nest_app/app/ui/pages/authentication_page/forgot_password.dart';
 import 'package:market_nest_app/app/ui/pages/authentication_page/login_page.dart';
+import 'package:market_nest_app/app/ui/pages/profile_page/widgets/deactivate_account.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/app/ui/pages/profile_page/widgets/faq.dart';
 import 'package:market_nest_app/app/ui/pages/profile_page/widgets/order_history.dart';
@@ -228,7 +229,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const Divider(),
               _buildProfileOption(CupertinoIcons.delete, 'Deactivate Account',
                   onTap: () {
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagesScreen()));
+                Get.to(const DeactivateAccount());
               }, color: Colors.redAccent, colorText: Colors.redAccent),
             ],
           ),

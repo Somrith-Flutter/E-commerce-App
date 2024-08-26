@@ -161,7 +161,6 @@ class AuthRepo{
     final body = await response.stream.bytesToString();
 
     if (response.statusCode == 200) {
-      debugPrint(body);
       final json = jsonDecode(body);
       return json;
     }
@@ -190,5 +189,27 @@ class AuthRepo{
       debugPrint("=========== ${response.reasonPhrase}");
       return null;
     }
+  }
+
+  Future<Map<String, dynamic>?> deleteUserRepo({required String userId}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${accessToken.$}'
+    };
+    var request = http.Request('DELETE', Uri.parse('${ApiPath.baseUrl}/${ApiPath.removeUser}/$userId'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var d = await response.stream.bytesToString();
+      Map<String, dynamic> jsonResponse = jsonDecode(d);
+      return jsonResponse;
+    }
+    else {
+      debugPrint(response.reasonPhrase);
+    }
+    return null;
   }
 }

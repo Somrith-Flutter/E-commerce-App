@@ -217,4 +217,20 @@ class AuthController extends GetxController {
       update();
     }
   }
+
+  Future<void> removeUserController({required String userId}) async {
+    try{
+      final d = await authRepo.deleteUserRepo(userId: userId);
+
+      if(d?['isError'] != true){
+        status = Status.success;
+      }else{
+        status = Status.fail;
+      }
+    }catch(e){
+      debugPrint("===========!!!! $e");
+      status = Status.error;
+    }
+    update();
+  }
 }
