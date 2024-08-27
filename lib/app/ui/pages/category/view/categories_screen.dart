@@ -6,6 +6,7 @@ import 'package:market_nest_app/app/ui/pages/category/controller/category_contro
 import 'package:market_nest_app/app/ui/pages/category/repository/category_repository.dart';
 import 'package:market_nest_app/app/ui/pages/category/model/category_model.dart';
 import 'package:market_nest_app/app/ui/pages/sub_category/view/sub_category_view.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
@@ -29,7 +30,30 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       ),
       body: Obx(() {
         if (categoryController.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return Skeletonizer(
+            enabled: categoryController.isLoading.value,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GridView.builder(
+                itemCount: 7,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16.0,
+                  mainAxisSpacing: 16.0,
+                  childAspectRatio: 1.0,
+                ),
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      title: Text('Item number $index as title'),
+                      subtitle: const Text('Subtitle here'),
+                      trailing: const Icon(Icons.ac_unit),
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
         } else if (categoryController.categories.isEmpty) {
           return const Center(child: Text('No categories available.'));
         } else {

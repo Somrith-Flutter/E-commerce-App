@@ -4,12 +4,13 @@ import 'package:market_nest_app/app/data/api/api_path.dart';
 import 'package:market_nest_app/app/ui/pages/product/view/product_view.dart';
 import 'package:market_nest_app/app/ui/pages/sub_category/controller/sub_category_controller.dart';
 import 'package:market_nest_app/app/ui/pages/sub_category/repository/sub_category_repository.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class SubCategoriesScreen extends StatelessWidget {
   final int categoryId;
   final String categoryName;
 
-  SubCategoriesScreen({required this.categoryId, required this.categoryName, super.key});
+  const SubCategoriesScreen({required this.categoryId, required this.categoryName, super.key});
   @override
   Widget build(BuildContext context) {
     final SubCategoryController subCategoryController = Get.put(
@@ -22,12 +23,34 @@ class SubCategoriesScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           categoryName,
-          style: TextStyle(color: Colors.black),
         ),
       ),
       body: Obx(() {
         if (subCategoryController.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return Skeletonizer(
+            enabled: subCategoryController.isLoading.value,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GridView.builder(
+                itemCount: 5,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16.0,
+                  mainAxisSpacing: 16.0,
+                  childAspectRatio: 1.0,
+                ),
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      title: Text('Item number $index as title'),
+                      subtitle: const Text('Subtitle here'),
+                      trailing: const Icon(Icons.ac_unit),
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
         } else if (subCategoryController.subCategories.isEmpty) {
           return const Center(child: Text('No sub-categories available.'));
         } else {

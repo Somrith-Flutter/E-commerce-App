@@ -1,22 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:market_nest_app/app/controllers/theme_controller.dart';
 import 'package:market_nest_app/app/data/api/api_path.dart';
 import 'package:market_nest_app/app/ui/pages/product/controller/product_controller.dart';
 import 'package:market_nest_app/app/ui/pages/product/repository/product_repository.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-class ProductScreen extends StatelessWidget {
+class ProductScreen extends StatefulWidget {
   final int subCategoryId;
+  const ProductScreen({required this.subCategoryId, super.key});
 
-  ProductScreen({required this.subCategoryId, super.key});
+  @override
+  State<ProductScreen> createState() => _ProductScreenState();
+}
+
+class _ProductScreenState extends State<ProductScreen> {
+  final ProductController productController = Get.put(
+    ProductController(repository: ProductRepository()),
+  );
+  final _themeController = Get.find<ThemeController>();
+
+  @override
+  void initState() {
+    productController.fetchProducts(subCategoryId: widget.subCategoryId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final ProductController productController = Get.put(
-      ProductController(repository: ProductRepository()),
-    );
-
-    productController.fetchProducts(subCategoryId: subCategoryId);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -26,14 +37,37 @@ class ProductScreen extends StatelessWidget {
       ),
       body: Obx(() {
         if (productController.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return Skeletonizer(
+            enabled: productController.isLoading.value,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GridView.builder(
+                itemCount: productController.products.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16.0,
+                  mainAxisSpacing: 16.0,
+                  childAspectRatio: 1.0,
+                ),
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      title: Text('Item number $index as title'),
+                      subtitle: const Text('Subtitle here'),
+                      trailing: const Icon(Icons.ac_unit),
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
         } else if (productController.products.isEmpty) {
           return const Center(child: Text('No products available.'));
         } else {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: GridView.builder(
-              itemCount: productController.products.length,
+              itemCount: 5,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 8.0,
@@ -72,16 +106,18 @@ class ProductScreen extends StatelessWidget {
                           const SizedBox(height: 8.0),
                           Text(
                             product.productName,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
+                              color: _themeController.currentTheme.value != ThemeMode.light ? Colors.black : Colors.brown,
                             ),
                             textAlign: TextAlign.center,
                           ),
                           Text(
                             product.description,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 12.0,
+                              color: _themeController.currentTheme.value != ThemeMode.light ? Colors.black : Colors.brown,
                             ),
                             textAlign: TextAlign.center,
                           ),
