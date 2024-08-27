@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/data/api/api_path.dart';
+import 'package:market_nest_app/app/ui/pages/product/view/product_view.dart';
 import 'package:market_nest_app/app/ui/pages/sub_category/controller/sub_category_controller.dart';
 import 'package:market_nest_app/app/ui/pages/sub_category/repository/sub_category_repository.dart';
 
@@ -44,7 +45,12 @@ class SubCategoriesScreen extends StatelessWidget {
                 final subCategory = subCategoryController.subCategories[index];
                 return InkWell(
                   onTap: () {
-                    // Handle sub-category click
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProductScreen(subCategoryId: subCategory.id),
+                      ),
+                    );
                   },
                   child: Card(
                     elevation: 2.0,
