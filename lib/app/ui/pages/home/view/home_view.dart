@@ -179,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SubCategoriesScreen(categoryId: category.id),
+            builder: (context) => SubCategoriesScreen(categoryId: category.id, categoryName: category.name,),
           ),
         );
       },

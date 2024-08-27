@@ -7,9 +7,9 @@ import 'package:market_nest_app/app/ui/pages/sub_category/repository/sub_categor
 
 class SubCategoriesScreen extends StatelessWidget {
   final int categoryId;
+  final String categoryName;
 
-  SubCategoriesScreen({required this.categoryId, super.key});
-
+  SubCategoriesScreen({required this.categoryId, required this.categoryName, super.key});
   @override
   Widget build(BuildContext context) {
     final SubCategoryController subCategoryController = Get.put(
@@ -20,8 +20,8 @@ class SubCategoriesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Sub-Categories",
+        title: Text(
+          categoryName,
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -32,14 +32,14 @@ class SubCategoriesScreen extends StatelessWidget {
           return const Center(child: Text('No sub-categories available.'));
         } else {
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: GridView.builder(
               itemCount: subCategoryController.subCategories.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                crossAxisSpacing: 8.0,
-                mainAxisSpacing: 8.0,
-                childAspectRatio: 2 / 2,
+                crossAxisSpacing: 16.0,
+                mainAxisSpacing: 16.0,
+                childAspectRatio: 0.8,
               ),
               itemBuilder: (context, index) {
                 final subCategory = subCategoryController.subCategories[index];
@@ -52,41 +52,37 @@ class SubCategoriesScreen extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Card(
-                    elevation: 2.0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.0),
-                        color: Colors.blue[50],
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.network(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.0), 
+                          color: Colors.grey[200], 
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16.0), 
+                          child: Image.network(
                             ApiPath.baseUrl + subCategory.imageUrl,
-                            width: 40.0,
-                            height: 40.0,
-                            fit: BoxFit.contain,
+                            width: double.infinity,
+                            height: 140,
+                            fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
-                              return const Icon(Icons.broken_image, size: 40);
+                              return const Icon(Icons.broken_image, size: 80);
                             },
                           ),
-                          const SizedBox(height: 8.0),
-                          Text(
-                            subCategory.title,
-                            style: const TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: 8),
+                      Text(
+                        subCategory.title,
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                 );
               },
