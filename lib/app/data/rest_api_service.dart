@@ -6,33 +6,35 @@ import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
 
 class RestApiService {
   Future<dynamic> get(String url, {Map<String, dynamic>? body}) async {
-  try {
-    var uri = Uri.parse('${ApiPath.baseUrl}/$url');
-    if (body != null) {
-      uri = uri.replace(queryParameters: body);
-    }
-    final response = await http.get(
-      uri,
-      headers: {
+    try {
+      var uri = Uri.parse('${ApiPath.baseUrl}/$url');
+      var request = http.Request('GET', uri);
+
+      request.headers.addAll({
         'Accept': '*/*',
-        'Authorization': 'Bearer ${accessToken.$}', // Make sure the token is correctly formatted
-      },
-    );
+        'Authorization': 'Bearer ${accessToken.$}', 
+        'Content-Type': 'application/json',
+      });
 
-    // Debug print the raw response
-    debugPrint('Response Status: ${response.statusCode}');
-    debugPrint('Response Body: ${response.body}');
+      if (body != null) {
+        request.body = jsonEncode(body);
+      }
 
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to load data');
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      debugPrint('Response Status: ${response.statusCode}');
+      debugPrint('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      debugPrint('Error in get request: $e');
+      rethrow;
     }
-  } catch (e) {
-    debugPrint('Error in get request: $e');
-    rethrow;
   }
-}
 
 
   Future<void> post(String url, dynamic body, {Map<String, dynamic>? params}) async {

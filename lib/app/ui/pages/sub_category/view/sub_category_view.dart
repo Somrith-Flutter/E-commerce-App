@@ -1,36 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/data/api/api_path.dart';
-import 'package:market_nest_app/app/ui/pages/category/controller/category_controller.dart';
-import 'package:market_nest_app/app/ui/pages/category/repository/category_repository.dart';
-import 'package:market_nest_app/app/ui/pages/category/model/category_model.dart';
-import 'package:market_nest_app/app/ui/pages/sub_category/view/sub_category_view.dart';
+import 'package:market_nest_app/app/ui/pages/sub_category/controller/sub_category_controller.dart';
+import 'package:market_nest_app/app/ui/pages/sub_category/repository/sub_category_repository.dart';
 
-class CategoriesScreen extends StatelessWidget {
-  final CategoryController categoryController =
-      Get.put(CategoryController(repository: CategoryRepository()));
+class SubCategoriesScreen extends StatelessWidget {
+  final int categoryId;
 
-  CategoriesScreen({super.key});
+  SubCategoriesScreen({required this.categoryId, super.key});
 
   @override
   Widget build(BuildContext context) {
+    final SubCategoryController subCategoryController = Get.put(
+      SubCategoryController(repository: SubCategoryRepository()),
+    );
+
+    subCategoryController.fetchSubCategories(categoryId: categoryId);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Categories",
+          "Sub-Categories",
           style: TextStyle(color: Colors.black),
         ),
       ),
       body: Obx(() {
-        if (categoryController.isLoading.value) {
+        if (subCategoryController.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
-        } else if (categoryController.categories.isEmpty) {
-          return const Center(child: Text('No categories available.'));
+        } else if (subCategoryController.subCategories.isEmpty) {
+          return const Center(child: Text('No sub-categories available.'));
         } else {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: GridView.builder(
-              itemCount: categoryController.categories.length,
+              itemCount: subCategoryController.subCategories.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 8.0,
@@ -38,15 +41,10 @@ class CategoriesScreen extends StatelessWidget {
                 childAspectRatio: 2 / 2,
               ),
               itemBuilder: (context, index) {
-                CategoryModel category = categoryController.categories[index];
+                final subCategory = subCategoryController.subCategories[index];
                 return InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SubCategoriesScreen(categoryId: category.id),
-                      ),
-                    );
+                    // Handle sub-category click
                   },
                   child: Card(
                     elevation: 2.0,
@@ -63,7 +61,7 @@ class CategoriesScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.network(
-                            ApiPath.baseUrl + category.imageUrl,
+                            ApiPath.baseUrl + subCategory.imageUrl,
                             width: 40.0,
                             height: 40.0,
                             fit: BoxFit.contain,
@@ -73,17 +71,10 @@ class CategoriesScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 8.0),
                           Text(
-                            category.name,
+                            subCategory.title,
                             style: const TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            category.description,
-                            style: const TextStyle(
-                              fontSize: 12.0,
                             ),
                             textAlign: TextAlign.center,
                           ),
