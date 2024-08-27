@@ -293,13 +293,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           value: _theme.currentTheme.value == ThemeMode.dark,
           onChanged: (value) {
             _theme.switchTheme();
-            Get.changeThemeMode(_theme.currentTheme.value);
           },
           activeColor: Colors.white,
           inactiveThumbColor: Colors.grey,
           activeTrackColor: _theme.currentTheme.value == ThemeMode.dark
-              ? Colors.green
-              : Colors.grey,
+            ? Colors.green
+            : Colors.grey,
         ),
       ),
     );

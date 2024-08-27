@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:market_nest_app/app/controllers/theme_controller.dart';
 import 'package:market_nest_app/app/data/api/api_path.dart';
 import 'package:market_nest_app/app/ui/pages/category/controller/category_controller.dart';
 import 'package:market_nest_app/app/ui/pages/category/repository/category_repository.dart';
 import 'package:market_nest_app/app/ui/pages/category/model/category_model.dart';
 import 'package:market_nest_app/app/ui/pages/sub_category/view/sub_category_view.dart';
 
-class CategoriesScreen extends StatelessWidget {
+class CategoriesScreen extends StatefulWidget {
+  const CategoriesScreen({super.key});
+
+  @override
+  State<CategoriesScreen> createState() => _CategoriesScreenState();
+}
+
+class _CategoriesScreenState extends State<CategoriesScreen> {
   final CategoryController categoryController =
       Get.put(CategoryController(repository: CategoryRepository()));
-
-  CategoriesScreen({super.key});
+  final ThemeController _themeController = Get.find<ThemeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +25,6 @@ class CategoriesScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           "Categories",
-          style: TextStyle(color: Colors.black),
         ),
       ),
       body: Obx(() {
@@ -74,18 +80,20 @@ class CategoriesScreen extends StatelessWidget {
                           const SizedBox(height: 8.0),
                           Text(
                             category.name,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16.0,
+                              color: _themeController.currentTheme.value != ThemeMode.light ? Colors.black : Colors.brown,
                               fontWeight: FontWeight.bold,
                             ),
                             textAlign: TextAlign.center,
                           ),
                           Text(
-                            category.description,
-                            style: const TextStyle(
-                              fontSize: 12.0,
-                            ),
-                            textAlign: TextAlign.center,
+                              category.description,
+                              style: TextStyle(
+                                color: _themeController.currentTheme.value != ThemeMode.light ? Colors.black : Colors.brown,
+                                fontSize: 12.0,
+                              ),
+                              textAlign: TextAlign.center,
                           ),
                         ],
                       ),

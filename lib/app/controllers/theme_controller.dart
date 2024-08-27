@@ -12,11 +12,15 @@ class ThemeController extends GetxController implements GetxService {
         : ThemeMode.light;
 
     await prefs.setBool('isDarkMode', currentTheme.value == ThemeMode.dark);
+    Get.changeThemeMode(currentTheme.value);
+    loadTheme();
+    update();
   }
 
   Future<void> loadTheme() async {
     final prefs = await SharedPreferences.getInstance();
     final isDarkMode = prefs.getBool('isDarkMode') ?? false;
-    currentTheme.value = !isDarkMode ? ThemeMode.dark : ThemeMode.light;
+    currentTheme.value = isDarkMode ? ThemeMode.dark : ThemeMode.light;
+    update();
   }
 }

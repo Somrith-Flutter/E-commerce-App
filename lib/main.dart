@@ -24,17 +24,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      final themeController = Get.find<ThemeController>();
-      return GetMaterialApp(
-        initialBinding: AppBindings(),
-        debugShowCheckedModeBanner: false,
-        theme: CustomTheme.lightTheme,
-        darkTheme: CustomTheme.darkTheme,
-        themeMode: themeController.currentTheme.value,
-        home: const SplashScreen(),
-      );
-    });
+    return GetMaterialApp(
+      initialBinding: AppBindings(),
+      debugShowCheckedModeBanner: false,
+      theme: CustomTheme.lightTheme,
+      darkTheme: CustomTheme.darkTheme,
+      themeMode: ThemeMode.system,
+      home: const SplashScreen(),
+    );
   }
 }
 
