@@ -4,6 +4,7 @@ import 'package:market_nest_app/app/data/api/api_path.dart';
 import 'package:market_nest_app/app/ui/pages/category/model/category_model.dart';
 import 'package:market_nest_app/app/ui/pages/home/controller/home_controller.dart';
 import 'package:market_nest_app/app/ui/pages/home/widgets/exclusive_sales.dart';
+import 'package:market_nest_app/app/ui/pages/sub_category/view/sub_category_view.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/app/config/constants/app_constant.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
@@ -173,25 +174,35 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildCategoryItem(CategoryModel category) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Column(
-        children: [
-          Image.network(
-            ApiPath.baseUrl+category.imageUrl,
-            width: 40.0,
-            height: 40.0,
-            fit: BoxFit.contain,
-            errorBuilder: (context, error, stackTrace) {
-              return const Icon(Icons.broken_image, size: 40);
-            },
+    return InkWell(
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SubCategoriesScreen(categoryId: category.id),
           ),
-          const SizedBox(height: 8),
-          Text(
-            category.name,
-            style: TextStyle(fontSize: 12),
-          ),
-        ],
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Column(
+          children: [
+            Image.network(
+              ApiPath.baseUrl+category.imageUrl,
+              width: 40.0,
+              height: 40.0,
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) {
+                return const Icon(Icons.broken_image, size: 40);
+              },
+            ),
+            const SizedBox(height: 8),
+            Text(
+              category.name,
+              style: TextStyle(fontSize: 12),
+            ),
+          ],
+        ),
       ),
     );
   }
