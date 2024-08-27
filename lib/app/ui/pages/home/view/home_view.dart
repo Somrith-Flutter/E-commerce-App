@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:market_nest_app/app/ui/pages/home_page/widgets/exclusive_sales.dart';
+import 'package:market_nest_app/app/data/api/api_path.dart';
+import 'package:market_nest_app/app/ui/pages/category/model/category_model.dart';
+import 'package:market_nest_app/app/ui/pages/home/controller/home_controller.dart';
+import 'package:market_nest_app/app/ui/pages/home/widgets/exclusive_sales.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/app/config/constants/app_constant.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
@@ -133,8 +136,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+  final HomeController homeController = Get.find<HomeController>();
 
-  Widget _buildCategoriesSection() {
+   Widget _buildCategoriesSection() {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -142,14 +146,50 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           _buildSectionHeader('Categories', onSeeAllPressed: () {}),
           const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildCategoryIcon(Icons.phone_android, 'Electronics'),
-              _buildCategoryIcon(Icons.shopping_bag, 'Fashion'),
-              _buildCategoryIcon(Icons.home, 'Furniture'),
-              _buildCategoryIcon(Icons.car_rental, 'Industrial'),
-            ],
+          Obx(() {
+            if (homeController.isLoading.value) {
+              return Center(child: CircularProgressIndicator());
+            }
+
+            if (homeController.categories.isEmpty) {
+              return Center(child: Text('No categories available'));
+            }
+
+            return SizedBox(
+              height: 100, // Adjust height as needed
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: homeController.categories.length,
+                itemBuilder: (context, index) {
+                  final category = homeController.categories[index];
+                  return _buildCategoryItem(category);
+                },
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCategoryItem(CategoryModel category) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        children: [
+          Image.network(
+            ApiPath.baseUrl+category.imageUrl,
+            width: 40.0,
+            height: 40.0,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) {
+              return const Icon(Icons.broken_image, size: 40);
+            },
+          ),
+          const SizedBox(height: 8),
+          Text(
+            category.name,
+            style: TextStyle(fontSize: 12),
           ),
         ],
       ),

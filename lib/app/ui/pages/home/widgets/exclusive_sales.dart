@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:market_nest_app/app/ui/pages/home_page/widgets/product_detail.dart';
+import 'package:market_nest_app/app/ui/pages/home/widgets/product_detail.dart';
 
 class ExclusiveSales extends StatefulWidget {
   const ExclusiveSales({super.key});
