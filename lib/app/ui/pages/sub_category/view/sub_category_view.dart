@@ -68,12 +68,7 @@ class SubCategoriesScreen extends StatelessWidget {
                 final subCategory = subCategoryController.subCategories[index];
                 return InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProductScreen(subCategoryId: subCategory.id),
-                      ),
-                    );
+                    Get.to(ProductScreen(subCategoryId: subCategory.id, productName: subCategory.title,));
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

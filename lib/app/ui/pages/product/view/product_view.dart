@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/controllers/theme_controller.dart';
 import 'package:market_nest_app/app/data/api/api_path.dart';
@@ -8,7 +10,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 class ProductScreen extends StatefulWidget {
   final int subCategoryId;
-  const ProductScreen({required this.subCategoryId, super.key});
+  final String? productName;
+  const ProductScreen({required this.subCategoryId, this.productName, super.key});
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
@@ -30,10 +33,17 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Products",
-          style: TextStyle(color: Colors.black),
+        title: Text(
+          "${widget.productName} Products",
+          style: const TextStyle(
+            fontSize: 18
+          ),
         ),
+        actions: [
+          IconButton(onPressed: (){},
+            icon: const Icon(CupertinoIcons.search)),
+          const Gap(5),
+        ],
       ),
       body: Obx(() {
         if (productController.isLoading.value) {
@@ -42,7 +52,7 @@ class _ProductScreenState extends State<ProductScreen> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: GridView.builder(
-                itemCount: productController.products.length,
+                itemCount: 5,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 16.0,
@@ -65,65 +75,100 @@ class _ProductScreenState extends State<ProductScreen> {
           return const Center(child: Text('No products available.'));
         } else {
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: GridView.builder(
-              itemCount: 5,
+              itemCount: productController.products.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
-                childAspectRatio: 2 / 2,
+                childAspectRatio: 2 / 3,
               ),
               itemBuilder: (context, index) {
                 final product = productController.products[index];
-                return InkWell(
-                  onTap: () {
-                    // Handle product click, e.g., navigate to product detail page
-                  },
-                  child: Card(
-                    elevation: 2.0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.0),
-                        color: Colors.blue[50],
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                return GestureDetector(
+                  onTap: () {},
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Stack(
                         children: [
-                          Image.network(
-                            ApiPath.baseUrl + product.imageUrl,
-                            width: 40.0,
-                            height: 40.0,
-                            fit: BoxFit.contain,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(Icons.broken_image, size: 40);
-                            },
-                          ),
-                          const SizedBox(height: 8.0),
-                          Text(
-                            product.productName,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                              color: _themeController.currentTheme.value != ThemeMode.light ? Colors.black : Colors.brown,
+                          Card(
+                            elevation: 2.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            product.description,
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              color: _themeController.currentTheme.value != ThemeMode.light ? Colors.black : Colors.brown,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12.0),
+                              child: Image.network(
+                                ApiPath.baseUrl + product.imageUrl,
+                                width: MediaQuery.of(context).size.width,
+                                height: 170,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(Icons.broken_image, size: 40);
+                                },
+                              ),
                             ),
-                            textAlign: TextAlign.center,
                           ),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Container(
+                              margin: const EdgeInsets.all(7),
+                              decoration: const BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.all(Radius.circular(100))
+                              ),
+                              child: IconButton(
+                                color: Colors.white,
+                                onPressed: (){},
+                                icon: const Icon(CupertinoIcons.heart,)),
+                            ),
+                          )
                         ],
                       ),
-                    ),
+                      const Gap(5),
+                      Text(
+                        product.productName,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                          color: _themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                      const Gap(10),
+                      Text(
+                        product.description,
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          color: _themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
+                        ),
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        "\$ ${product.prices.toStringAsFixed(2)}",
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.bold,
+                          color: _themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
+                        ),
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        "\$ ${product.discount.toStringAsFixed(2)}",
+                        style: const TextStyle(
+                          fontSize: 12.0,
+                          decoration: TextDecoration.lineThrough,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.bold
+                        ),
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
                 );
               },
