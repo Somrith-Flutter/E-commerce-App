@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
+import 'package:market_nest_app/app/controllers/theme_controller.dart';
 import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
 import 'package:market_nest_app/app/data/helpers.dart';
 import 'package:market_nest_app/app/ui/pages/authentication_page/forgot_password.dart';
@@ -24,8 +25,10 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   late Future<PackageInfo> _packageInfoFuture;
   final _auth = Get.find<AuthController>();
+
   AuthController get auth => _auth;
   final _timer = CountdownTimer();
+  final ThemeController _theme = Get.put(ThemeController());
 
   @override
   void initState() {
@@ -39,14 +42,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          _buildSliverAppBar(),
-          _buildProfileContent(),
-        ],
-      ),
-    );
+    return Obx(() {
+      return Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            _buildSliverAppBar(),
+            _buildProfileContent(),
+          ],
+        ),
+      );
+    });
   }
 
   Widget _buildSliverAppBar() {
@@ -92,9 +97,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                _auth.newUserModel != null && _auth.newUserModel.toString().isNotEmpty
-                  ? _auth.newUserModel!.name.toString()
-                  : "Unknown",
+                _auth.newUserModel != null &&
+                        _auth.newUserModel.toString().isNotEmpty
+                    ? _auth.newUserModel!.name.toString()
+                    : "Unknown",
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -102,7 +108,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               Text(
-                _auth.newUserModel != null && _auth.newUserModel.toString().isNotEmpty
+                _auth.newUserModel != null &&
+                        _auth.newUserModel.toString().isNotEmpty
                     ? _auth.newUserModel!.email.toString()
                     : "Unknown",
                 style: const TextStyle(
@@ -125,9 +132,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         alignment: Alignment.bottomCenter,
         child: Container(
           height: 30,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
+          decoration: BoxDecoration(
+            color: _theme.currentTheme.value == ThemeMode.light
+                ? Colors.white
+                : Colors.black,
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30),
             ),
@@ -139,100 +148,97 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildProfileContent() {
     return SliverToBoxAdapter(
-      child: Container(
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildSectionTitle('Personal Information'),
-              _buildProfileOption(
-                  Icons.location_on_outlined, 'Shipping Address', onTap: () {
-                Navigator.push(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSectionTitle('Personal Information'),
+            _buildProfileOption(Icons.location_on_outlined, 'Shipping Address',
+                onTap: () {
+              Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ShippingAddressScreen()));
-              }),
-              const Divider(),
-              _buildProfileOption(Icons.payment_outlined, 'Payment Method',
-                  onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => PaymentMethodScreen()));
-              }),
-              const Divider(),
-              _buildProfileOption(Icons.history_outlined, 'Order History',
-                  onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => OrderHistoryScreen()));
-              }),
-              const Divider(),
-              _buildSectionTitle('Support & Information'),
-              _buildProfileOption(Icons.privacy_tip_outlined, 'Privacy Policy',
-                  onTap: () {
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()));
-              }),
-              const Divider(),
-              _buildProfileOption(
-                  Icons.description_outlined, 'Terms & Conditions', onTap: () {
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsConditionsScreen()));
-              }),
-              const Divider(),
-              _buildProfileOption(Icons.help_outline, 'FAQs', onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => FAQScreen()));
-              }),
-              const Divider(),
-              _buildSectionTitle('Account Management'),
-              _buildDarkThemeToggle(),
-              const Divider(),
-              _buildProfileOption(Icons.lock_outline, 'Change Password',
-                  onTap: () {
-                  Get.to(const ForgotPasswordScreen(
-                    fixedWidget: 0,
-                    isFromChangePassword: true,
-                  ));
-              }),
-              const Divider(),
-              _buildProfileOption(Icons.language_outlined, 'Languages',
-                  onTap: () {
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagesScreen()));
-              }),
-              const Divider(),
-              FutureBuilder<PackageInfo>(
-                future: _packageInfoFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return _buildProfileOption(
-                        Icons.build_circle_outlined, 'Version',
-                        trailing: 'Loading...');
-                  } else if (snapshot.hasError) {
-                    return _buildProfileOption(
-                        Icons.build_circle_outlined, 'Version',
-                        trailing: 'Error');
-                  } else {
-                    return _buildProfileOption(
-                        Icons.build_circle_outlined, 'Version',
-                        trailing: snapshot.data?.version ?? 'Unknown');
-                  }
-                },
-              ),
-              const Divider(),
-              _buildProfileOption(Icons.logout, 'Logout', onTap: () {
-                _timer.clear();
-                logout(context);
-              }, color: Colors.redAccent),
-              const Divider(),
-              _buildProfileOption(CupertinoIcons.delete, 'Deactivate Account',
-                  onTap: () {
-                Get.to(const DeactivateAccount());
-              }, color: Colors.redAccent, colorText: Colors.redAccent),
-            ],
-          ),
+                      builder: (context) => ShippingAddressScreen()));
+            }),
+            const Divider(),
+            _buildProfileOption(Icons.payment_outlined, 'Payment Method',
+                onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PaymentMethodScreen()));
+            }),
+            const Divider(),
+            _buildProfileOption(Icons.history_outlined, 'Order History',
+                onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => OrderHistoryScreen()));
+            }),
+            const Divider(),
+            _buildSectionTitle('Support & Information'),
+            _buildProfileOption(Icons.privacy_tip_outlined, 'Privacy Policy',
+                onTap: () {
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()));
+            }),
+            const Divider(),
+            _buildProfileOption(
+                Icons.description_outlined, 'Terms & Conditions', onTap: () {
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsConditionsScreen()));
+            }),
+            const Divider(),
+            _buildProfileOption(Icons.help_outline, 'FAQs', onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => FAQScreen()));
+            }),
+            const Divider(),
+            _buildSectionTitle('Account Management'),
+            _buildDarkThemeToggle(),
+            const Divider(),
+            _buildProfileOption(Icons.lock_outline, 'Change Password',
+                onTap: () {
+              Get.to(const ForgotPasswordScreen(
+                fixedWidget: 0,
+                isFromChangePassword: true,
+              ));
+            }),
+            const Divider(),
+            _buildProfileOption(Icons.language_outlined, 'Languages',
+                onTap: () {
+              //Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagesScreen()));
+            }),
+            const Divider(),
+            FutureBuilder<PackageInfo>(
+              future: _packageInfoFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return _buildProfileOption(
+                      Icons.build_circle_outlined, 'Version',
+                      trailing: 'Loading...');
+                } else if (snapshot.hasError) {
+                  return _buildProfileOption(
+                      Icons.build_circle_outlined, 'Version',
+                      trailing: 'Error');
+                } else {
+                  return _buildProfileOption(
+                      Icons.build_circle_outlined, 'Version',
+                      trailing: snapshot.data?.version ?? 'Unknown');
+                }
+              },
+            ),
+            const Divider(),
+            _buildProfileOption(Icons.logout, 'Logout', onTap: () {
+              _timer.clear();
+              logout(context);
+            }, color: Colors.redAccent),
+            const Divider(),
+            _buildProfileOption(CupertinoIcons.delete, 'Deactivate Account',
+                onTap: () {
+              Get.to(const DeactivateAccount());
+            }, color: Colors.redAccent, colorText: Colors.redAccent),
+          ],
         ),
       ),
     );
@@ -246,7 +252,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
-          color: Colors.black,
         ),
       ),
     );
@@ -258,7 +263,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     String trailing = '',
     VoidCallback? onTap,
     Color? color = Colors.grey,
-    Color? colorText = Colors.black,
+    Color? colorText,
   }) {
     return ListTile(
       leading: Icon(icon, color: color),
@@ -274,11 +279,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildDarkThemeToggle() {
-    return SwitchListTile(
-      value: false,
-      onChanged: (value) {},
-      title: const Text('Dark Theme'),
-      secondary: const Icon(Icons.dark_mode_outlined, color: Colors.grey),
+    return ListTile(
+      leading: Icon(_theme.currentTheme.value == ThemeMode.dark
+          ? Icons.dark_mode
+          : Icons.light_mode),
+      title: Text(
+        _theme.currentTheme.value == ThemeMode.dark
+            ? "Dark Mode"
+            : "Light Mode",
+      ),
+      trailing: Obx(
+        () => Switch(
+          value: _theme.currentTheme.value == ThemeMode.dark,
+          onChanged: (value) {
+            _theme.switchTheme();
+            Get.changeThemeMode(_theme.currentTheme.value);
+          },
+          activeColor: Colors.white,
+          inactiveThumbColor: Colors.grey,
+          activeTrackColor: _theme.currentTheme.value == ThemeMode.dark
+              ? Colors.green
+              : Colors.grey,
+        ),
+      ),
     );
   }
 

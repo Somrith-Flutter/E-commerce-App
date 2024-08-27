@@ -21,7 +21,6 @@ class _FormInputWidgetState extends State<FormInputWidget> {
           text: TextSpan(
             text: '${widget.label} ',
             style: const TextStyle(
-              color: Colors.black,
               fontSize: 16.0,
             ),
             children: const [

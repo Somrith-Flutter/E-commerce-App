@@ -32,6 +32,8 @@ dependencies:
   timer_count_down: ^2.2.2
   rxdart: ^0.28.0
   flutter_rating_bar: ^4.0.1
+  flutter_launcher_icons: ^0.11.0
+  flutter_app_name: ^0.1.1
 
 dev_dependencies:
   flutter_test:
@@ -62,3 +64,13 @@ flutter_intl:
   enabled: true
   arb_dir: lib/app/translation/l10n
   output_dir: lib/app/translation/generated
+
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/main_logo.png"
+  min_sdk_android: 23
+
+flutter_app_name:
+  name: "MarketNest App"

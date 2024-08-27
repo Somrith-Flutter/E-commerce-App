@@ -29,7 +29,6 @@ class _FormPasswordWidgetState extends State<FormPasswordWidget> {
           text: TextSpan(
             text: '${widget.label} ',
             style: const TextStyle(
-              color: Colors.black,
               fontSize: 16.0,
             ),
             children: const [

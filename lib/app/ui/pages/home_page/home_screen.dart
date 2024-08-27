@@ -25,8 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(AppConstant.appName, style: TextStyle(color: Colors.black)),
-        backgroundColor: Colors.white,
+        centerTitle: false,
+        title: const Text(AppConstant.appName),
         actions: [
           IconButton(
             icon: const Icon(Icons.search, color: Colors.black),
