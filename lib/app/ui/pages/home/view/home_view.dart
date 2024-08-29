@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/data/api/api_path.dart';
+import 'package:market_nest_app/app/ui/global_widgets/text_widget.dart';
 import 'package:market_nest_app/app/ui/pages/category/model/category_model.dart';
 import 'package:market_nest_app/app/ui/pages/home/controller/home_controller.dart';
 import 'package:market_nest_app/app/ui/pages/home/widgets/exclusive_sales.dart';
@@ -81,6 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Gap(30),
               Container(
                 decoration: BoxDecoration(
                   color: Colors.black,
@@ -103,31 +106,36 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontSize: 18,
                 ),
               ),
-              const SizedBox(height: 8),
-              const SizedBox(height: 16),
+              const Gap(6),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  const TextWidget(
                     'Exclusive Sales',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    color: Colors.white,
+                    bold: true,
+                    size: 20,
                   ),
-                  Row(
-                    children: List.generate(5, (index) {
-                      return Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 2),
-                        width: 8,
-                        height: 8,
-                        decoration: BoxDecoration(
-                          color: index == 0 ? AppColors.cyan : Colors.white54,
-                          shape: BoxShape.circle,
-                        ),
-                      );
-                    }),
+                  Container(
+                    height: 20,
+                    padding: const EdgeInsets.only(left: 5, right: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey
+                    ),
+                    child: Row(
+                      children: List.generate(5, (index) {
+                        return Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 2),
+                          width: 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                            color: index == 0 ? AppColors.cyan : Colors.white54,
+                            shape: BoxShape.circle,
+                          ),
+                        );
+                      }),
+                    ),
                   ),
                 ],
               ),
@@ -141,23 +149,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
    Widget _buildCategoriesSection() {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.only(left: 16, right: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildSectionHeader('Categories', onSeeAllPressed: () {}),
-          const SizedBox(height: 16),
           Obx(() {
             if (homeController.isLoading.value) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
 
             if (homeController.categories.isEmpty) {
-              return Center(child: Text('No categories available'));
+              return const Center(child: Text('No categories available'));
             }
 
             return SizedBox(
-              height: 100, // Adjust height as needed
+              height: 100,
+               // Adjust height as needed
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: homeController.categories.length,
@@ -183,25 +191,33 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         );
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Column(
-          children: [
-            Image.network(
-              ApiPath.baseUrl+category.imageUrl,
-              width: 40.0,
-              height: 40.0,
-              fit: BoxFit.contain,
-              errorBuilder: (context, error, stackTrace) {
-                return const Icon(Icons.broken_image, size: 40);
-              },
-            ),
-            const SizedBox(height: 8),
-            Text(
-              category.name,
-              style: TextStyle(fontSize: 12),
-            ),
-          ],
+      child: Container(
+        margin: const EdgeInsets.all(6),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.grey),
+        ),
+        padding: const EdgeInsets.all(8),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
+            children: [
+              Image.network(
+                ApiPath.baseUrl+category.imageUrl,
+                width: 40.0,
+                height: 40.0,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(Icons.broken_image, size: 40);
+                },
+              ),
+              const SizedBox(height: 8),
+              Text(
+                category.name,
+                style: TextStyle(fontSize: 12),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -210,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildLatestProductsSection() {
     String url = 'https://img.freepik.com/premium-photo/beautiful-cute-anime-girl-innocent-anime-teenage_744422-6819.jpg?w=360';
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.only(left: 16,right: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
