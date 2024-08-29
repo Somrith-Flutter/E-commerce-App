@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/controllers/theme_controller.dart';
@@ -9,7 +12,8 @@ import 'package:market_nest_app/app/ui/pages/sub_category/view/sub_category_view
 import 'package:skeletonizer/skeletonizer.dart';
 
 class CategoriesScreen extends StatefulWidget {
-  const CategoriesScreen({super.key});
+  final bool? isFromSeeAll;
+  const CategoriesScreen({super.key, this.isFromSeeAll = false});
 
   @override
   State<CategoriesScreen> createState() => _CategoriesScreenState();
@@ -23,7 +27,20 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: widget.isFromSeeAll == true ? AppBar(
+        leading: IconButton(
+          onPressed: (){
+            Get.back();
+          },
+          icon: Icon( Platform.isAndroid ?
+           CupertinoIcons.arrow_left
+           : CupertinoIcons.back
+          )
+        ),
+        title: const Text(
+          "Categories",
+        ),
+      ) : AppBar(
         title: const Text(
           "Categories",
         ),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:market_nest_app/app/controllers/theme_controller.dart';
 import 'package:market_nest_app/app/data/api/api_path.dart';
 import 'package:market_nest_app/app/ui/global_widgets/text_widget.dart';
 import 'package:market_nest_app/app/ui/pages/category/model/category_model.dart';
+import 'package:market_nest_app/app/ui/pages/category/view/categories_screen.dart';
 import 'package:market_nest_app/app/ui/pages/home/controller/home_controller.dart';
 import 'package:market_nest_app/app/ui/pages/home/widgets/exclusive_sales.dart';
 import 'package:market_nest_app/app/ui/pages/sub_category/view/sub_category_view.dart';
@@ -21,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _user = Get.find<AuthController>();
   AuthController get user => _user;
+  final _themeController = Get.find<ThemeController>();
 
   @override
   void initState() {
@@ -153,7 +156,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionHeader('Categories', onSeeAllPressed: () {}),
+          _buildSectionHeader('Categories', onSeeAllPressed: () {
+            Get.to(const CategoriesScreen(isFromSeeAll: true,));
+          }),
           Obx(() {
             if (homeController.isLoading.value) {
               return const Center(child: CircularProgressIndicator());
@@ -260,7 +265,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         TextButton(
           onPressed: onSeeAllPressed,
-          child: const Text('SEE ALL'),
+          child: Text('SEE ALL', style: TextStyle(
+            color: _themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
+          ),),
         ),
       ],
     );
