@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:market_nest_app/app/controllers/theme_controller.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 
 class FormInputWidget extends StatefulWidget {
@@ -12,6 +14,7 @@ class FormInputWidget extends StatefulWidget {
 }
 
 class _FormInputWidgetState extends State<FormInputWidget> {
+  final _theme = Get.find<ThemeController>();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,8 +23,9 @@ class _FormInputWidgetState extends State<FormInputWidget> {
         RichText(
           text: TextSpan(
             text: '${widget.label} ',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16.0,
+              color: _theme.currentTheme.value == ThemeMode.dark ? Colors.white : Colors.black
             ),
             children: const [
               TextSpan(
