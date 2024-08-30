@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:market_nest_app/app/data/api/api_path.dart';
 import 'package:market_nest_app/app/data/rest_api_service.dart';
@@ -40,7 +41,9 @@ class HomeRepository extends RestApiService {
       }
 
     } catch (e) {
-      print("Error in get request: $e");
+      if (kDebugMode) {
+        print("Error in get request: $e");
+      }
       rethrow;
     }
   }

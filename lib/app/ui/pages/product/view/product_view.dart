@@ -9,9 +9,9 @@ import 'package:market_nest_app/app/ui/pages/product/repository/product_reposito
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ProductScreen extends StatefulWidget {
-  final int subCategoryId;
+  final int? subCategoryId;
   final String? productName;
-  const ProductScreen({required this.subCategoryId, this.productName, super.key});
+  const ProductScreen({this.subCategoryId, this.productName, super.key});
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
@@ -25,7 +25,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   void initState() {
-    productController.fetchProducts(subCategoryId: widget.subCategoryId);
+    productController.fetchProducts(subCategoryId: widget.subCategoryId??0);
     super.initState();
   }
 

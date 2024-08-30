@@ -9,6 +9,7 @@ import 'package:market_nest_app/app/ui/pages/category/model/category_model.dart'
 import 'package:market_nest_app/app/ui/pages/category/view/categories_screen.dart';
 import 'package:market_nest_app/app/ui/pages/home/controller/home_controller.dart';
 import 'package:market_nest_app/app/ui/pages/home/widgets/exclusive_sales.dart';
+import 'package:market_nest_app/app/ui/pages/product/view/product_view.dart';
 import 'package:market_nest_app/app/ui/pages/sub_category/view/sub_category_view.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/app/config/constants/app_constant.dart';
@@ -62,6 +63,12 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             _buildPromotionalBanner(),
             _buildCategoriesSection(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: _buildSectionHeader('Latest Products', onSeeAllPressed: () {
+                Get.to(const ProductScreen());
+              }),
+            ),
             _buildLatestProductsSection(),
           ],
         ),
@@ -74,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.all(16.0),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ExclusiveSales()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const ExclusiveSales()));
         },
         child: Container(
           decoration: BoxDecoration(
@@ -221,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 8),
               Text(
                 category.name,
-                style: TextStyle(fontSize: 12),
+                style: const TextStyle(fontSize: 12),
               ),
             ],
           ),
@@ -232,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildLatestProductsSection() {
     HomeController productController = Get.find();
-    final _themeController = Get.find<ThemeController>();
+    final themeController = Get.find<ThemeController>();
     return Obx(() {
       if (productController.isLoading.value) {
         return Skeletonizer(
@@ -241,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(8.0),
             child: GridView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: 5,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -265,10 +272,10 @@ class _HomeScreenState extends State<HomeScreen> {
         return const Center(child: Text('No products available.'));
       } else {
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: GridView.builder(
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: productController.products.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -326,7 +333,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(
                         fontSize: 14.0,
                         fontWeight: FontWeight.bold,
-                        color: _themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
+                        color: themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
                       ),
                       textAlign: TextAlign.start,
                     ),
@@ -335,7 +342,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       product.description,
                       style: TextStyle(
                         fontSize: 12.0,
-                        color: _themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
+                        color: themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
                       ),
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
@@ -345,7 +352,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(
                         fontSize: 12.0,
                         fontWeight: FontWeight.bold,
-                        color: _themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
+                        color: themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
                       ),
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
