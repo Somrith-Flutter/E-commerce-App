@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import 'package:market_nest_app/app/ui/pages/sub_category/view/sub_category_view
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/app/config/constants/app_constant.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -229,30 +231,144 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildLatestProductsSection() {
-    String url = 'https://img.freepik.com/premium-photo/beautiful-cute-anime-girl-innocent-anime-teenage_744422-6819.jpg?w=360';
-    return Padding(
-      padding: const EdgeInsets.only(left: 16,right: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildSectionHeader('Latest Products', onSeeAllPressed: () {}),
-          const SizedBox(height: 16),
-          GridView.count(
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              _buildProductCard('Nike Air Jordan Retro', '\$126.00', '\$186.00', 5, url),
-              _buildProductCard('Classic Black Glasses', '\$8.50', '\$10.00', 7, url),
-              _buildProductCard('P47 Wireless Headphones', '\$38.45', '\$42.75', 3, url),
-              _buildProductCard('Brown Box Luxury Bag', '\$98.00', '\$122.00', 1, url),
-            ],
+    HomeController productController = Get.find();
+    final _themeController = Get.find<ThemeController>();
+    return Obx(() {
+      if (productController.isLoading.value) {
+        return Skeletonizer(
+          enabled: productController.isLoading.value,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: 5,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16.0,
+                mainAxisSpacing: 16.0,
+                childAspectRatio: 1.0,
+              ),
+              itemBuilder: (context, index) {
+                return Card(
+                  child: ListTile(
+                    title: Text('Item number $index as title'),
+                    subtitle: const Text('Subtitle here'),
+                    trailing: const Icon(Icons.ac_unit),
+                  ),
+                );
+              },
+            ),
           ),
-        ],
-      ),
-    );
+        );
+      } else if (productController.products.isEmpty) {
+        return const Center(child: Text('No products available.'));
+      } else {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: GridView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: productController.products.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 8.0,
+              mainAxisSpacing: 8.0,
+              childAspectRatio: 2 / 3,
+            ),
+            itemBuilder: (context, index) {
+              final product = productController.products[index];
+              return GestureDetector(
+                onTap: () {},
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Stack(
+                      children: [
+                        Card(
+                          elevation: 2.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12.0),
+                            child: Image.network(
+                              ApiPath.baseUrl + product.imageUrl,
+                              width: MediaQuery.of(context).size.width,
+                              height: 170,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Icon(Icons.broken_image, size: 40);
+                              },
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Container(
+                            margin: const EdgeInsets.all(7),
+                            decoration: const BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.all(Radius.circular(100)),
+                            ),
+                            child: IconButton(
+                              color: Colors.white,
+                              onPressed: () {},
+                              icon: const Icon(CupertinoIcons.heart),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    const Gap(5),
+                    Text(
+                      product.productName,
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                        color: _themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                    const Gap(10),
+                    Text(
+                      product.description,
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        color: _themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
+                      ),
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      "\$ ${product.prices.toStringAsFixed(2)}",
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.bold,
+                        color: _themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
+                      ),
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      "\$ ${product.discount.toStringAsFixed(2)}",
+                      style: const TextStyle(
+                        fontSize: 12.0,
+                        decoration: TextDecoration.lineThrough,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      }
+    });
   }
 
   Widget _buildSectionHeader(String title, {VoidCallback? onSeeAllPressed}) {

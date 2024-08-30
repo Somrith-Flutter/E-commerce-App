@@ -10,6 +10,7 @@ class ApiPath {
   static const getCategories = "get-category";
   static const String getSubCategories ="v2/get-sub-category";
   static const String getProducts = "v3/get-product";
+  static const String getProductByLength = "v3/order-by-list-product";
   static const confirmViaEmail = "v1/confirm-vai-email";
   static const removeUser = "v1/remove-user";
   static const updateUser = "v1/update";
