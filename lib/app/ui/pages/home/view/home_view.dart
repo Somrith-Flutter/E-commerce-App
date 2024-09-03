@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: _buildSectionHeader('Latest Products', onSeeAllPressed: () {
-                Get.to(const ProductScreen());
+                Get.to(const ProductScreen(getAll: true,));
               }),
             ),
             _buildLatestProductsSection(),
@@ -302,7 +302,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Image.network(
                               ApiPath.baseUrl + product.imageUrl,
                               width: MediaQuery.of(context).size.width,
-                              height: 170,
+                              height: 160,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 return const Icon(Icons.broken_image, size: 40);
@@ -327,17 +327,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         )
                       ],
                     ),
-                    const Gap(5),
+                    const Gap(2),
                     Text(
                       product.productName,
                       style: TextStyle(
-                        fontSize: 14.0,
+                        fontSize: 12.0,
                         fontWeight: FontWeight.bold,
                         color: themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
                       ),
                       textAlign: TextAlign.start,
                     ),
-                    const Gap(10),
+                    const Gap(5),
                     Text(
                       product.description,
                       style: TextStyle(

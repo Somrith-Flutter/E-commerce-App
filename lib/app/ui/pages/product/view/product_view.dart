@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/controllers/theme_controller.dart';
 import 'package:market_nest_app/app/data/api/api_path.dart';
+import 'package:market_nest_app/app/ui/pages/home/controller/home_controller.dart';
 import 'package:market_nest_app/app/ui/pages/product/controller/product_controller.dart';
 import 'package:market_nest_app/app/ui/pages/product/repository/product_repository.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -11,7 +12,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 class ProductScreen extends StatefulWidget {
   final int? subCategoryId;
   final String? productName;
-  const ProductScreen({this.subCategoryId, this.productName, super.key});
+  final bool? getAll;
+  const ProductScreen({this.subCategoryId, this.productName, this.getAll = false, super.key});
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
@@ -22,10 +24,16 @@ class _ProductScreenState extends State<ProductScreen> {
     ProductController(repository: ProductRepository()),
   );
   final _themeController = Get.find<ThemeController>();
+  final homeController = Get.find<HomeController>();
 
   @override
   void initState() {
-    productController.fetchProducts(subCategoryId: widget.subCategoryId??0);
+    if(widget.getAll == false){
+      productController.fetchProducts(subCategoryId: widget.subCategoryId??0);
+    }else{
+      print("rest full");
+      productController.fetchedProductByLength(0.toString());
+    }
     super.initState();
   }
 
@@ -33,8 +41,10 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "${widget.productName} Products",
+        title: Text( widget.productName != null &&
+          widget.productName != "null" && widget.productName!.isNotEmpty
+            ? "${widget.productName} Products"
+            : "Products",
           style: const TextStyle(
             fontSize: 18
           ),
@@ -103,7 +113,7 @@ class _ProductScreenState extends State<ProductScreen> {
                               child: Image.network(
                                 ApiPath.baseUrl + product.imageUrl,
                                 width: MediaQuery.of(context).size.width,
-                                height: 170,
+                                height: 160,
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) {
                                   return const Icon(Icons.broken_image, size: 40);
@@ -131,13 +141,13 @@ class _ProductScreenState extends State<ProductScreen> {
                       Text(
                         product.productName,
                         style: TextStyle(
-                          fontSize: 14.0,
+                          fontSize: 12.0,
                           fontWeight: FontWeight.bold,
                           color: _themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
                         ),
                         textAlign: TextAlign.start,
                       ),
-                      const Gap(10),
+                      const Gap(5),
                       Text(
                         product.description,
                         style: TextStyle(

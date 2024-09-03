@@ -1,18 +1,18 @@
 class ProductModel {
-  final int id;
-  final int categoryId;
-  final int subCategoryId;
-  final String productName;
-  final String description;
-  final String imageUrl;
-  final String addFavorite;
-  final double prices;
-  final String shippingStatus;
-  final double discount;
-  final String status;
-  final int sortOrder;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  String id;
+  String categoryId;
+  String subCategoryId;
+  String productName;
+  String description;
+  String imageUrl;
+  String addFavorite;
+  double prices;
+  String shippingStatus;
+  double discount;
+  String status;
+  String sortOrder;
+  String createdAt;
+  String updatedAt;
 
   ProductModel({
     required this.id,
@@ -33,20 +33,20 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: json['id'],
-      categoryId: json['category_id'],
-      subCategoryId: json['sub_category_id'],
-      productName: json['product_name'],
-      description: json['description'],
-      imageUrl: json['image_url'],
-      addFavorite: json['add_favorit'],
-      prices: json['prices'],
-      shippingStatus: json['shipping_status'],
+      id: json['id'].toString(),
+      categoryId: json['category_id'].toString(),
+      subCategoryId: json['sub_category_id'].toString(),
+      productName: json['product_name'].toString(),
+      description: json['description'].toString(),
+      imageUrl: json['image_url'].toString(),
+      addFavorite: json['add_favorit'].toString(),
+      prices: json['prices'].toDouble(),
+      shippingStatus: json['shipping_status'].toString(),
       discount: json['discount'].toDouble(),
-      status: json['status'],
-      sortOrder: json['sort_order'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      status: json['status'].toString(),
+      sortOrder: json['sort_order'].toString(),
+      createdAt: json['created_at'].toString(),
+      updatedAt: json['updated_at'].toString()
     );
   }
 }

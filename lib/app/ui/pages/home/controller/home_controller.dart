@@ -16,7 +16,7 @@ class HomeController extends GetxController{
   void onInit() {
     super.onInit();
     fetchCategories();
-    fetchedProductByLength();
+    fetchedProductByLength(2.toString());
   }
 
   void fetchCategories() async {
@@ -30,10 +30,10 @@ class HomeController extends GetxController{
     }
   }
 
-  void fetchedProductByLength() async {
+  void fetchedProductByLength(String limit) async {
     try {
       isLoading(true);
-      products.value = await repository.fetchedProductByLength();
+      products.value = await repository.fetchedProductByLength(limitItem: limit);
     } catch (e) {
       Get.snackbar('Error', 'Failed to load sub-categories');
     } finally {
