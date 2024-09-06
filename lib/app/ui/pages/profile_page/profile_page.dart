@@ -159,7 +159,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => ShippingAddressScreen()));
+                      builder: (context) => const ShippingAddressScreen()));
             }),
             const Divider(),
             _buildProfileOption(Icons.payment_outlined, 'Payment Method',
@@ -167,7 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => PaymentMethodScreen()));
+                      builder: (context) => const PaymentMethodScreen()));
             }),
             const Divider(),
             _buildProfileOption(Icons.history_outlined, 'Order History',
@@ -175,7 +175,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => OrderHistoryScreen()));
+                      builder: (context) => const OrderHistoryScreen()));
             }),
             const Divider(),
             _buildSectionTitle('Support & Information'),
@@ -191,7 +191,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const Divider(),
             _buildProfileOption(Icons.help_outline, 'FAQs', onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FAQScreen()));
+                  MaterialPageRoute(builder: (context) => const FAQScreen()));
             }),
             const Divider(),
             _buildSectionTitle('Account Management'),

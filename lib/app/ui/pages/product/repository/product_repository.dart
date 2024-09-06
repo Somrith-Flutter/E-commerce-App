@@ -22,7 +22,6 @@ class ProductRepository extends RestApiService {
       }
 
     } catch (e) {
-      print("Error in get request: $e");
       rethrow;
     }
   }

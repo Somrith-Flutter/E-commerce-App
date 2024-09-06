@@ -43,7 +43,7 @@ class CustomTheme {
     fontFamily: darkThemeFont,
     switchTheme: SwitchThemeData(
       trackColor:
-      MaterialStateProperty.resolveWith<Color>((states) => darkThemeColor),
+      WidgetStateProperty.resolveWith<Color>((states) => darkThemeColor),
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: black,

@@ -22,7 +22,7 @@ class PaymentMethodScreen extends StatelessWidget {
             Row(
               children: [
                 Expanded(child: _buildPaymentOption('PayPal')),
-                SizedBox(width: 8),
+                const Gap(8),
                 Expanded(child: _buildPaymentOption('Google Pay')),
               ],
             ),
@@ -42,10 +42,10 @@ class PaymentMethodScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 48),
+                minimumSize: const Size(double.infinity, 48),
                 //primary: Colors.black,
               ),
-              child: Text('Save'),
+              child: const Text('Save'),
             ),
           ],
         ),

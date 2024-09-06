@@ -170,7 +170,6 @@ class _ProductDetailState extends State<ProductDetail> {
                     color: Colors.amber,
                   ),
                   onRatingUpdate: (rating) {
-                    print(rating);
                   },
                 ),
               ),
@@ -225,7 +224,7 @@ class _ProductDetailState extends State<ProductDetail> {
                   backgroundColor: color,
                   radius: 16,
                 ),
-              )).toList(),
+              )),
             ],
           ),
           const SizedBox(height: 10,),

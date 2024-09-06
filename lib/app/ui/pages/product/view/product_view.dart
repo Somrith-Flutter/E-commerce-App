@@ -32,7 +32,6 @@ class _ProductScreenState extends State<ProductScreen> {
     if(widget.getAll == false){
       productController.fetchProducts(subCategoryId: widget.subCategoryId??0);
     }else{
-      print("rest full");
       productController.fetchedProductByLength(0.toString());
     }
     super.initState();
