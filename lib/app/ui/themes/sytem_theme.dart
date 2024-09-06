@@ -66,6 +66,6 @@ class CustomTheme {
   // colors
   static Color lightThemeColor = Colors.black,
       white = AppColors.primaryWhite,
-      black =  AppColors.secondaryBlack,
+      black =  AppColors.primaryBlack,
       darkThemeColor = AppColors.primaryWhite;
 }

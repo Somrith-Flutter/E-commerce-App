@@ -81,8 +81,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildProfileHeader(String profileUrl, bool isExpanded) {
     return Container(
       padding: EdgeInsets.only(
-        left: isExpanded ? 5 : 20,
-        bottom: isExpanded ? 25 : 25,
+        left: isExpanded ? 5 : 10,
+        bottom: isExpanded ? 25 : 5,
         top: isExpanded ? 25 : 0,
       ),
       child: Row(
@@ -134,8 +134,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           height: 30,
           decoration: BoxDecoration(
             color: _theme.currentTheme.value == ThemeMode.light
-                ? Colors.white
-                : Colors.black,
+                ? AppColors.primaryWhite
+                : AppColors.primaryBlack,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30),

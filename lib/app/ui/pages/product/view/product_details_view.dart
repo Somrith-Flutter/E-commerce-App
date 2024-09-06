@@ -274,7 +274,9 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
               child: Container(
                 height: 20,
                 decoration: BoxDecoration(
-                  color: _theme.currentTheme.value == ThemeMode.dark ? Colors.black : Colors.white,
+                  color: _theme.currentTheme.value == ThemeMode.dark 
+                      ? AppColors.primaryBlack 
+                      : AppColors.primaryWhite,
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
