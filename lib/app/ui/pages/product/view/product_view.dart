@@ -7,6 +7,7 @@ import 'package:market_nest_app/app/data/api/api_path.dart';
 import 'package:market_nest_app/app/ui/pages/home/controller/home_controller.dart';
 import 'package:market_nest_app/app/ui/pages/product/controller/product_controller.dart';
 import 'package:market_nest_app/app/ui/pages/product/repository/product_repository.dart';
+import 'package:market_nest_app/app/ui/pages/product/view/product_details_view.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -97,7 +98,9 @@ class _ProductScreenState extends State<ProductScreen> {
               itemBuilder: (context, index) {
                 final product = productController.products[index];
                 return GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(ProductDetailsView(product: product,));
+                  },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
