@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
 import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';

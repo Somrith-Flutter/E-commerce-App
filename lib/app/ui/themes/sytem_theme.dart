@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:market_nest_app/app/ui/themes/app_color.dart';
 
 class CustomTheme {
   static const lightThemeFont = "Poppins", darkThemeFont = "Poppins";
@@ -64,7 +65,7 @@ class CustomTheme {
 
   // colors
   static Color lightThemeColor = Colors.black,
-      white = Colors.white,
-      black = Colors.black,
-      darkThemeColor = Colors.white;
+      white = AppColors.primaryWhite,
+      black =  AppColors.secondaryBlack,
+      darkThemeColor = AppColors.primaryWhite;
 }
