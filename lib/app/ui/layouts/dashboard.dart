@@ -49,7 +49,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   List<Widget> widgetsPage = [
     const HomeScreen(),
-    CategoriesScreen(),
+    const CategoriesScreen(),
     const MyCardScreen(),
     const WishListScreen(),
     const ProfileScreen(),
@@ -73,7 +73,7 @@ class _DashboardPageState extends State<DashboardPage> {
       body: widgetsPage[visit],
       bottomNavigationBar: BottomBarCreative(
         items: items,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.primaryWhite,
         color: AppColors.grey150,
         colorSelected: AppColors.cyan,
         indexSelected: visit,
