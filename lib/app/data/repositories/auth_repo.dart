@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:market_nest_app/app/data/api/api_path.dart';
+import 'package:market_nest_app/common/constants/api_path.dart';
 import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
 import 'package:market_nest_app/app/data/models/user_models.dart';
 

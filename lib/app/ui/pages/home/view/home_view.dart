@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/controllers/theme_controller.dart';
-import 'package:market_nest_app/app/data/api/api_path.dart';
+import 'package:market_nest_app/common/constants/api_path.dart';
 import 'package:market_nest_app/app/ui/global_widgets/text_widget.dart';
 import 'package:market_nest_app/app/ui/pages/category/model/category_model.dart';
 import 'package:market_nest_app/app/ui/pages/category/view/categories_screen.dart';
@@ -13,7 +13,7 @@ import 'package:market_nest_app/app/ui/pages/product/view/product_details_view.d
 import 'package:market_nest_app/app/ui/pages/product/view/product_view.dart';
 import 'package:market_nest_app/app/ui/pages/sub_category/view/sub_category_view.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
-import 'package:market_nest_app/app/config/constants/app_constant.dart';
+import 'package:market_nest_app/common/constants/app_constant.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

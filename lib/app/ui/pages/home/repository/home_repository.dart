@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:market_nest_app/app/data/api/api_path.dart';
+import 'package:market_nest_app/common/constants/api_path.dart';
 import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
 import 'package:market_nest_app/app/data/rest_api_service.dart';
 import 'package:market_nest_app/app/ui/pages/category/model/category_model.dart';

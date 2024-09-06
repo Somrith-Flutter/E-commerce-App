@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/ui/pages/authentication_page/register_page.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
-import 'package:market_nest_app/app/config/constants/asset_path.dart';
+import 'package:market_nest_app/common/constants/asset_path.dart';
 import 'package:market_nest_app/app/ui/layouts/dashboard.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
 import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';

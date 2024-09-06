@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/controllers/theme_controller.dart';
-import 'package:market_nest_app/app/data/api/api_path.dart';
+import 'package:market_nest_app/common/constants/api_path.dart';
 import 'package:market_nest_app/app/ui/global_widgets/text_widget.dart';
 import 'package:market_nest_app/app/ui/pages/product/model/product_model.dart';
 import 'package:gap/gap.dart';
