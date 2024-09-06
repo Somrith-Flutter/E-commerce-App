@@ -134,8 +134,6 @@ class AuthRepo{
 
     http.StreamedResponse response = await request.send();
     final body = await response.stream.bytesToString();
-    print("=============^^^^^ $body");
-
     if (response.statusCode == 200) {
       Map<String, dynamic> json = jsonDecode(body);
       UserModel userModel = UserModel.fromJson(json);

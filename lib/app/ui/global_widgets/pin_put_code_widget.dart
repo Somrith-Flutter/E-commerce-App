@@ -5,12 +5,10 @@ import 'package:get/get.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
 import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
-import 'package:market_nest_app/app/ui/pages/authentication_page/forgot_password.dart';
 import 'package:market_nest_app/app/ui/global_widgets/loading_widget.dart';
 import 'package:market_nest_app/app/data/helpers.dart';
 import 'package:pinput/pinput.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:timer_count_down/timer_count_down.dart';
 
 class PinPutCode extends StatefulWidget {
   final bool confirmMailBeforeFirst;
