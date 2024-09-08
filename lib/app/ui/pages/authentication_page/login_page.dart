@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:market_nest_app/app/controllers/theme_controller.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/common/constants/asset_path.dart';
 import 'package:market_nest_app/app/ui/layouts/dashboard.dart';
@@ -23,6 +24,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final user = Get.find<AuthController>();
+  final theme = Get.find<ThemeController>();
 
   Future<bool> _login(BuildContext context) async {
     showLoadingDialog(context, label: "Logging in...");
@@ -93,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(AssetPath.blackBgLogoApp,
+                    Image.asset(theme.currentTheme.value == ThemeMode.dark ? AssetPath.blackBgLogoApp : AssetPath.miniLogoApp,
                       width: 150,
                     ),
                     const Gap(20),

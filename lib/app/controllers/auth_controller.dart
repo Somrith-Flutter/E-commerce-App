@@ -79,7 +79,7 @@ class AuthController extends GetxController {
       }
     } catch (e) {
       debugPrint("================&&&& $e");
-      status = Status.fail;
+      status = Status.error;
     } finally {
       update();
     }

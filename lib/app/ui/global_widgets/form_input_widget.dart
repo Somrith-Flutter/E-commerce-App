@@ -23,9 +23,8 @@ class _FormInputWidgetState extends State<FormInputWidget> {
         RichText(
           text: TextSpan(
             text: '${widget.label} ',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16.0,
-              color: _theme.currentTheme.value == ThemeMode.dark ? Colors.white : Colors.black
             ),
             children: const [
               TextSpan(

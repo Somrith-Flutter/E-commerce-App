@@ -36,34 +36,34 @@ class RestApiService {
 
 
   Future<void> post(String url, dynamic body, {Map<String, dynamic>? params}) async {
-  try {
-    var uri = Uri.parse('${ApiPath.baseUrl}/$url');
-    if (params != null) {
-      uri = uri.replace(queryParameters: params.map((key, value) => MapEntry(key, value.toString())));
-    }
-    
-    debugPrint('Posting to: $uri');
-    debugPrint('Body: ${jsonEncode(body)}');
+    try {
+      var uri = Uri.parse('${ApiPath.baseUrl}/$url');
+      if (params != null) {
+        uri = uri.replace(queryParameters: params.map((key, value) => MapEntry(key, value.toString())));
+      }
 
-    final response = await http.post(
-      uri,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(body),
-    );
+      debugPrint('Posting to: $uri');
+      debugPrint('Body: ${jsonEncode(body)}');
 
-    if (response.statusCode == 201 || response.statusCode == 200) {
-      debugPrint('Data posted successfully');
-    } else {
-      debugPrint('Failed to post data: ${response.statusCode}, ${response.body}');
-      throw Exception('Failed to post data');
+      final response = await http.post(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(body),
+      );
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        debugPrint('Data posted successfully');
+      } else {
+        debugPrint('Failed to post data: ${response.statusCode}, ${response.body}');
+        throw Exception('Failed to post data');
+      }
+    } catch (e) {
+      debugPrint('Exception caught in postRequest: $e');
+      rethrow;
     }
-  } catch (e) {
-    debugPrint('Exception caught in postRequest: $e');
-    rethrow;
   }
-}
 
   Future<void> put(String url, dynamic body) async {
     try {
