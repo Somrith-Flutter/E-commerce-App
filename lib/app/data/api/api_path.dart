@@ -15,6 +15,6 @@ class ApiPath {
   static const String removeUser = "v1/remove-user";
   static const String updateUser = "v1/update";
   static const String refreshToken = "v1/generate-new-token";
-  static const String addToFavorite = "add-to-favorit/products";
-  static const String removeFavorite = "remove-from-favorit";
+  static const String addToFavorite = "add-to-favorite/products";
+  static const String removeFavorite = "remove-from-favorite";
 }

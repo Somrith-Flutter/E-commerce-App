@@ -22,8 +22,6 @@ class RestApiService {
 
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
-      debugPrint('Response Status: ${response.statusCode}');
-      debugPrint('Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         return json.decode(response.body);
