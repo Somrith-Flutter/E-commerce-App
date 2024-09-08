@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:market_nest_app/app/ui/themes/app_color.dart';
 
 class CustomTheme {
   static const lightThemeFont = "Poppins", darkThemeFont = "Poppins";
@@ -13,7 +14,7 @@ class CustomTheme {
     fontFamily: lightThemeFont,
     switchTheme: SwitchThemeData(
       thumbColor:
-      MaterialStateProperty.resolveWith<Color>((states) => lightThemeColor),
+      WidgetStateProperty.resolveWith<Color>((states) => lightThemeColor),
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: white,
@@ -42,7 +43,7 @@ class CustomTheme {
     fontFamily: darkThemeFont,
     switchTheme: SwitchThemeData(
       trackColor:
-      MaterialStateProperty.resolveWith<Color>((states) => darkThemeColor),
+      WidgetStateProperty.resolveWith<Color>((states) => darkThemeColor),
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: black,
@@ -64,7 +65,7 @@ class CustomTheme {
 
   // colors
   static Color lightThemeColor = Colors.black,
-      white = Colors.white,
-      black = Colors.black,
-      darkThemeColor = Colors.white;
+      white = AppColors.primaryWhite,
+      black =  AppColors.primaryBlack,
+      darkThemeColor = AppColors.primaryWhite;
 }

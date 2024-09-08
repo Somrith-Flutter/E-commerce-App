@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:market_nest_app/app/ui/global_widgets/text_widget.dart';
 
 class OrderHistoryScreen extends StatelessWidget {
+  const OrderHistoryScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Order History'),
+        title: const TextWidget('Order History'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -21,7 +24,7 @@ class OrderHistoryScreen extends StatelessWidget {
                 Expanded(child: _buildTabButton('Completed', false)),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Expanded(
               child: ListView(
                 children: [
@@ -62,19 +65,19 @@ class OrderHistoryScreen extends StatelessWidget {
             height: 80,
             color: Colors.grey, // Placeholder for product image
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(height: 4),
-              Text(date, style: TextStyle(color: Colors.grey)),
-              SizedBox(height: 8),
+              Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 4),
+              Text(date, style: const TextStyle(color: Colors.grey)),
+              const SizedBox(height: 8),
               Row(
                 children: [
-                  Text(price, style: TextStyle(fontWeight: FontWeight.bold)),
-                  SizedBox(width: 8),
-                  Text(originalPrice, style: TextStyle(decoration: TextDecoration.lineThrough)),
+                  Text(price, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(width: 8),
+                  Text(originalPrice, style: const TextStyle(decoration: TextDecoration.lineThrough)),
                 ],
               ),
             ],

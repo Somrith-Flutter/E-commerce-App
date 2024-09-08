@@ -22,5 +22,10 @@ class AppColors {
   static const Color marigold = Color(0xFFFECF45);
   static const Color brown = Color(0xFF5A4A35);
   static const Color pink = Color(0xFFCE1DB8);
- 
+
+  static const Color primaryWhite = Color(0xFFF1F4F8);
+  static const Color secondaryWhite = Colors.white;
+
+  static const Color primaryBlack = Color(0xFF18141B);
+  static const Color secondaryBlack = Colors.black;
 }

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 class PaymentMethodScreen extends StatelessWidget {
+  const PaymentMethodScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Payment Method'),
+        title: const Text('Payment Method'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -19,30 +22,30 @@ class PaymentMethodScreen extends StatelessWidget {
             Row(
               children: [
                 Expanded(child: _buildPaymentOption('PayPal')),
-                SizedBox(width: 8),
+                const Gap(8),
                 Expanded(child: _buildPaymentOption('Google Pay')),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             _buildTextField('Card Holder Name', 'Enter card holder name'),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             _buildTextField('Card Number', '4111 1111 1111 1111'),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(child: _buildTextField('Expiration', 'MM/YY')),
-                SizedBox(width: 16),
+                const Gap(16),
                 Expanded(child: _buildTextField('CVV', '123')),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 48),
+                minimumSize: const Size(double.infinity, 48),
                 //primary: Colors.black,
               ),
-              child: Text('Save'),
+              child: const Text('Save'),
             ),
           ],
         ),
@@ -60,7 +63,7 @@ class PaymentMethodScreen extends StatelessWidget {
       child: Center(
         child: Text(
           title,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -71,7 +74,7 @@ class PaymentMethodScreen extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
       ),
     );
   }

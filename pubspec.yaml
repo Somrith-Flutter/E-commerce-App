@@ -1,7 +1,7 @@
 name: market_nest_app
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.2+2
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -63,8 +63,8 @@ flutter:
 
 flutter_intl:
   enabled: true
-  arb_dir: lib/app/translation/l10n
-  output_dir: lib/app/translation/generated
+  arb_dir: lib/translation/l10n
+  output_dir: lib/translation/generated
 
 
 flutter_launcher_icons:

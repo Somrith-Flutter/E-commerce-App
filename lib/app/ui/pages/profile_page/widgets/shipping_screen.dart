@@ -3,6 +3,8 @@ import 'package:market_nest_app/app/ui/global_widgets/my_textInput.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 
 class ShippingAddressScreen extends StatelessWidget {
+  const ShippingAddressScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

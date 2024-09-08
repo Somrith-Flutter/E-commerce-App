@@ -11,10 +11,6 @@ class ProductController extends GetxController {
   var products = <ProductModel>[].obs;
   var isLoading = true.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   void fetchProducts({required int subCategoryId}) async {
     try {
@@ -32,10 +28,8 @@ class ProductController extends GetxController {
     try {
       isLoading(true);
       var result = await HomeRepository().fetchedProductByLength(limitItem: limit);
-      if (result != null) {
-        products.value = result;
-      }
-    } catch (e) {
+      products.value = result;
+        } catch (e) {
       Get.snackbar('Error', 'Failed to load sub-categories');
     } finally {
       isLoading(false);

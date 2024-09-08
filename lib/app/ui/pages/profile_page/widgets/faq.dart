@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:market_nest_app/app/ui/global_widgets/text_widget.dart';
 
 class FAQScreen extends StatelessWidget {
+  const FAQScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FAQs'),
+        title: const TextWidget('FAQs'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
@@ -30,8 +34,8 @@ class FAQScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(question, style: TextStyle(fontWeight: FontWeight.bold)),
-          SizedBox(height: 8),
+          TextWidget(question, bold: true,),
+          const Gap( 8),
           Text(answer),
         ],
       ),

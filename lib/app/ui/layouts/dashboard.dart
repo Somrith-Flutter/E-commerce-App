@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:get/get.dart';
-import 'package:market_nest_app/app/controllers/theme_controller.dart';
 import 'package:market_nest_app/app/ui/pages/home/view/home_view.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
@@ -49,7 +48,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   List<Widget> widgetsPage = [
     const HomeScreen(),
-    CategoriesScreen(),
+    const CategoriesScreen(),
     const MyCardScreen(),
     const WishListScreen(),
     const ProfileScreen(),
@@ -73,7 +72,7 @@ class _DashboardPageState extends State<DashboardPage> {
       body: widgetsPage[visit],
       bottomNavigationBar: BottomBarCreative(
         items: items,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.primaryWhite,
         color: AppColors.grey150,
         colorSelected: AppColors.cyan,
         indexSelected: visit,
