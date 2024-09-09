@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/controllers/theme_controller.dart';
+import 'package:market_nest_app/app/ui/pages/product/controller/product_controller.dart';
 import 'package:market_nest_app/common/constants/api_path.dart';
 import 'package:market_nest_app/app/ui/global_widgets/text_widget.dart';
 import 'package:market_nest_app/app/ui/pages/product/model/product_model.dart';
@@ -28,6 +29,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
   ];
   Color selectedColor = Colors.blueGrey;
   final double sliverAppBarHeight = 200;
+  ProductController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   height: 250,
                   width: double.infinity,
                   child: Image.network(
-                    ApiPath.baseUrl + widget.product.imageUrl,
+                    ApiPath.baseUrl + widget.product.imageThumbnail,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return const Icon(Icons.broken_image, size: 40);
@@ -219,7 +221,9 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 const Gap(16),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      controller.addToCart(widget.product, quantity > 0 ? quantity : 1);
+                    },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       backgroundColor: AppColors.black,
@@ -256,7 +260,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
         background: Stack(
           children: [
             Image.network(
-                ApiPath.baseUrl + widget.product.imageUrl,
+                ApiPath.baseUrl + widget.product.imageThumbnail,
               fit: BoxFit.cover,
               width: double.infinity,
               errorBuilder: (context, error, stackTrace) {

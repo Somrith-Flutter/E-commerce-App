@@ -6,7 +6,7 @@ import 'package:market_nest_app/app/ui/pages/home/view/home_view.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
 import 'package:market_nest_app/app/ui/pages/category/view/categories_screen.dart';
-import 'package:market_nest_app/app/ui/pages/my_card_page/mycard_screen.dart';
+import 'package:market_nest_app/app/ui/pages/my_card_page/view/mycard_screen.dart';
 import 'package:market_nest_app/app/ui/pages/profile_page/profile_page.dart';
 import 'package:market_nest_app/app/ui/pages/wishlist_page/wishlist_screen.dart';
 

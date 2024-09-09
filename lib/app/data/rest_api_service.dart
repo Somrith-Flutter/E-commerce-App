@@ -48,7 +48,9 @@ class RestApiService {
       final response = await http.post(
         uri,
         headers: {
-          'Content-Type': 'application/json',
+          'Accept': '*/*',
+          'Authorization': 'Bearer ${accessToken.$}', 
+          'Content-Type': 'application/json', 
         },
         body: jsonEncode(body),
       );
