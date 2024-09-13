@@ -13,6 +13,8 @@ class ApiPath {
   static const String getSubCategories ="v2/get-sub-category";
   static const String getProducts = "v3/get-product";
   static const String getProductByLength = "v3/order-by-list-product";
+  static const String addToCart = "/api/store-card-product";
+  static const String getCarts = "api/get-all-card";
   static const String confirmViaEmail = "v1/confirm-vai-email";
   static const String removeUser = "v1/remove-user";
   static const String updateUser = "v1/update";

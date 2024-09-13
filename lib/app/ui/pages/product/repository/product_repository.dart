@@ -25,4 +25,17 @@ class ProductRepository extends RestApiService {
       rethrow;
     }
   }
+
+  Future<dynamic> addToCart({required int id, required int quantity}) async {
+    try {
+      final queryParameters = {
+        "product_id": id,
+        "quantity": quantity,
+      };
+      await post(ApiPath.addToCart, queryParameters);
+    } catch (e) {
+      debugPrint('Error in adding to cart: $e');
+      rethrow;
+    }
+  }
 }
