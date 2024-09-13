@@ -55,7 +55,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   height: 250,
                   width: double.infinity,
                   child: Image.network(
-                    ApiPath.baseUrl() + widget.product.imageUrl,
+                    ApiPath.baseUrl() + widget.product.imageUrl.toString(),
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return const Icon(Icons.broken_image, size: 40);
@@ -256,7 +256,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
         background: Stack(
           children: [
             Image.network(
-                ApiPath.baseUrl() + widget.product.imageUrl,
+                ApiPath.baseUrl() + widget.product.imageUrl.toString(),
               fit: BoxFit.cover,
               width: double.infinity,
               errorBuilder: (context, error, stackTrace) {

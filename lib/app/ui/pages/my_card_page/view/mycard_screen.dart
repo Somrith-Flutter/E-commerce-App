@@ -100,7 +100,7 @@ class MyCardScreen extends StatelessWidget {
         children: [
           // Product Image
           Image.network(
-            ApiPath.baseUrl + product.imageUrl.first,
+            ApiPath.baseUrl() + product.imageUrl.first,
             height: 80,
             width: 80,
             fit: BoxFit.cover,

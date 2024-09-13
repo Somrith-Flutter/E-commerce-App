@@ -303,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12.0),
                             child: Image.network(
-                              ApiPath.baseUrl() + product.imageUrl,
+                              ApiPath.baseUrl() + product.imageUrl.toString(),
                               width: MediaQuery.of(context).size.width,
                               height: 160,
                               fit: BoxFit.cover,
