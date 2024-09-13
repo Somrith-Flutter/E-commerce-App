@@ -110,7 +110,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.network(
-                            ApiPath.baseUrl + category.imageUrl,
+                            ApiPath.baseUrl() + category.imageUrl,
                             width: 40.0,
                             height: 40.0,
                             fit: BoxFit.contain,

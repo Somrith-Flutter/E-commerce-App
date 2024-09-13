@@ -31,7 +31,7 @@ class HomeRepository extends RestApiService {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ${accessToken.$}'
       };
-      var request = http.Request('GET', Uri.parse("${ApiPath.baseUrl}/${ApiPath.getProductByLength}"));
+      var request = http.Request('GET', Uri.parse("${ApiPath.baseUrl()}/${ApiPath.getProductByLength}"));
       request.body = json.encode({
         "limit": limitItem.toString()
       });

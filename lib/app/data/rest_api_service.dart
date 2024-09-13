@@ -7,7 +7,7 @@ import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
 class RestApiService {
   Future<dynamic> get(String url, {Map<String, dynamic>? body}) async {
     try {
-      var uri = Uri.parse('${ApiPath.baseUrl}/$url');
+      var uri = Uri.parse('${ApiPath.baseUrl()}/$url');
       var request = http.Request('GET', uri);
 
       request.headers.addAll({
@@ -37,7 +37,7 @@ class RestApiService {
 
   Future<void> post(String url, dynamic body, {Map<String, dynamic>? params}) async {
     try {
-      var uri = Uri.parse('${ApiPath.baseUrl}/$url');
+      var uri = Uri.parse('${ApiPath.baseUrl()}/$url');
       if (params != null) {
         uri = uri.replace(queryParameters: params.map((key, value) => MapEntry(key, value.toString())));
       }
@@ -68,7 +68,7 @@ class RestApiService {
   Future<void> put(String url, dynamic body) async {
     try {
       final response = await http.put(
-        Uri.parse('${ApiPath.baseUrl}/$url'),
+        Uri.parse('${ApiPath.baseUrl()}/$url'),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -88,7 +88,7 @@ class RestApiService {
   Future<void> delete(String url) async {
     try {
       final response = await http.delete(
-        Uri.parse('${ApiPath.baseUrl}/$url'),
+        Uri.parse('${ApiPath.baseUrl()}/$url'),
         headers: {
           'Accept': 'application/json',
         },

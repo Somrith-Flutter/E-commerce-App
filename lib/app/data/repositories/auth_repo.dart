@@ -12,7 +12,7 @@ class AuthRepo{
       var headers = {
         'Content-Type': 'application/json'
       };
-      var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${ApiPath.login}'));
+      var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl()}/${ApiPath.login}'));
       request.body = json.encode({
         "email": emailAddress,
         "password": password
@@ -46,7 +46,7 @@ class AuthRepo{
     var headers = {
       'Content-Type': 'application/json',
     };
-    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${ApiPath.register}'));
+    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl()}/${ApiPath.register}'));
     request.body = json.encode({
       "name": name,
       "email": email,
@@ -74,7 +74,7 @@ class AuthRepo{
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${accessToken.$}'
     };
-    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${ApiPath.forgetPassword}'));
+    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl()}/${ApiPath.forgetPassword}'));
     request.body = json.encode({
       "email": email
     });
@@ -100,7 +100,7 @@ class AuthRepo{
     var headers = {
       'Content-Type': 'application/json',
     };
-    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${ApiPath.setNewPassword}'));
+    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl()}/${ApiPath.setNewPassword}'));
     request.body = json.encode({
       "uid": uid,
       "newPassword": newPassword,
@@ -126,7 +126,7 @@ class AuthRepo{
     var headers = {
       'Content-Type': 'application/json'
     };
-    var request = http.Request('GET', Uri.parse('${ApiPath.baseUrl}/${ApiPath.getMe}'));
+    var request = http.Request('GET', Uri.parse('${ApiPath.baseUrl()}/${ApiPath.getMe}'));
     request.body = json.encode({
       "token": userToken.toString()
     });
@@ -149,7 +149,7 @@ class AuthRepo{
     var headers = {
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${ApiPath.confirmViaEmail}'));
+    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl()}/${ApiPath.confirmViaEmail}'));
     request.body = json.encode({
       "email": email
     });
@@ -173,7 +173,7 @@ class AuthRepo{
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${accessToken.$}'
     };
-    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl}/${ApiPath.refreshToken}'));
+    var request = http.Request('POST', Uri.parse('${ApiPath.baseUrl()}/${ApiPath.refreshToken}'));
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
@@ -194,7 +194,7 @@ class AuthRepo{
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${accessToken.$}'
     };
-    var request = http.Request('DELETE', Uri.parse('${ApiPath.baseUrl}/${ApiPath.removeUser}/$userId'));
+    var request = http.Request('DELETE', Uri.parse('${ApiPath.baseUrl()}/${ApiPath.removeUser}/$userId'));
 
     request.headers.addAll(headers);
 

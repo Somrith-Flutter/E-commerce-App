@@ -81,7 +81,7 @@ class SubCategoriesScreen extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16.0), 
                           child: Image.network(
-                            ApiPath.baseUrl + subCategory.imageUrl,
+                            ApiPath.baseUrl() + subCategory.imageUrl,
                             width: double.infinity,
                             height: 140,
                             fit: BoxFit.cover,
