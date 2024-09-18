@@ -133,7 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Container(
           height: 30,
           decoration: BoxDecoration(
-            color: _theme.currentTheme.value == ThemeMode.light
+            color: !_theme.isDarkMode.value
                 ? AppColors.primaryWhite
                 : AppColors.primaryBlack,
             borderRadius: const BorderRadius.only(
@@ -280,23 +280,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildDarkThemeToggle() {
     return ListTile(
-      leading: Icon(_theme.currentTheme.value == ThemeMode.dark
+      leading: Icon(_theme.isDarkMode.value
           ? Icons.dark_mode
           : Icons.light_mode),
       title: Text(
-        _theme.currentTheme.value == ThemeMode.dark
+        _theme.isDarkMode.value
             ? "Dark Mode"
             : "Light Mode",
       ),
       trailing: Obx(
         () => Switch(
-          value: _theme.currentTheme.value == ThemeMode.dark,
+          value: _theme.isDarkMode.value,
           onChanged: (value) {
             _theme.switchTheme();
           },
           activeColor: Colors.white,
           inactiveThumbColor: Colors.grey,
-          activeTrackColor: _theme.currentTheme.value == ThemeMode.dark
+          activeTrackColor: _theme.isDarkMode.value
             ? Colors.green
             : Colors.grey,
         ),

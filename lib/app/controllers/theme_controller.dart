@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeController extends GetxController implements GetxService {
   Rx<ThemeMode> currentTheme = ThemeMode.system.obs;
+  RxBool isDarkMode = false.obs;
 
   void switchTheme() async {
     final prefs = await SharedPreferences.getInstance();
@@ -19,8 +20,8 @@ class ThemeController extends GetxController implements GetxService {
 
   Future<void> loadTheme() async {
     final prefs = await SharedPreferences.getInstance();
-    final isDarkMode = prefs.getBool('isDarkMode') ?? false;
-    currentTheme.value = isDarkMode ? ThemeMode.dark : ThemeMode.light;
+    isDarkMode.value = prefs.getBool('isDarkMode') ?? false;
+    currentTheme.value = isDarkMode.value ? ThemeMode.dark : ThemeMode.light;
     update();
   }
 }

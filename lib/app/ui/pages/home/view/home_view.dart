@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/controllers/theme_controller.dart';
+import 'package:market_nest_app/app/ui/layouts/error_404_widget.dart';
 import 'package:market_nest_app/common/constants/api_path.dart';
 import 'package:market_nest_app/app/ui/global_widgets/text_widget.dart';
 import 'package:market_nest_app/app/ui/pages/category/model/category_model.dart';
@@ -270,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         );
       } else if (productController.products.isEmpty) {
-        return const Center(child: Text('No products available.'));
+        return const Error404Widget();
       } else {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
