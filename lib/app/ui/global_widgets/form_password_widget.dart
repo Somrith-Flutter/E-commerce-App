@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:market_nest_app/app/controllers/theme_controller.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 
 class FormPasswordWidget extends StatefulWidget {
@@ -14,6 +16,7 @@ class FormPasswordWidget extends StatefulWidget {
 
 class _FormPasswordWidgetState extends State<FormPasswordWidget> {
   bool isShow = false;
+  final ThemeController _theme = Get.find<ThemeController>();
 
   void trigglePassword(){
     isShow =! isShow;
@@ -28,8 +31,9 @@ class _FormPasswordWidgetState extends State<FormPasswordWidget> {
         RichText(
           text: TextSpan(
             text: '${widget.label} ',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16.0,
+              color: _theme.isDarkMode.value ? Colors.white : Colors.black
             ),
             children: const [
               TextSpan(

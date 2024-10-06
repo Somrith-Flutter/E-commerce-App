@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(theme.currentTheme.value == ThemeMode.dark ? AssetPath.blackBgLogoApp : AssetPath.miniLogoApp,
+                    Image.asset(theme.isDarkMode.value ? AssetPath.blackBgLogoApp : AssetPath.miniLogoApp,
                       width: 150,
                     ),
                     const Gap(20),

@@ -48,6 +48,7 @@ flutter:
     - assets/icons/
     - assets/flags/
     - assets/fonts/
+    - assets/flags/img_64px_radius/
 
   fonts:
     - family: Poppins

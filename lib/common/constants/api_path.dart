@@ -25,7 +25,7 @@ class ApiPath {
 
   static String baseUrl(){
     if(kDebugMode){
-      return "http://10.0.2.2:3306";
+      return "http://192.168.0.101:3306";
     }else{
       return "https://martketnest-b6a16053be02.herokuapp.com";
     }

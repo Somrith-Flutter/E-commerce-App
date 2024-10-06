@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
+import 'package:market_nest_app/app/controllers/lang_controller.dart';
 import 'package:market_nest_app/app/controllers/theme_controller.dart';
 import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
 import 'package:market_nest_app/app/data/helpers.dart';
 import 'package:market_nest_app/app/ui/pages/authentication_page/forgot_password.dart';
 import 'package:market_nest_app/app/ui/pages/authentication_page/login_page.dart';
+import 'package:market_nest_app/app/ui/pages/language_screen.dart';
 import 'package:market_nest_app/app/ui/pages/profile_page/widgets/deactivate_account.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/app/ui/pages/profile_page/widgets/faq.dart';
@@ -25,6 +27,8 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   late Future<PackageInfo> _packageInfoFuture;
   final _auth = Get.find<AuthController>();
+  final LanguageController _languageController = Get.find<LanguageController>();
+  LanguageController get lang => _languageController;
 
   AuthController get auth => _auth;
   final _timer = CountdownTimer();
@@ -153,16 +157,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionTitle('Personal Information'),
-            _buildProfileOption(Icons.location_on_outlined, 'Shipping Address',
+            _buildSectionTitle(lang.lang.personalInformation),
+            _buildProfileOption(Icons.location_on_outlined, lang.lang.shippingAddress,
                 onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ShippingAddressScreen()));
+              Get.to(const ShippingAddressScreen());
             }),
             const Divider(),
-            _buildProfileOption(Icons.payment_outlined, 'Payment Method',
+            _buildProfileOption(Icons.payment_outlined, lang.lang.paymentMethod,
                 onTap: () {
               Navigator.push(
                   context,
@@ -170,7 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       builder: (context) => const PaymentMethodScreen()));
             }),
             const Divider(),
-            _buildProfileOption(Icons.history_outlined, 'Order History',
+            _buildProfileOption(Icons.history_outlined, lang.lang.orderHistory,
                 onTap: () {
               Navigator.push(
                   context,
@@ -178,8 +179,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       builder: (context) => const OrderHistoryScreen()));
             }),
             const Divider(),
-            _buildSectionTitle('Support & Information'),
-            _buildProfileOption(Icons.privacy_tip_outlined, 'Privacy Policy',
+            _buildSectionTitle(lang.lang.supportInformation),
+            _buildProfileOption(Icons.privacy_tip_outlined, lang.lang.privacyPolicy,
                 onTap: () {
               // Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()));
             }),
@@ -205,9 +206,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ));
             }),
             const Divider(),
-            _buildProfileOption(Icons.language_outlined, 'Languages',
-                onTap: () {
-              //Navigator.push(context, MaterialPageRoute(builder: (context) => LanguagesScreen()));
+            _buildProfileOption(Icons.language_outlined, 'Languages', onTap: () {
+              Get.to(const LanguageScreen());
             }),
             const Divider(),
             FutureBuilder<PackageInfo>(

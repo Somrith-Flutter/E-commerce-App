@@ -22,7 +22,7 @@ class CustomTheme {
       titleTextStyle: TextStyle(
         fontWeight: FontWeight.w500,
         color: black,
-        fontSize: 23, //20
+        fontSize: 18, //20
       ),
       iconTheme: IconThemeData(color: lightThemeColor),
       elevation: 0,
@@ -51,7 +51,7 @@ class CustomTheme {
       titleTextStyle: TextStyle(
         fontWeight: FontWeight.w500,
         color: white,
-        fontSize: 23, //20
+        fontSize: 18, //20
       ),
       iconTheme: IconThemeData(color: darkThemeColor),
       elevation: 0,
