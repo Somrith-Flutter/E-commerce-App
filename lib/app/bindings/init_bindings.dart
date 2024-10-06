@@ -16,7 +16,6 @@ import 'package:market_nest_app/app/ui/pages/sub_category/repository/sub_categor
 class AppBindings extends Bindings{
   @override
   void dependencies() {
-    /// Get.lazyPut(() => WidgetClass())
     Get.lazyPut(() => AuthController());
     Get.lazyPut(() => CategoryController(repository: CategoryRepository()));
     Get.lazyPut(() => ThemeController());
