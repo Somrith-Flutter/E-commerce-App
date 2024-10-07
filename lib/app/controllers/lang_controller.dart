@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:market_nest_app/translation/l10n/intl_en.dart';
 import 'package:market_nest_app/translation/l10n/intl_kh.dart';
-import 'package:market_nest_app/translation/l10n/languages.dart';
+import 'package:market_nest_app/translation/l10n/abs_lang.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguageController extends GetxController implements GetxService {
