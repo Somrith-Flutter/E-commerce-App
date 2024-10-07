@@ -113,7 +113,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.network(
-                            ApiPath.baseUrl() + category.imageUrl,
+                            "${ApiPath.baseUrl()}${category.imageUrl}",
                             width: 40.0,
                             height: 40.0,
                             fit: BoxFit.contain,
@@ -126,7 +126,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             category.name,
                             style: TextStyle(
                               fontSize: 16.0,
-                              color: _themeController.currentTheme.value != ThemeMode.light ? Colors.black : Colors.brown,
+                              color: Get.isDarkMode ? Colors.black : Colors.brown,
                               fontWeight: FontWeight.bold,
                             ),
                             textAlign: TextAlign.center,
@@ -134,7 +134,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           Text(
                               category.description,
                               style: TextStyle(
-                                color: _themeController.currentTheme.value != ThemeMode.light ? Colors.black : Colors.brown,
+                                color: Get.isDarkMode ? Colors.black : Colors.brown,
                                 fontSize: 12.0,
                               ),
                               textAlign: TextAlign.center,

@@ -7,6 +7,7 @@ import 'package:market_nest_app/app/ui/layouts/splash_screen.dart';
 import 'package:market_nest_app/app/ui/themes/sytem_theme.dart';
 import 'package:shared_value/shared_value.dart';
 import 'app/bindings/init_bindings.dart';
+import 'translation/l10n/translation_app.dart';
 
 void main() async {
   runApp(SharedValue.wrapApp(const MyApp()));
@@ -27,14 +28,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeController = Get.put(ThemeController());
+    final l = Get.put(LanguageController());
 
-    return GetMaterialApp(
-      initialBinding: AppBindings(),
-      debugShowCheckedModeBanner: false,
-      theme: CustomTheme.lightTheme,
-      darkTheme: CustomTheme.darkTheme,
-      themeMode: themeController.currentTheme.value,
-      home: const SplashScreen(),
-    );
+    return Obx(() {
+      return GetMaterialApp(
+        initialBinding: AppBindings(),
+        debugShowCheckedModeBanner: false,
+        theme: CustomTheme.lightTheme,
+        darkTheme: CustomTheme.darkTheme,
+        locale: l.getCurrentLanguage.value,
+        translations: MyTranslations(),
+        fallbackLocale: const Locale('kh'),
+        themeMode: themeController.currentTheme.value,
+        home: const SplashScreen(),
+      );
+    });
   }
 }

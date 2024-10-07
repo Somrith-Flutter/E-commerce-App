@@ -53,9 +53,13 @@ class _LanguageScreenState extends State<LanguageScreen> {
           return InkWell(
             onTap: () async {
              try{
-               await lang.changeAppLanguage(index: index);
-
+               await lang.changeAppLanguage(index);
                IconSnackBar.show(
+                 snackBarStyle: SnackBarStyle(
+                   labelTextStyle: TextStyle(
+                     color: Get.isDarkMode ? Colors.white : Colors.black
+                   )
+                 ),
                  context, label: "Language change to ${appLangs[index]['label']}",
                  snackBarType: SnackBarType.success,
                  duration: const Duration(seconds: 3)

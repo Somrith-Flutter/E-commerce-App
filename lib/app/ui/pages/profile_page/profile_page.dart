@@ -157,13 +157,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionTitle(lang.lang.personalInformation),
-            _buildProfileOption(Icons.location_on_outlined, lang.lang.shippingAddress,
+            _buildSectionTitle("personalInformation".tr),
+            _buildProfileOption(Icons.location_on_outlined, "shippingAddress".tr,
                 onTap: () {
               Get.to(const ShippingAddressScreen());
             }),
             const Divider(),
-            _buildProfileOption(Icons.payment_outlined, lang.lang.paymentMethod,
+            _buildProfileOption(Icons.payment_outlined, "paymentMethod".tr,
                 onTap: () {
               Navigator.push(
                   context,
@@ -171,7 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       builder: (context) => const PaymentMethodScreen()));
             }),
             const Divider(),
-            _buildProfileOption(Icons.history_outlined, lang.lang.orderHistory,
+            _buildProfileOption(Icons.history_outlined, "orderHistory".tr,
                 onTap: () {
               Navigator.push(
                   context,
@@ -179,8 +179,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       builder: (context) => const OrderHistoryScreen()));
             }),
             const Divider(),
-            _buildSectionTitle(lang.lang.supportInformation),
-            _buildProfileOption(Icons.privacy_tip_outlined, lang.lang.privacyPolicy,
+            _buildSectionTitle("supportInformation".tr),
+            _buildProfileOption(Icons.privacy_tip_outlined, "privacyPolicy".tr,
                 onTap: () {
               // Navigator.push(context, MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()));
             }),
