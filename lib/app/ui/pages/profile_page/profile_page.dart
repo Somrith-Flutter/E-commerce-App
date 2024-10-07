@@ -186,19 +186,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
             }),
             const Divider(),
             _buildProfileOption(
-                Icons.description_outlined, 'Terms & Conditions', onTap: () {
+                Icons.description_outlined, 'term_&_condition'.tr, onTap: () {
               // Navigator.push(context, MaterialPageRoute(builder: (context) => TermsConditionsScreen()));
             }),
             const Divider(),
-            _buildProfileOption(Icons.help_outline, 'FAQs', onTap: () {
+            _buildProfileOption(Icons.help_outline, 'faqs'.tr, onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const FAQScreen()));
             }),
             const Divider(),
-            _buildSectionTitle('Account Management'),
+            _buildSectionTitle('account_management'.tr),
             _buildDarkThemeToggle(),
             const Divider(),
-            _buildProfileOption(Icons.lock_outline, 'Change Password',
+            _buildProfileOption(Icons.lock_outline, 'change_password'.tr,
                 onTap: () {
               Get.to(const ForgotPasswordScreen(
                 fixedWidget: 0,
@@ -206,7 +206,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ));
             }),
             const Divider(),
-            _buildProfileOption(Icons.language_outlined, 'Languages', onTap: () {
+            _buildProfileOption(Icons.language_outlined, 'languages'.tr, onTap: () {
               Get.to(const LanguageScreen());
             }),
             const Divider(),
@@ -215,29 +215,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return _buildProfileOption(
-                      Icons.build_circle_outlined, 'Version',
+                      Icons.build_circle_outlined, 'version'.tr,
                       trailing: 'Loading...');
                 } else if (snapshot.hasError) {
                   return _buildProfileOption(
-                      Icons.build_circle_outlined, 'Version',
+                      Icons.build_circle_outlined, 'version'.tr,
                       trailing: 'Error');
                 } else {
                   return _buildProfileOption(
-                      Icons.build_circle_outlined, 'Version',
+                      Icons.build_circle_outlined, 'version'.tr,
                       trailing: snapshot.data?.version ?? 'Unknown');
                 }
               },
             ),
             const Divider(),
-            _buildProfileOption(Icons.logout, 'Logout', onTap: () {
+            _buildProfileOption(Icons.logout, 'logout'.tr, onTap: () {
               _timer.clear();
               logout(context);
             }, color: Colors.redAccent),
-            const Divider(),
-            _buildProfileOption(CupertinoIcons.delete, 'Deactivate Account',
+
+            if(_auth.userModel?.role.toString() == "admin")...[
+              const Divider(),
+              _buildProfileOption(CupertinoIcons.delete, 'deactivate_account'.tr,
                 onTap: () {
-              Get.to(const DeactivateAccount());
-            }, color: Colors.redAccent, colorText: Colors.redAccent),
+                  Get.to(const DeactivateAccount());
+                }, color: Colors.redAccent, colorText: Colors.redAccent),
+            ]
+
           ],
         ),
       ),
@@ -285,8 +289,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           : Icons.light_mode),
       title: Text(
         _theme.isDarkMode.value
-            ? "Dark Mode"
-            : "Light Mode",
+            ? "dark_mode".tr
+            : "light_mode".tr,
       ),
       trailing: Obx(
         () => Switch(
@@ -312,12 +316,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          title: const Padding(
-            padding: EdgeInsets.all(16.0),
+          title: Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Text(
-              'Confirm',
+              'confirm'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
@@ -329,10 +333,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'Are you sure you want to log out from the app?',
+              Text(
+                'are_you_sure'.tr,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontSize: 18),
+                style: const TextStyle(color: Colors.white, fontSize: 18),
               ),
               const SizedBox(height: 30),
               const Divider(
@@ -361,9 +365,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                       ),
-                      child: const Text(
-                        'Accept',
-                        style: TextStyle(
+                      child: Text(
+                        'accept'.tr,
+                        style: const TextStyle(
                           color: AppColors.cyan,
                         ),
                       ),
@@ -387,9 +391,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                       ),
-                      child: const Text(
-                        'Cancel',
-                        style: TextStyle(color: Colors.red),
+                      child: Text(
+                        'cancel'.tr,
+                        style: const TextStyle(color: Colors.red),
                       ),
                     ),
                   ),

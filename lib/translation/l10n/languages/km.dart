@@ -6,4 +6,18 @@ Map<String, String> get km => {
   'privacyPolicy': 'គោលការណ៍ឯកជនភាព',
   'supportInformation': 'ជំនួយ និងព័ត៌មាន',
   'personalInformation': 'ព័ត៌មានផ្ទាល់ខ្លួន',
+  'term_&_condition': 'ល័ក្ខខ័ណ្ឌ និង ទំនាក់ទំនង',
+  'faqs': 'សំណួរដែលត្រូវសួរ',
+  'account_management': 'ការគ្រប់គ្រងគណនី',
+  'change_password': 'ផ្លាស់ប្តូរពាក្យសម្ងាត់',
+  'languages': 'ភាសា',
+  'dark_mode': 'ងងឹត',
+  'light_mode': 'ភ្លឺ',
+  'confirm': 'អាច',
+  'are_you_sure': 'តើអ្នកប្រាកដឬទេថា អ្នកចង់ចេញពីកម្មវិធី?',
+  'accept': 'យល់ព្រម',
+  'cancel': 'បោះបង់',
+  'version': 'កំណែទម្រង់',
+  'logout': 'ចាកចេញ',
+  'deactivate_account': 'បិទគណនី'
 };
