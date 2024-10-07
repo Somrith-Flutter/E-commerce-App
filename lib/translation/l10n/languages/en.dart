@@ -20,4 +20,8 @@ Map<String, String> get en => {
     'version': 'Version',
     'logout': 'Logout',
     'deactivate_account': 'Deactivate Account',
+    'home': 'Home',
+    'category': 'Category',
+    'my_account': 'My Account',
+    'favorite': 'Favorite'
 };

@@ -24,25 +24,25 @@ class _DashboardPageState extends State<DashboardPage> {
   final user = Get.find<AuthController>();
 
   List<TabItem> items = [
-    const TabItem(
+    TabItem(
         icon: CupertinoIcons.home,
-        title: "Home"
+        title: 'home'.tr
     ),
-    const TabItem(
+    TabItem(
       icon: CupertinoIcons.square_grid_2x2,
-      title: 'Categories',
+      title: 'category'.tr,
     ),
     const TabItem(
       icon: CupertinoIcons.cart,
       title: 'My Card',
     ),
-    const TabItem(
+    TabItem(
       icon: CupertinoIcons.heart,
-      title: 'Wishlist',
+      title: 'favorite'.tr,
     ),
-    const TabItem(
+     TabItem(
       icon: CupertinoIcons.person,
-      title: 'Profile',
+      title: 'my_account'.tr,
     ),
   ];
 

@@ -19,5 +19,9 @@ Map<String, String> get km => {
   'cancel': 'បោះបង់',
   'version': 'កំណែទម្រង់',
   'logout': 'ចាកចេញ',
-  'deactivate_account': 'បិទគណនី'
+  'deactivate_account': 'បិទគណនី',
+  'home': 'ទំព័រដើម',
+  'category': 'ប្រភេទ',
+  'my_account': 'គណនីរបស់ខ្ញុំ',
+  'favorite': 'ចូលចិត្ត'
 };
