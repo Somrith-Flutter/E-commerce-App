@@ -43,19 +43,13 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text(AppConstant.appName),
         actions: [
           IconButton(
-            icon: const Icon(Icons.search, color: Colors.black),
+            icon: const Icon(Icons.search),
             onPressed: () {},
           ),
           IconButton(
             icon: const CircleAvatar(
               backgroundImage: NetworkImage('https://i.pinimg.com/564x/86/a8/ef/86a8ef5ff3a046bfd168695b6e9d6608.jpg')),
-            onPressed: () {
-              if(user.newUserModel != null){
-                print("id : ${user.newUserModel?.name.toString()}");
-              }else{
-                print("user null");
-              }
-            },
+            onPressed: () {},
           ),
         ],
       ),

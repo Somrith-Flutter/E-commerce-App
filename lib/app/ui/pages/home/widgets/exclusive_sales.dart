@@ -82,7 +82,7 @@ class _ExclusiveSalesState extends State<ExclusiveSales> {
           crossAxisCount: 2,
           mainAxisSpacing: 10.0,
           crossAxisSpacing: 10.0,
-          childAspectRatio: 0.7,
+          childAspectRatio: 0.65,
         ),
         itemCount: products.length,
         itemBuilder: (context, index) {
@@ -103,7 +103,7 @@ class _ExclusiveSalesState extends State<ExclusiveSales> {
                   Stack(
                     children: [
                       AspectRatio(
-                        aspectRatio: 1.5,
+                        aspectRatio: 1.1,
                         child: ClipRRect(
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(15),
@@ -111,25 +111,27 @@ class _ExclusiveSalesState extends State<ExclusiveSales> {
                           ),
                           child: Image.asset(
                             product['image'], // Ensure the image path is correct
-                            fit: BoxFit.contain,
+                            fit: BoxFit.fill,
                           ),
                         ),
                       ),
                       const Positioned(
                         right: 8,
                         top: 8,
-                        child: Icon(Icons.favorite_border),
+                        child: Icon(Icons.favorite_border, color: Colors.black,),
                       ),
                     ],
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      product['title'].toString().tr, // Convert to String and translate
+                      product['title'].toString(),
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Padding(
@@ -137,7 +139,7 @@ class _ExclusiveSalesState extends State<ExclusiveSales> {
                     child: Text(
                       product['price'].toString(), // Convert to String
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 12,
                         color: Colors.red,
                       ),
                     ),
@@ -147,7 +149,7 @@ class _ExclusiveSalesState extends State<ExclusiveSales> {
                     child: Text(
                       product['old_price'].toString(), // Convert to String
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 12,
                         decoration: TextDecoration.lineThrough,
                         color: Colors.grey,
                       ),
