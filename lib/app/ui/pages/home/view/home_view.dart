@@ -1,11 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:market_nest_app/app/config/app_object_list.dart';
 import 'package:market_nest_app/app/controllers/theme_controller.dart';
-import 'package:market_nest_app/app/ui/layouts/error_404_widget.dart';
+import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
+import 'package:market_nest_app/app/ui/global_widgets/error_404_widget.dart';
+import 'package:market_nest_app/app/ui/pages/category/controller/category_controller.dart';
+import 'package:market_nest_app/app/ui/pages/sub_category/controller/sub_category_controller.dart';
+import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/common/constants/api_path.dart';
-import 'package:market_nest_app/app/ui/global_widgets/text_widget.dart';
 import 'package:market_nest_app/app/ui/pages/category/model/category_model.dart';
 import 'package:market_nest_app/app/ui/pages/category/view/categories_screen.dart';
 import 'package:market_nest_app/app/ui/pages/home/controller/home_controller.dart';
@@ -13,10 +18,10 @@ import 'package:market_nest_app/app/ui/pages/home/widgets/exclusive_sales.dart';
 import 'package:market_nest_app/app/ui/pages/product/view/product_details_view.dart';
 import 'package:market_nest_app/app/ui/pages/product/view/product_view.dart';
 import 'package:market_nest_app/app/ui/pages/sub_category/view/sub_category_view.dart';
-import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/common/constants/app_constant.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,135 +32,174 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _user = Get.find<AuthController>();
+
   AuthController get user => _user;
   final _themeController = Get.find<ThemeController>();
+  final PageController _controller = PageController();
+  final sub = Get.find<SubCategoryController>();
+  final cate = Get.find<CategoryController>();
+  int currentPage = 0;
 
   @override
   void initState() {
+    Future.delayed(const Duration(milliseconds: 200), (){
+      sub.getSlide(active: "1");
+      cate.fetchCategories();
+    });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        centerTitle: false,
-        title: const Text(AppConstant.appName),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const CircleAvatar(
-              backgroundImage: NetworkImage('https://i.pinimg.com/564x/86/a8/ef/86a8ef5ff3a046bfd168695b6e9d6608.jpg')),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildPromotionalBanner(),
-            _buildCategoriesSection(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: _buildSectionHeader('Latest Products', onSeeAllPressed: () {
-                Get.to(const ProductScreen(getAll: true,));
-              }),
+    return Obx(() {
+      return Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: false,
+          title: const Text(AppConstant.appName),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.search, color: AppColors.white,),
+              onPressed: () {},
             ),
-            _buildLatestProductsSection(),
+            IconButton(
+              icon: const CircleAvatar(
+                backgroundImage: NetworkImage('https://i.pinimg.com/564x/86/a8/ef/86a8ef5ff3a046bfd168695b6e9d6608.jpg')),
+              onPressed: () {},
+            ),
           ],
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildPromotionalBanner(),
+              _buildCategoriesSection(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: _buildSectionHeader(
+                    'Latest Products', onSeeAllPressed: () {
+                  Get.to(const ProductScreen(getAll: true,));
+                }),
+              ),
+              _buildLatestProductsSection(),
+            ],
+          ),
+        ),
+      );
+    });
   }
 
   Widget _buildPromotionalBanner() {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const ExclusiveSales()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const ExclusiveSales()));
         },
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            image: const DecorationImage(
-              image: NetworkImage('https://cdn.mos.cms.futurecdn.net/fsDKHB3ZyNJK6zMpDDBenB.jpg'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        child: SizedBox(
+          width: MediaQuery
+              .of(context)
+              .size
+              .width,
+          height: 200,
+          child: Stack(
             children: [
-              const Gap(30),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                child: const Text(
-                  '30% OFF',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'On Headphones',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
-              ),
-              const Gap(6),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const TextWidget(
-                    'Exclusive Sales',
-                    color: Colors.white,
-                    bold: true,
-                    size: 20,
-                  ),
-                  Container(
-                    height: 20,
-                    padding: const EdgeInsets.only(left: 5, right: 5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey
-                    ),
-                    child: Row(
-                      children: List.generate(5, (index) {
-                        return Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 2),
-                          width: 8,
-                          height: 8,
-                          decoration: BoxDecoration(
-                            color: index == 0 ? AppColors.cyan : Colors.white54,
-                            shape: BoxShape.circle,
+              PageView(
+                  controller: _controller,
+                  onPageChanged: (index) {
+                    setState(() {
+                      currentPage = index;
+                    });
+                  },
+                  children: List.generate(sub.slideBanner.length, (index) {
+                    if (sub.status == Status.fail) {
+                      return CupertinoActivityIndicator(
+                        color: Get.isDarkMode ? Colors.white : Colors.black,
+                      );
+                    }
+
+                    if (sub.status == Status.success) {
+                      String imageUrl = '${ApiPath.baseUrl()}${sub
+                          .slideBanner[index].imageSlide}';
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: CachedNetworkImage(
+                            imageUrl: imageUrl,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) =>
+                            const Center(child: CupertinoActivityIndicator()),
+                            errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                           ),
-                        );
-                      }),
-                    ),
-                  ),
-                ],
+                        ),
+                      );
+                    }
+
+                    return const SizedBox.shrink();
+                  },)
               ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  padding: const EdgeInsets.all(7),
+                  margin: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  child: sub.slideBanner.isNotEmpty
+                    ? SmoothPageIndicator(
+                    controller: _controller,
+                    count: sub.slideBanner.length,
+                    effect: CustomizableEffect(
+                      activeDotDecoration: DotDecoration(
+                        width: 10,
+                        height: 10,
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(2),
+                        rotationAngle: 45,
+                        dotBorder: const DotBorder(
+                          padding: 2,
+                          width: 2,
+                          color: Colors.indigo,
+                        ),
+                      ),
+                      dotDecoration: DotDecoration(
+                        width: 12,
+                        height: 12,
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(6),
+                        dotBorder: const DotBorder(
+                          padding: 2,
+                          width: 2,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      spacing: 10.0,
+                      activeColorOverride: (i) => colors[i],
+                      inActiveColorOverride: (i) => colors[i],
+                    ),
+                  )
+                    : const SizedBox.shrink(),
+                ),
+              )
             ],
           ),
         ),
       ),
     );
   }
+
   final HomeController homeController = Get.find<HomeController>();
 
-   Widget _buildCategoriesSection() {
+  Widget _buildCategoriesSection() {
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16),
       child: Column(
@@ -175,7 +219,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
             return SizedBox(
               height: 100,
-               // Adjust height as needed
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: homeController.categories.length,
@@ -193,11 +236,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildCategoryItem(CategoryModel category) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SubCategoriesScreen(categoryId: category.id, categoryName: category.name,),
+            builder: (context) => SubCategoriesScreen(
+              categoryId: category.id, categoryName: category.name,),
           ),
         );
       },
@@ -213,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               Image.network(
-                ApiPath.baseUrl()+category.imageUrl,
+                ApiPath.baseUrl() + category.imageUrl,
                 width: 40.0,
                 height: 40.0,
                 fit: BoxFit.contain,
@@ -299,7 +343,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: BorderRadius.circular(12.0),
                             child: Image.network(
                               ApiPath.baseUrl() + product.imageUrl.toString(),
-                              width: MediaQuery.of(context).size.width,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
                               height: 160,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
@@ -314,7 +361,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             margin: const EdgeInsets.all(7),
                             decoration: const BoxDecoration(
                               color: Colors.black,
-                              borderRadius: BorderRadius.all(Radius.circular(100)),
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(100)),
                             ),
                             child: IconButton(
                               color: Colors.white,
@@ -331,7 +379,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(
                         fontSize: 12.0,
                         fontWeight: FontWeight.bold,
-                        color: themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
+                        color: themeController.currentTheme.value !=
+                            ThemeMode.light ? Colors.white : Colors.black,
                       ),
                       textAlign: TextAlign.start,
                     ),
@@ -340,7 +389,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       product.description,
                       style: TextStyle(
                         fontSize: 12.0,
-                        color: themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
+                        color: themeController.currentTheme.value !=
+                            ThemeMode.light ? Colors.white : Colors.black,
                       ),
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
@@ -350,7 +400,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(
                         fontSize: 12.0,
                         fontWeight: FontWeight.bold,
-                        color: themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
+                        color: themeController.currentTheme.value !=
+                            ThemeMode.light ? Colors.white : Colors.black,
                       ),
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
@@ -387,7 +438,9 @@ class _HomeScreenState extends State<HomeScreen> {
         TextButton(
           onPressed: onSeeAllPressed,
           child: Text('SEE ALL', style: TextStyle(
-            color: _themeController.currentTheme.value != ThemeMode.light ? Colors.white : Colors.black,
+            color: _themeController.currentTheme.value != ThemeMode.light
+                ? Colors.white
+                : Colors.black,
           ),),
         ),
       ],
@@ -404,7 +457,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildProductCard(String title, String price, String oldPrice, int colors, String imagePath) {
+  Widget _buildProductCard(String title, String price, String oldPrice,
+      int colors, String imagePath) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Column(
@@ -451,7 +505,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 4),
                 Row(
-                  children: List.generate(colors, (index) => const Icon(Icons.circle, size: 8)),
+                  children: List.generate(
+                      colors, (index) => const Icon(Icons.circle, size: 8)),
                 ),
               ],
             ),

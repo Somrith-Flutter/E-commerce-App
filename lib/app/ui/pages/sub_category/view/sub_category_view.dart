@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:market_nest_app/app/ui/layouts/error_404_widget.dart';
+import 'package:market_nest_app/app/ui/global_widgets/leading_app_bar_widget.dart';
+import 'package:market_nest_app/app/ui/global_widgets/error_404_widget.dart';
 import 'package:market_nest_app/common/constants/api_path.dart';
 import 'package:market_nest_app/app/ui/pages/product/view/product_view.dart';
 import 'package:market_nest_app/app/ui/pages/sub_category/controller/sub_category_controller.dart';
@@ -22,6 +23,8 @@ class SubCategoriesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: leadingAppBarWidget(cc: context),
         title: Text(
           categoryName,
           style: const TextStyle(
@@ -72,7 +75,7 @@ class SubCategoriesScreen extends StatelessWidget {
                 final subCategory = subCategoryController.subCategories[index];
                 return InkWell(
                   onTap: () {
-                    Get.to(ProductScreen(subCategoryId: subCategory.id, productName: subCategory.title,));
+                    Get.to(ProductScreen(subCategoryId: subCategory.id, productName: subCategory.tittle,));
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +88,7 @@ class SubCategoriesScreen extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16.0), 
                           child: Image.network(
-                            ApiPath.baseUrl() + subCategory.imageUrl,
+                            ApiPath.baseUrl() + subCategory.imageUrl.toString(),
                             width: double.infinity,
                             height: 140,
                             fit: BoxFit.cover,
@@ -97,7 +100,7 @@ class SubCategoriesScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        subCategory.title,
+                        subCategory.tittle.toString(),
                         style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,

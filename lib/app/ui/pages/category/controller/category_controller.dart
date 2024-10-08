@@ -13,7 +13,7 @@ class CategoryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchCategories();
+    // fetchCategories();
   }
 
   void fetchCategories() async {
@@ -25,5 +25,6 @@ class CategoryController extends GetxController {
     } finally {
       isLoading(false);
     }
+    update();
   }
 }

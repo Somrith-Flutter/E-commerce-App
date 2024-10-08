@@ -14,7 +14,7 @@ class ProductController extends GetxController {
   var cartItems = [].obs;
 
 
-  void fetchProducts({required int subCategoryId}) async {
+  void fetchProducts({required String subCategoryId}) async {
     try {
       isLoading(true);
       products.value =

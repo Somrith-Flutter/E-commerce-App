@@ -24,6 +24,7 @@ class HomeController extends GetxController{
       isLoading(true);
       categories.value = await repository.fetchCategories();
     } catch (e) {
+      print("========= $e");
       Get.snackbar('Error', 'Failed to load categories');
     } finally {
       isLoading(false);

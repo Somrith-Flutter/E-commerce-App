@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/controllers/theme_controller.dart';
-import 'package:market_nest_app/app/ui/layouts/error_404_widget.dart';
+import 'package:market_nest_app/app/ui/global_widgets/error_404_widget.dart';
+import 'package:market_nest_app/app/ui/global_widgets/leading_app_bar_widget.dart';
 import 'package:market_nest_app/common/constants/api_path.dart';
 import 'package:market_nest_app/app/ui/pages/home/controller/home_controller.dart';
 import 'package:market_nest_app/app/ui/pages/product/controller/product_controller.dart';
@@ -12,7 +13,7 @@ import 'package:market_nest_app/app/ui/pages/product/view/product_details_view.d
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ProductScreen extends StatefulWidget {
-  final int? subCategoryId;
+  final String? subCategoryId;
   final String? productName;
   final bool? getAll;
   const ProductScreen({this.subCategoryId, this.productName, this.getAll = false, super.key});
@@ -31,7 +32,7 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   void initState() {
     if(widget.getAll == false){
-      productController.fetchProducts(subCategoryId: widget.subCategoryId??0);
+      productController.fetchProducts(subCategoryId: widget.subCategoryId??"");
     }else{
       productController.fetchedProductByLength(0.toString());
     }
@@ -42,6 +43,8 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: leadingAppBarWidget(cc: context),
         title: Text( widget.productName != null &&
           widget.productName != "null" && widget.productName!.isNotEmpty
             ? "${widget.productName} Products"
@@ -52,7 +55,7 @@ class _ProductScreenState extends State<ProductScreen> {
         ),
         actions: [
           IconButton(onPressed: (){},
-            icon: const Icon(CupertinoIcons.search)),
+            icon: const Icon(CupertinoIcons.search, color: Colors.white,)),
           const Gap(5),
         ],
       ),

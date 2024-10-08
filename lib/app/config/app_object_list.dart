@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 List<Map<String, dynamic>> appLangs = [
   {
     "key":"km",
@@ -9,4 +11,13 @@ List<Map<String, dynamic>> appLangs = [
     "label":"English",
     "flag":"assets/flags/img_64px_radius/united-kingdom.png"
   }
+];
+
+const colors = [
+  Colors.red,
+  Colors.green,
+  Colors.greenAccent,
+  Colors.amberAccent,
+  Colors.blue,
+  Colors.amber,
 ];

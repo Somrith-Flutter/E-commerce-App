@@ -21,6 +21,7 @@ class ApiPath {
   static const String refreshToken = "v1/generate-new-token";
   static const String addToFavorite = "add-to-favorite/products";
   static const String removeFavorite = "remove-from-favorite";
+  static const String getBannerSlide = "v2/get-banner-slide";
 
 
   static String baseUrl(){

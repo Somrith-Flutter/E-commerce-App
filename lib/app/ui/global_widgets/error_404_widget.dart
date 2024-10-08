@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:market_nest_app/app/ui/themes/app_color.dart';
 
 class Error404Widget extends StatelessWidget {
   const Error404Widget({super.key});
@@ -11,13 +13,14 @@ class Error404Widget extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
+              Icon(
                 Icons.warning_amber_rounded,
                 size: 80,
+                color: Get.isDarkMode ? AppColors.white : AppColors.black,
               ),
               const SizedBox(height: 20),
               const Text(
-                'Error 404',
+                'Opps!',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,

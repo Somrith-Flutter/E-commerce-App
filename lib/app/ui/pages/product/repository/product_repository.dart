@@ -4,7 +4,7 @@ import 'package:market_nest_app/app/data/rest_api_service.dart';
 import 'package:market_nest_app/app/ui/pages/product/model/product_model.dart';
 
 class ProductRepository extends RestApiService {
-  Future<List<ProductModel>> fetchProducts({required int subCategoryId, String? search}) async {
+  Future<List<ProductModel>> fetchProducts({required String subCategoryId, String? search}) async {
     try {
       final queryParameters = {
         'sub_category_id': subCategoryId,

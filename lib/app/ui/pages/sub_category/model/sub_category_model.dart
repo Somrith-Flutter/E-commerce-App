@@ -1,37 +1,48 @@
 class SubCategoryModel {
-  final int id;
-  final int categoryId;
-  final String title;
-  final String imageUrl;
-  final String status;
-  final String isSlide;
-  final String imageSlide;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  String? id;
+  String? categoryId;
+  String? tittle;
+  String? imageUrl;
+  String? status;
+  String? isSilde;
+  String? imageSlide;
+  String? createdAt;
+  String? updatedAt;
 
-  SubCategoryModel({
-    required this.id,
-    required this.categoryId,
-    required this.title,
-    required this.imageUrl,
-    required this.status,
-    required this.isSlide,
-    required this.imageSlide,
-    required this.createdAt,
-    required this.updatedAt,
-  });
+  SubCategoryModel(
+      {this.id,
+        this.categoryId,
+        this.tittle,
+        this.imageUrl,
+        this.status,
+        this.isSilde,
+        this.imageSlide,
+        this.createdAt,
+        this.updatedAt});
 
-  factory SubCategoryModel.fromJson(Map<String, dynamic> json) {
-    return SubCategoryModel(
-      id: json['id'],
-      categoryId: json['category_id'],
-      title: json['tittle'], // Assuming there's a typo in the API with "tittle"
-      imageUrl: json['image_url'],
-      status: json['status'],
-      isSlide: json['is_silde'], // Assuming there's a typo in the API with "is_silde"
-      imageSlide: json['image_slide'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
-    );
+  SubCategoryModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'].toString();
+    categoryId = json['category_id'].toString();
+    tittle = json['tittle'].toString();
+    imageUrl = json['image_url'].toString();
+    status = json['status'].toString();
+    isSilde = json['is_silde'].toString();
+    imageSlide = json['image_slide'].toString();
+    createdAt = json['created_at'].toString();
+    updatedAt = json['updated_at'].toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id.toString();
+    data['category_id'] = categoryId.toString();
+    data['tittle'] = tittle.toString();
+    data['image_url'] = imageUrl.toString();
+    data['status'] = status.toString();
+    data['is_silde'] = isSilde.toString();
+    data['image_slide'] = imageSlide.toString();
+    data['created_at'] = createdAt.toString();
+    data['updated_at'] = updatedAt.toString();
+    return data;
   }
 }

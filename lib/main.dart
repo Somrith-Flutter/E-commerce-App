@@ -4,6 +4,7 @@ import 'package:market_nest_app/app/controllers/lang_controller.dart';
 import 'package:market_nest_app/app/controllers/theme_controller.dart';
 import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
 import 'package:market_nest_app/app/ui/layouts/splash_screen.dart';
+import 'package:market_nest_app/app/ui/themes/app_color.dart';
 import 'package:market_nest_app/app/ui/themes/sytem_theme.dart';
 import 'package:shared_value/shared_value.dart';
 import 'app/bindings/init_bindings.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
 
     return Obx(() {
       return GetMaterialApp(
+        color: AppColors.cyan,
         initialBinding: AppBindings(),
         debugShowCheckedModeBanner: false,
         theme: CustomTheme.lightTheme,

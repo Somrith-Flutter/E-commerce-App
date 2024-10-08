@@ -8,20 +8,21 @@ class CustomTheme {
   // light theme
   static final lightTheme = ThemeData(
     primaryColor: lightThemeColor,
-    brightness: Brightness.light,
-    scaffoldBackgroundColor: white,
     useMaterial3: true,
     fontFamily: lightThemeFont,
     switchTheme: SwitchThemeData(
       thumbColor:
       WidgetStateProperty.resolveWith<Color>((states) => lightThemeColor),
     ),
+    iconTheme: const IconThemeData(
+      color: AppColors.white
+    ),
     appBarTheme: AppBarTheme(
-      backgroundColor: white,
+      backgroundColor: AppColors.cyan,
       scrolledUnderElevation: 0,
-      titleTextStyle: TextStyle(
+      titleTextStyle: const TextStyle(
         fontWeight: FontWeight.w500,
-        color: black,
+        color: AppColors.white,
         fontSize: 18, //20
       ),
       iconTheme: IconThemeData(color: lightThemeColor),
@@ -44,6 +45,9 @@ class CustomTheme {
     switchTheme: SwitchThemeData(
       trackColor:
       WidgetStateProperty.resolveWith<Color>((states) => darkThemeColor),
+    ),
+    iconTheme: const IconThemeData(
+        color: AppColors.white
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: black,
