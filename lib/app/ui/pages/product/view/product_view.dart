@@ -31,7 +31,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   void initState() {
-    if(widget.getAll == false){
+    if(widget.getAll == true){
       productController.fetchProducts(subCategoryId: widget.subCategoryId??"");
     }else{
       productController.fetchedProductByLength(0.toString());
@@ -117,14 +117,24 @@ class _ProductScreenState extends State<ProductScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12.0),
                               child: Image.network(
-                                ApiPath.baseUrl() + product.imageUrl.toString(),
+                                ApiPath.baseUrl() + product.imageThumbnail.toString(),
                                 width: MediaQuery.of(context).size.width,
                                 height: 160,
                                 fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Icon(Icons.broken_image, size: 40);
+                                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value: loadingProgress.expectedTotalBytes != null
+                                        ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                                        : null,
+                                    ),
+                                  );
                                 },
-                              ),
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(Icons.broken_image, size: 60);
+                                },
+                              )
                             ),
                           ),
                           Align(

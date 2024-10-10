@@ -24,7 +24,7 @@ class ProductRepository extends RestApiService {
       http.StreamedResponse response = await request.send();
       final bodyResponse = await response.stream.bytesToString();
       if (response.statusCode == 200) {
-        var json = jsonDecode(bodyResponse);
+        Map<String, dynamic> json = jsonDecode(bodyResponse);
         List<ProductModel> p = [];
         for(var re in json['data']){
           p.add(ProductModel.fromJson(re));

@@ -75,7 +75,7 @@ class SubCategoriesScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final subCategory = subCategoryController.subCategories[index];
-                String imageUrl = '${ApiPath.baseUrl()}${subCategoryController.subCategories[index].imageUrl}';
+                String imageUrl = '${ApiPath.baseUrl()}${subCategoryController.subCategories[index].imageSlide}';
                 return InkWell(
                   onTap: () {
                     Get.to(ProductScreen(subCategoryId: subCategory.id, productName: subCategory.tittle,));
@@ -84,11 +84,12 @@ class SubCategoriesScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
+                        height: 170,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0),
+                          borderRadius: BorderRadius.circular(7.0),
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16.0), 
+                          borderRadius: BorderRadius.circular(7.0),
                           child: CachedNetworkImage(
                             imageUrl: imageUrl,
                             fit: BoxFit.cover,
@@ -103,10 +104,12 @@ class SubCategoriesScreen extends StatelessWidget {
                       Text(
                         subCategory.tittle.toString(),
                         style: const TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 14.0,
                           fontWeight: FontWeight.bold,
                         ),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),

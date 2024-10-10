@@ -16,11 +16,11 @@ class SubCategoryRepository extends RestApiService {
         if (search != null && search.isNotEmpty) 'Search': search,
       };
 
-      final response =
-          await get(ApiPath.getSubCategories, body: queryParameters);
+      final response = await get(ApiPath.getSubCategories, body: queryParameters);
 
       if (response['data'] is List) {
         List<dynamic> body = response['data'];
+
         return body
             .map((dynamic item) => SubCategoryModel.fromJson(item))
             .toList();

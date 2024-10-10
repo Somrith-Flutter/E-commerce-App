@@ -371,13 +371,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Align(
                         alignment: Alignment.topRight,
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                              product.addFavorite.toString() != "1" ?
-                            CupertinoIcons.heart : CupertinoIcons.heart_fill,
-                            color: product.addFavorite.toString() != "0"
-                            ? AppColors.red : AppColors.white,
+                        child: Container(
+                          margin: const EdgeInsets.all(7),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: Colors.grey.withOpacity(0.8)
+                          ),
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                                product.addFavorite.toString() != "1" ?
+                              CupertinoIcons.heart : CupertinoIcons.heart_fill,
+                              color: product.addFavorite.toString() != "0"
+                              ? AppColors.red : AppColors.white,
+                            ),
                           ),
                         ),
                       )

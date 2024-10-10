@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/ui/pages/home/repository/home_repository.dart';
@@ -18,7 +19,9 @@ class ProductController extends GetxController {
     try {
       isLoading(true);
       await repository.fetchProducts(subCategoryId: subCategoryId).then((data) {
-        print("============== $data");
+        if (kDebugMode) {
+          print("==============data $data");
+        }
         products.value = data;
       });
       update();
