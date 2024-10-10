@@ -1,11 +1,14 @@
+import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:market_nest_app/app/controllers/theme_controller.dart';
+import 'package:market_nest_app/app/ui/global_widgets/leading_app_bar_widget.dart';
 import 'package:market_nest_app/common/constants/api_path.dart';
 import 'package:market_nest_app/app/ui/global_widgets/text_widget.dart';
 import 'package:market_nest_app/app/ui/pages/product/model/product_model.dart';
 import 'package:gap/gap.dart';
 import 'package:market_nest_app/app/ui/themes/app_color.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProductDetailsView extends StatefulWidget {
   const ProductDetailsView({super.key, required this.product});
@@ -16,7 +19,8 @@ class ProductDetailsView extends StatefulWidget {
 }
 
 class _ProductDetailsViewState extends State<ProductDetailsView> {
-    final ThemeController _theme = Get.put(ThemeController());
+    final PageController _controller = PageController();
+    int currentPage = 0;
 
   int quantity = 0;
   List<Color> colors = [
@@ -32,11 +36,13 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          _buildSliverAppBar(),
-          _buildBody(),
-        ],
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            _buildSliverAppBar(),
+            _buildBody(),
+          ],
+        ),
       ),
     );
   }
@@ -246,44 +252,89 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
   }
 
   Widget _buildSliverAppBar() {
+    String imageUrlString = widget.product.imageUrl.toString();
+    imageUrlString = imageUrlString
+        .replaceAll('[', '["')
+        .replaceAll(']', '"]')
+        .replaceAll(', ', '","');
+    List<String> imageUrls = List<String>.from(jsonDecode(imageUrlString));
     return SliverAppBar(
-      automaticallyImplyLeading: true,
+      automaticallyImplyLeading: false,
       expandedHeight: 250.0, 
       pinned: true,
       floating: false,
       snap: false,
+      leading: leadingAppBarWidget(cc: context, background: true),
+      title: Text(widget.product.productName.toString()),
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
           children: [
-            Image.network(
-                ApiPath.baseUrl() + widget.product.imageUrl.toString(),
-              fit: BoxFit.cover,
-              width: double.infinity,
-              errorBuilder: (context, error, stackTrace) {
-                return const Center(
-                  child: Icon(
-                    Icons.broken_image,
-                    size: 40,
+            PageView(
+              controller: _controller,
+              onPageChanged: (index) {
+                setState(() {
+                  currentPage = index;
+                });
+              },
+              children: List.generate(imageUrls.length, (index) {
+                return GestureDetector(
+                  onTap: () {},
+                  child: CachedNetworkImage(
+                    imageUrl: ApiPath.baseUrl() + imageUrls[index],
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) =>
+                    const Center(child: CupertinoActivityIndicator()),
+                    errorWidget: (context, url, error) =>
+                    const Icon(Icons.error),
                   ),
                 );
-              },
+              })
             ),
-            
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: 20,
+                padding: const EdgeInsets.all(7),
+                margin: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: _theme.currentTheme.value == ThemeMode.dark 
-                      ? AppColors.primaryBlack 
-                      : AppColors.primaryWhite,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
+                  color: Colors.grey.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(7),
                 ),
+                child: imageUrls.isNotEmpty
+                    ? SmoothPageIndicator(
+                  controller: _controller,
+                  count: imageUrls.length,
+                  effect: CustomizableEffect(
+                    activeDotDecoration: DotDecoration(
+                      width: 10,
+                      height: 10,
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(2),
+                      rotationAngle: 45,
+                      dotBorder: const DotBorder(
+                        padding: 2,
+                        width: 2,
+                        color: Colors.indigo,
+                      ),
+                    ),
+                    dotDecoration: DotDecoration(
+                      width: 12,
+                      height: 12,
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(6),
+                      dotBorder: const DotBorder(
+                        padding: 2,
+                        width: 2,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    spacing: 10.0,
+                    activeColorOverride: (i) => AppColors.blue,
+                    inActiveColorOverride: (i) => AppColors.grey150,
+                  ),
+                )
+                    : const SizedBox.shrink(),
               ),
-            ),
+            )
           ],
         ),
       ),

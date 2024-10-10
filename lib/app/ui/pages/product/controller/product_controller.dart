@@ -17,8 +17,11 @@ class ProductController extends GetxController {
   void fetchProducts({required String subCategoryId}) async {
     try {
       isLoading(true);
-      products.value =
-          await repository.fetchProducts(subCategoryId: subCategoryId);
+      await repository.fetchProducts(subCategoryId: subCategoryId).then((data) {
+        print("============== $data");
+        products.value = data;
+      });
+      update();
     } catch (e) {
       Get.snackbar('Error', 'Failed to load products');
     } finally {
@@ -31,7 +34,7 @@ class ProductController extends GetxController {
       isLoading(true);
       var result = await HomeRepository().fetchedProductByLength(limitItem: limit);
       products.value = result;
-        } catch (e) {
+    } catch (e) {
       Get.snackbar('Error', 'Failed to load sub-categories');
     } finally {
       isLoading(false);

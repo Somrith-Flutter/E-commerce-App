@@ -38,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final PageController _controller = PageController();
   final sub = Get.find<SubCategoryController>();
   final cate = Get.find<CategoryController>();
+  final product = Get.find<HomeController>();
   int currentPage = 0;
 
   @override
@@ -45,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Future.delayed(const Duration(milliseconds: 200), (){
       sub.getSlide(active: "1");
       cate.fetchCategories();
+      product.fetchedProductByLength(5.toString());
     });
     super.initState();
   }
@@ -93,37 +95,35 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildPromotionalBanner() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const ExclusiveSales()));
-        },
-        child: SizedBox(
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
-          height: 200,
-          child: Stack(
-            children: [
-              PageView(
-                  controller: _controller,
-                  onPageChanged: (index) {
-                    setState(() {
-                      currentPage = index;
-                    });
-                  },
-                  children: List.generate(sub.slideBanner.length, (index) {
-                    if (sub.status == Status.fail) {
-                      return CupertinoActivityIndicator(
-                        color: Get.isDarkMode ? Colors.white : Colors.black,
-                      );
-                    }
+      child: SizedBox(
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
+        height: 200,
+        child: Stack(
+          children: [
+            PageView(
+                controller: _controller,
+                onPageChanged: (index) {
+                  setState(() {
+                    currentPage = index;
+                  });
+                },
+                children: List.generate(sub.slideBanner.length, (index) {
+                  if (sub.status == Status.fail) {
+                    return CupertinoActivityIndicator(
+                      color: Get.isDarkMode ? Colors.white : Colors.black,
+                    );
+                  }
 
-                    if (sub.status == Status.success) {
-                      String imageUrl = '${ApiPath.baseUrl()}${sub
-                          .slideBanner[index].imageSlide}';
-                      return Container(
+                  if (sub.status == Status.success) {
+                    String imageUrl = '${ApiPath.baseUrl()}${sub.slideBanner[index].imageSlide}';
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(ProductScreen(subCategoryId: sub.slideBanner[index].id, productName: sub.slideBanner[index].tittle,));
+                      },
+                      child: Container(
                         margin: const EdgeInsets.symmetric(horizontal: 4),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
@@ -139,66 +139,65 @@ class _HomeScreenState extends State<HomeScreen> {
                             const Icon(Icons.error),
                           ),
                         ),
-                      );
-                    }
+                      ),
+                    );
+                  }
 
-                    return const SizedBox.shrink();
-                  },)
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  padding: const EdgeInsets.all(7),
-                  margin: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.5),
-                    borderRadius: BorderRadius.circular(7),
-                  ),
-                  child: sub.slideBanner.isNotEmpty
-                    ? SmoothPageIndicator(
-                    controller: _controller,
-                    count: sub.slideBanner.length,
-                    effect: CustomizableEffect(
-                      activeDotDecoration: DotDecoration(
-                        width: 10,
-                        height: 10,
-                        color: Colors.green,
-                        borderRadius: BorderRadius.circular(2),
-                        rotationAngle: 45,
-                        dotBorder: const DotBorder(
-                          padding: 2,
-                          width: 2,
-                          color: Colors.indigo,
-                        ),
-                      ),
-                      dotDecoration: DotDecoration(
-                        width: 12,
-                        height: 12,
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(6),
-                        dotBorder: const DotBorder(
-                          padding: 2,
-                          width: 2,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      spacing: 10.0,
-                      activeColorOverride: (i) => colors[i],
-                      inActiveColorOverride: (i) => colors[i],
-                    ),
-                  )
-                    : const SizedBox.shrink(),
+                  return const SizedBox.shrink();
+                },)
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                padding: const EdgeInsets.all(7),
+                margin: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(7),
                 ),
-              )
-            ],
-          ),
+                child: sub.slideBanner.isNotEmpty
+                  ? SmoothPageIndicator(
+                  controller: _controller,
+                  count: sub.slideBanner.length,
+                  effect: CustomizableEffect(
+                    activeDotDecoration: DotDecoration(
+                      width: 10,
+                      height: 10,
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(2),
+                      rotationAngle: 45,
+                      dotBorder: const DotBorder(
+                        padding: 2,
+                        width: 2,
+                        color: Colors.indigo,
+                      ),
+                    ),
+                    dotDecoration: DotDecoration(
+                      width: 12,
+                      height: 12,
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(6),
+                      dotBorder: const DotBorder(
+                        padding: 2,
+                        width: 2,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    spacing: 10.0,
+                    activeColorOverride: (i) => colors[i],
+                    inActiveColorOverride: (i) => colors[i],
+                  ),
+                )
+                  : const SizedBox.shrink(),
+              ),
+            )
+          ],
         ),
       ),
     );
   }
 
   final HomeController homeController = Get.find<HomeController>();
-
   Widget _buildCategoriesSection() {
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16),
@@ -206,29 +205,51 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildSectionHeader('Categories', onSeeAllPressed: () {
-            Get.to(const CategoriesScreen(isFromSeeAll: true,));
+            Get.to(const CategoriesScreen(isFromSeeAll: true));
           }),
-          Obx(() {
-            if (homeController.isLoading.value) {
-              return const Center(child: CircularProgressIndicator());
-            }
+          SizedBox(
+            height: 100,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: homeController.categories.length,
+              itemBuilder: (context, index) {
+                final category = homeController.categories[index];
 
-            if (homeController.categories.isEmpty) {
-              return const Center(child: Text('No categories available'));
-            }
+                if(homeController.isLoading.value){
+                  SizedBox(
+                    height: 200,
+                    child: Skeletonizer(
+                      enabled: homeController.isLoading.value,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 5,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            child: ListTile(
+                              title: Text('Loading $index...'),
+                              subtitle: const Text('Loading subtitle...'),
+                              trailing: const Icon(Icons.ac_unit),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                }
 
-            return SizedBox(
-              height: 100,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: homeController.categories.length,
-                itemBuilder: (context, index) {
-                  final category = homeController.categories[index];
-                  return _buildCategoryItem(category);
-                },
-              ),
-            );
-          }),
+                if(homeController.categories.isEmpty){
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Text('No categories available'),
+                    ),
+                  );
+                }
+
+                return _buildCategoryItem(category);
+              },
+            ),
+          )
         ],
       ),
     );
@@ -278,153 +299,140 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildLatestProductsSection() {
-    HomeController productController = Get.find();
+    HomeController productController = Get.find<HomeController>();
     final themeController = Get.find<ThemeController>();
-    return Obx(() {
-      if (productController.isLoading.value) {
-        return Skeletonizer(
-          enabled: productController.isLoading.value,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 5,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16.0,
-                mainAxisSpacing: 16.0,
-                childAspectRatio: 1.0,
-              ),
-              itemBuilder: (context, index) {
-                return Card(
-                  child: ListTile(
-                    title: Text('Item number $index as title'),
-                    subtitle: const Text('Subtitle here'),
-                    trailing: const Icon(Icons.ac_unit),
-                  ),
-                );
-              },
-            ),
-          ),
-        );
-      } else if (productController.products.isEmpty) {
-        return const Error404Widget();
-      } else {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+    return productController.isLoading.value
+      ? Skeletonizer(
+        enabled: productController.isLoading.value,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: productController.products.length,
+            itemCount: 5,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              crossAxisSpacing: 8.0,
-              mainAxisSpacing: 8.0,
-              childAspectRatio: 2 / 3,
+              crossAxisSpacing: 16.0,
+              mainAxisSpacing: 16.0,
+              childAspectRatio: 1.0,
             ),
             itemBuilder: (context, index) {
-              final product = productController.products[index];
-              return GestureDetector(
-                onTap: () {
-                  Get.to(ProductDetailsView(product: product,));
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Stack(
-                      children: [
-                        Card(
-                          elevation: 2.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12.0),
-                            child: Image.network(
-                              ApiPath.baseUrl() + product.imageUrl.toString(),
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width,
-                              height: 160,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return const Icon(Icons.broken_image, size: 40);
-                              },
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Container(
-                            margin: const EdgeInsets.all(7),
-                            decoration: const BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(100)),
-                            ),
-                            child: IconButton(
-                              color: Colors.white,
-                              onPressed: () {},
-                              icon: const Icon(CupertinoIcons.heart),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    const Gap(2),
-                    Text(
-                      product.productName,
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.bold,
-                        color: themeController.currentTheme.value !=
-                            ThemeMode.light ? Colors.white : Colors.black,
-                      ),
-                      textAlign: TextAlign.start,
-                    ),
-                    const Gap(5),
-                    Text(
-                      product.description,
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        color: themeController.currentTheme.value !=
-                            ThemeMode.light ? Colors.white : Colors.black,
-                      ),
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      "\$ ${product.prices.toStringAsFixed(2)}",
-                      style: TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.bold,
-                        color: themeController.currentTheme.value !=
-                            ThemeMode.light ? Colors.white : Colors.black,
-                      ),
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text(
-                      "\$ ${product.discount.toStringAsFixed(2)}",
-                      style: const TextStyle(
-                        fontSize: 12.0,
-                        decoration: TextDecoration.lineThrough,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.start,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+              return Card(
+                child: ListTile(
+                  title: Text('Item number $index as title'),
+                  subtitle: const Text('Subtitle here'),
+                  trailing: const Icon(Icons.ac_unit),
                 ),
               );
             },
           ),
-        );
-      }
-    });
+        ),
+      )
+      : Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: productController.products.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 8.0,
+            mainAxisSpacing: 8.0,
+            childAspectRatio: 2 / 3,
+          ),
+          itemBuilder: (context, index) {
+            final product = productController.products[index];
+            if (productController.products.isEmpty) {
+              return const Error404Widget();
+            }
+
+            return GestureDetector(
+              onTap: () {
+                Get.to(ProductDetailsView(product: product,));
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Stack(
+                    children: [
+                      Card(
+                        elevation: 2.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12.0),
+                          child: CachedNetworkImage(
+                            imageUrl: "${ApiPath.baseUrl()}${productController.products[index].imageThumbnail.toString()}",
+                            placeholder: (context, url) => const CupertinoActivityIndicator(),
+                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                              product.addFavorite.toString() != "1" ?
+                            CupertinoIcons.heart : CupertinoIcons.heart_fill,
+                            color: product.addFavorite.toString() != "0"
+                            ? AppColors.red : AppColors.white,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  const Gap(2),
+                  Text(
+                    product.productName,
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.bold,
+                      color: themeController.currentTheme.value !=
+                          ThemeMode.light ? Colors.white : Colors.black,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                  const Gap(5),
+                  Text(
+                    product.description,
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      color: themeController.currentTheme.value !=
+                          ThemeMode.light ? Colors.white : Colors.black,
+                    ),
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    "\$ ${product.prices.toStringAsFixed(2)}",
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.bold,
+                      color: themeController.currentTheme.value !=
+                          ThemeMode.light ? Colors.white : Colors.black,
+                    ),
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    "\$ ${product.discount.toStringAsFixed(2)}",
+                    style: const TextStyle(
+                      fontSize: 12.0,
+                      decoration: TextDecoration.lineThrough,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            );
+          },
+        )
+      );
   }
 
   Widget _buildSectionHeader(String title, {VoidCallback? onSeeAllPressed}) {

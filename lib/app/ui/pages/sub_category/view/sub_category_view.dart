@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/ui/global_widgets/leading_app_bar_widget.dart';
@@ -73,6 +75,7 @@ class SubCategoriesScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final subCategory = subCategoryController.subCategories[index];
+                String imageUrl = '${ApiPath.baseUrl()}${subCategoryController.subCategories[index].imageUrl}';
                 return InkWell(
                   onTap: () {
                     Get.to(ProductScreen(subCategoryId: subCategory.id, productName: subCategory.tittle,));
@@ -82,19 +85,17 @@ class SubCategoriesScreen extends StatelessWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0), 
-                          color: Colors.grey[200], 
+                          borderRadius: BorderRadius.circular(16.0),
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16.0), 
-                          child: Image.network(
-                            ApiPath.baseUrl() + subCategory.imageUrl.toString(),
-                            width: double.infinity,
-                            height: 140,
+                          child: CachedNetworkImage(
+                            imageUrl: imageUrl,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(Icons.broken_image, size: 80);
-                            },
+                            placeholder: (context, url) =>
+                            const Center(child: CupertinoActivityIndicator()),
+                            errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                           ),
                         ),
                       ),

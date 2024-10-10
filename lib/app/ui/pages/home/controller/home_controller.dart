@@ -11,12 +11,11 @@ class HomeController extends GetxController{
   var categories = <CategoryModel>[].obs;
   var products = <ProductModel>[].obs;
   var isLoading = true.obs;
-
   @override
   void onInit() {
     super.onInit();
     fetchCategories();
-    fetchedProductByLength(2.toString());
+    fetchedProductByLength(5.toString());
   }
 
   void fetchCategories() async {
@@ -24,7 +23,6 @@ class HomeController extends GetxController{
       isLoading(true);
       categories.value = await repository.fetchCategories();
     } catch (e) {
-      print("========= $e");
       Get.snackbar('Error', 'Failed to load categories');
     } finally {
       isLoading(false);
