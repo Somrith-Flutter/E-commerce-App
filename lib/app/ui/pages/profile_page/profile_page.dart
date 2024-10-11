@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
 import 'package:market_nest_app/app/controllers/lang_controller.dart';
@@ -85,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildProfileHeader(String profileUrl, bool isExpanded) {
     return Container(
       padding: EdgeInsets.only(
-        left: isExpanded ? 5 : 10,
+        left: isExpanded ? 0 : 10,
         bottom: isExpanded ? 25 : 5,
         top: isExpanded ? 25 : 0,
       ),
@@ -95,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             radius: 24,
             backgroundImage: NetworkImage(profileUrl),
           ),
-          const SizedBox(width: 12),
+          const Gap(7),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -106,7 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ? _auth.newUserModel!.name.toString()
                     : "Unknown",
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -117,9 +118,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ? _auth.newUserModel!.email.toString()
                     : "Unknown",
                 style: const TextStyle(
-                  fontSize: 10,
+                  fontSize: 9,
                   color: Colors.white,
                 ),
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ],

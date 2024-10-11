@@ -5,6 +5,7 @@ import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/config/app_object_list.dart';
 import 'package:market_nest_app/app/controllers/lang_controller.dart';
+import 'package:market_nest_app/app/ui/global_widgets/leading_app_bar_widget.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});
@@ -21,13 +22,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: Icon(Platform.isAndroid
-            ? CupertinoIcons.arrow_left
-            : CupertinoIcons.back)),
+        leading: leadingAppBarWidget(cc: context),
         title: const Text("Language App",
           style: TextStyle(fontSize: 16),
         ),
