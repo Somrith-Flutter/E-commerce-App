@@ -14,7 +14,6 @@ import 'package:market_nest_app/common/constants/api_path.dart';
 import 'package:market_nest_app/app/ui/pages/category/model/category_model.dart';
 import 'package:market_nest_app/app/ui/pages/category/view/categories_screen.dart';
 import 'package:market_nest_app/app/ui/pages/home/controller/home_controller.dart';
-import 'package:market_nest_app/app/ui/pages/home/widgets/exclusive_sales.dart';
 import 'package:market_nest_app/app/ui/pages/product/view/product_details_view.dart';
 import 'package:market_nest_app/app/ui/pages/product/view/product_view.dart';
 import 'package:market_nest_app/app/ui/pages/sub_category/view/sub_category_view.dart';
@@ -44,9 +43,17 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(milliseconds: 200), (){
-      sub.getSlide(active: "1");
-      cate.fetchCategories();
-      product.fetchedProductByLength(5.toString());
+      if(sub.slideBanner.isEmpty){
+        sub.getSlide(active: "1");
+      }
+
+      if(cate.categories.isEmpty){
+        cate.fetchCategories();
+      }
+
+      if(product.products.isEmpty){
+        product.fetchedProductByLength(5.toString());
+      }
     });
     super.initState();
   }
