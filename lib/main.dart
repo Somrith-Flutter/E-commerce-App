@@ -13,14 +13,6 @@ import 'translation/l10n/translation_app.dart';
 void main() async {
   runApp(SharedValue.wrapApp(const MyApp()));
   WidgetsFlutterBinding.ensureInitialized();
-  final themeController = Get.put(ThemeController());
-  final lang = Get.put(LanguageController());
-
-  await themeController.loadTheme();
-  await lang.loadSavedLanguage();
-  await accessToken.load();
-  await limitTime.load();
-  await ended.load();
 }
 
 class MyApp extends StatelessWidget {
@@ -43,6 +35,13 @@ class MyApp extends StatelessWidget {
         fallbackLocale: const Locale('kh'),
         themeMode: themeController.currentTheme.value,
         home: const SplashScreen(),
+        onInit: () async {
+          await themeController.loadTheme();
+          await l.loadSavedLanguage();
+          await accessToken.load();
+          await limitTime.load();
+          await ended.load();
+        },
       );
     });
   }

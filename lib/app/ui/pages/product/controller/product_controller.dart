@@ -18,6 +18,10 @@ class ProductController extends GetxController {
   void fetchProducts({required String subCategoryId}) async {
     try {
       isLoading(true);
+
+      if(products.isNotEmpty){
+        products.value = [];
+      }
       await repository.fetchProducts(subCategoryId: subCategoryId).then((data) {
         if (kDebugMode) {
           print("==============data $data");
@@ -35,6 +39,9 @@ class ProductController extends GetxController {
   Future<void> fetchedProductByLength(String limit) async {
     try {
       isLoading(true);
+      if(products.isNotEmpty){
+        products.value = [];
+      }
       var result = await HomeRepository().fetchedProductByLength(limitItem: limit);
       products.value = result;
     } catch (e) {

@@ -75,10 +75,14 @@ class SubCategoriesScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final subCategory = subCategoryController.subCategories[index];
-                String imageUrl = '${ApiPath.baseUrl()}${subCategoryController.subCategories[index].imageSlide}';
+                String imageUrl = '${ApiPath.baseUrl()}${subCategoryController.subCategories[index].imageSlide.toString()}';
                 return InkWell(
                   onTap: () {
-                    Get.to(ProductScreen(subCategoryId: subCategory.id, productName: subCategory.tittle,));
+                    Get.to(
+                      ProductScreen(
+                        subCategoryId: subCategory.id,
+                        productName: subCategory.tittle,)
+                    );
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,10 +97,8 @@ class SubCategoriesScreen extends StatelessWidget {
                           child: CachedNetworkImage(
                             imageUrl: imageUrl,
                             fit: BoxFit.cover,
-                            placeholder: (context, url) =>
-                            const Center(child: CupertinoActivityIndicator()),
-                            errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                            placeholder: (context, url) => const Center(child: CupertinoActivityIndicator()),
+                            errorWidget: (context, url, error) => const Icon(Icons.error),
                           ),
                         ),
                       ),

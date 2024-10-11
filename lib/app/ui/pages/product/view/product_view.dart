@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -31,7 +32,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   void initState() {
-    if(widget.getAll == true){
+    if(widget.getAll == false){
       productController.fetchProducts(subCategoryId: widget.subCategoryId??"");
     }else{
       productController.fetchedProductByLength(0.toString());
@@ -116,25 +117,11 @@ class _ProductScreenState extends State<ProductScreen> {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12.0),
-                              child: Image.network(
-                                ApiPath.baseUrl() + product.imageThumbnail.toString(),
-                                width: MediaQuery.of(context).size.width,
-                                height: 160,
-                                fit: BoxFit.cover,
-                                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      value: loadingProgress.expectedTotalBytes != null
-                                        ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
-                                        : null,
-                                    ),
-                                  );
-                                },
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Icon(Icons.broken_image, size: 60);
-                                },
-                              )
+                              child: CachedNetworkImage(
+                                imageUrl: "${ApiPath.baseUrl()}${productController.products[index].imageThumbnail.toString()}",
+                                placeholder: (context, url) => const CupertinoActivityIndicator(),
+                                errorWidget: (context, url, error) => const Icon(Icons.error),
+                              ),
                             ),
                           ),
                           Align(
