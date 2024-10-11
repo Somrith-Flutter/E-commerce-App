@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:market_nest_app/app/controllers/auth_controller.dart';
+import 'package:market_nest_app/app/controllers/colors_controller.dart';
 import 'package:market_nest_app/app/controllers/lang_controller.dart';
 import 'package:market_nest_app/app/controllers/theme_controller.dart';
 import 'package:market_nest_app/app/ui/pages/category/controller/category_controller.dart';
@@ -24,5 +25,6 @@ class AppBindings extends Bindings{
     Get.lazyPut(() => ProductController(repository: ProductRepository()));
     Get.lazyPut(() => MyCartController(repository: MyCartRepository()));
     Get.lazyPut(() => LanguageController());
+    Get.lazyPut(() => ColorsController());
   }
 }

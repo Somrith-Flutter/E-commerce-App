@@ -13,7 +13,7 @@ class ApiPath {
   static const String getSubCategories ="v2/get-sub-category";
   static const String getProducts = "v3/get-product";
   static const String getProductByLength = "v3/order-by-list-product";
-  static const String addToCart = "/api/store-card-product";
+  static const String addToCart = "api/store-card-product";
   static const String getCarts = "api/get-all-card";
   static const String confirmViaEmail = "v1/confirm-vai-email";
   static const String removeUser = "v1/remove-user";
@@ -22,6 +22,7 @@ class ApiPath {
   static const String addToFavorite = "add-to-favorite/products";
   static const String removeFavorite = "remove-from-favorite";
   static const String getBannerSlide = "v2/get-banner-slide";
+  static const String listColors = "api/find-color-product";
 
 
   static String baseUrl(){

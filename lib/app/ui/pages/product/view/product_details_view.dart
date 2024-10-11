@@ -2,6 +2,10 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:market_nest_app/app/controllers/colors_controller.dart';
+import 'package:market_nest_app/app/data/globle_variable/public_variable.dart';
+import 'package:market_nest_app/app/data/helpers.dart';
 import 'package:market_nest_app/app/ui/global_widgets/leading_app_bar_widget.dart';
 import 'package:market_nest_app/common/constants/api_path.dart';
 import 'package:market_nest_app/app/ui/global_widgets/text_widget.dart';
@@ -12,6 +16,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProductDetailsView extends StatefulWidget {
   const ProductDetailsView({super.key, required this.product});
+
   final ProductModel product;
 
   @override
@@ -19,32 +24,33 @@ class ProductDetailsView extends StatefulWidget {
 }
 
 class _ProductDetailsViewState extends State<ProductDetailsView> {
-    final PageController _controller = PageController();
-    int currentPage = 0;
-
+  final PageController _controller = PageController();
+  final colorController = Get.find<ColorsController>();
+  int currentPage = 0;
   int quantity = 0;
-  List<Color> colors = [
-    Colors.black,
-    Colors.blueGrey,
-    Colors.deepPurple,
-    Colors.lightBlue,
-    Colors.grey,
-  ];
-  Color selectedColor = Colors.blueGrey;
+  int selectedColor = 0;
   final double sliverAppBarHeight = 200;
 
   @override
+  void initState() {
+    colorController.listColorController(productIds: widget.product.id.toString());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            _buildSliverAppBar(),
-            _buildBody(),
-          ],
+    return Obx(() {
+      return Scaffold(
+        body: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              _buildSliverAppBar(),
+              _buildBody(),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _buildBody() {
@@ -72,12 +78,12 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
             const Row(
               children: [
                 Chip(
-                  backgroundColor: Colors.blue ,
-                  label: TextWidget('Top Rated', color: Colors.white)),
+                    backgroundColor: Colors.blue,
+                    label: TextWidget('Top Rated', color: Colors.white)),
                 Gap(8),
                 Chip(
-                  backgroundColor: Color.fromARGB(255, 64, 229, 70) ,
-                  label: TextWidget('Free Shipping', color: Colors.white,)
+                    backgroundColor: Color.fromARGB(255, 64, 229, 70),
+                    label: TextWidget('Free Shipping', color: Colors.white,)
                 ),
               ],
             ),
@@ -111,15 +117,14 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
               ],
             ),
             const Gap(4),
-            const Row(
+            Row(
               children: [
-                Icon(Icons.star, color: Colors.amber, size: 20),
-                Icon(Icons.star, color: Colors.amber, size: 20),
-                Icon(Icons.star, color: Colors.amber, size: 20),
-                Icon(Icons.star, color: Colors.amber, size: 20),
-                Icon(Icons.star, color: Colors.grey, size: 20),
-                Gap(8),
-                Text('4.5 (2,495 reviews)', style: TextStyle(fontSize: 16)),
+                const Icon(Icons.star, color: Colors.amber, size: 20),
+                const Gap(8),
+                Text('${widget.product.rate} (${widget.product.reviewer
+                    .isNotEmpty ? widget.product.reviewer : 0} ${widget.product
+                    .reviewer.isNotEmpty ? "reviewers" : "reviewer"})',
+                    style: const TextStyle(fontSize: 16)),
               ],
             ),
             const Gap(16),
@@ -139,12 +144,14 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
             ),
             const Gap(8),
             Row(
-              children: colors
-                  .map(
-                    (color) => GestureDetector(
+              children: colorController.status == Status.success
+              ? List.generate(
+                colorController.modelColors.length,
+                    (index) =>
+                    GestureDetector(
                       onTap: () {
                         setState(() {
-                          selectedColor = color;
+                          selectedColor = index;
                         });
                       },
                       child: Container(
@@ -153,20 +160,26 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: selectedColor == color
+                            color: selectedColor == index
                                 ? Colors.blue
                                 : Colors.transparent,
                             width: 2,
                           ),
                         ),
-                        child: CircleAvatar(
-                          backgroundColor: color,
-                          radius: 16,
+                        child: Container(
+                          width: 30,
+                          height: 30,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(getColorFromName(
+                                colorController.modelColors[index].colorName
+                                    .toString())),
+                          ),
                         ),
                       ),
                     ),
-                  )
-                  .toList(),
+              ).toList()
+              : [const Text("Unknown Color")],
             ),
             const Gap(16),
             const Text(
@@ -176,8 +189,8 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
             const Gap(8),
             Container(
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.circular(10)
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(10)
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -213,7 +226,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                   
+
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                         side: const BorderSide(color: Colors.grey),
@@ -236,9 +249,11 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextWidget('Add to Cart', color: Colors.white, bold: true,),
+                        TextWidget(
+                          'Add to Cart', color: Colors.white, bold: true,),
                         Gap(8),
-                        Icon(Icons.shopping_cart_outlined, color: Colors.white,),
+                        Icon(
+                          Icons.shopping_cart_outlined, color: Colors.white,),
                       ],
                     ),
                   ),
@@ -260,7 +275,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
     List<String> imageUrls = List<String>.from(jsonDecode(imageUrlString));
     return SliverAppBar(
       automaticallyImplyLeading: false,
-      expandedHeight: 250.0, 
+      expandedHeight: 250.0,
       pinned: true,
       floating: false,
       snap: false,
@@ -270,25 +285,25 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
         background: Stack(
           children: [
             PageView(
-              controller: _controller,
-              onPageChanged: (index) {
-                setState(() {
-                  currentPage = index;
-                });
-              },
-              children: List.generate(imageUrls.length, (index) {
-                return GestureDetector(
-                  onTap: () {},
-                  child: CachedNetworkImage(
-                    imageUrl: ApiPath.baseUrl() + imageUrls[index],
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) =>
-                    const Center(child: CupertinoActivityIndicator()),
-                    errorWidget: (context, url, error) =>
-                    const Icon(Icons.error),
-                  ),
-                );
-              })
+                controller: _controller,
+                onPageChanged: (index) {
+                  setState(() {
+                    currentPage = index;
+                  });
+                },
+                children: List.generate(imageUrls.length, (index) {
+                  return GestureDetector(
+                    onTap: () {},
+                    child: CachedNetworkImage(
+                      imageUrl: ApiPath.baseUrl() + imageUrls[index],
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                      const Center(child: CupertinoActivityIndicator()),
+                      errorWidget: (context, url, error) =>
+                      const Icon(Icons.error),
+                    ),
+                  );
+                })
             ),
             Align(
               alignment: Alignment.bottomCenter,

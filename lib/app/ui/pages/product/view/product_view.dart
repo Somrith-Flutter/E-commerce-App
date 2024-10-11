@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:market_nest_app/app/controllers/colors_controller.dart';
 import 'package:market_nest_app/app/controllers/theme_controller.dart';
 import 'package:market_nest_app/app/ui/global_widgets/error_404_widget.dart';
 import 'package:market_nest_app/app/ui/global_widgets/leading_app_bar_widget.dart';

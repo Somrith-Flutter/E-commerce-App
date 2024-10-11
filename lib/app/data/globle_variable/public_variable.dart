@@ -18,4 +18,4 @@ final SharedValue<bool> ended = SharedValue(
   value: false,
 );
 
-enum Status { progress, success, fail, error }
+enum Status { progress, success, fail, error, }
